@@ -22,3 +22,4 @@ tools/data/.cache/
 # Editors
 .vscode/
 .idea/
+build/
