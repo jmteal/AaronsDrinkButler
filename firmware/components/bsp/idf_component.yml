@@ -1,0 +1,14 @@
+description: Board support for the Hosyond / LCDWiki ES3C35P (ESP32-S3, 3.5" ST77922 QSPI touch display)
+dependencies:
+  idf: ">=5.4"
+  # Public: their types appear in bsp.h, and apps call them directly
+  # Pinned to 9.4.x so the device and the desktop simulator build the same LVGL
+  lvgl/lvgl:
+    version: "~9.4.0"
+    public: true
+  espressif/esp_lvgl_port:
+    version: "^2.9.0"
+    public: true
+  espressif/esp_codec_dev: "~1.6.2"
+  espressif/esp_lcd_st77922: "^2.0.2"
+  espressif/esp_lcd_touch_st7123: "^1.0.2"
