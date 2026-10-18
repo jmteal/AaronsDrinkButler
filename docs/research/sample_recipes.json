@@ -1,0 +1,918 @@
+{
+  "schema_version": 1,
+  "recipes": [
+    {
+      "id": "old_fashioned",
+      "name": "Old Fashioned",
+      "ingredients": [
+        {
+          "ingredient_id": "bourbon_whiskey",
+          "display": "Bourbon or rye whiskey",
+          "amount": 45,
+          "unit": "ml"
+        },
+        {
+          "ingredient_id": "sugar_cube",
+          "display": "Sugar cube",
+          "amount": 1,
+          "unit": "cube"
+        },
+        {
+          "ingredient_id": "angostura_bitters",
+          "display": "Angostura bitters",
+          "amount": 3,
+          "unit": "dash"
+        },
+        {
+          "ingredient_id": "water",
+          "display": "Splash of water",
+          "amount": 10,
+          "unit": "ml"
+        }
+      ],
+      "steps": [
+        "Put the sugar cube in a rocks glass and soak it with the bitters and water.",
+        "Muddle until the sugar dissolves.",
+        "Add a large ice cube and the whiskey, then stir for about 20 seconds.",
+        "Express an orange peel over the glass and drop it in."
+      ],
+      "glass": "rocks",
+      "method": "stirred",
+      "ice": "large_cube",
+      "garnish": "Orange peel (cherry optional)",
+      "garnish_icon": "orange_twist",
+      "color": {
+        "name": "amber",
+        "hex": "#B5651D"
+      },
+      "abv_est": 30,
+      "tags": {
+        "base_spirit": [
+          "whiskey_bourbon"
+        ],
+        "flavor": [
+          "spirit_forward",
+          "bitter",
+          "sweet"
+        ],
+        "strength": "strong",
+        "season": [
+          "fall",
+          "winter"
+        ],
+        "occasion": [
+          "nightcap",
+          "classic"
+        ],
+        "difficulty": 1,
+        "alcoholic": "alcoholic",
+        "iba_category": "unforgettable"
+      },
+      "image": {
+        "file": null,
+        "thumb": "images/icons/old_fashioned.png",
+        "kind": "icon",
+        "author": null,
+        "source_url": null,
+        "license": null,
+        "license_url": null,
+        "modified": null
+      },
+      "sources": [
+        {
+          "name": "IBA official cocktails",
+          "url": "https://iba-world.com/cocktails/all-cocktails/",
+          "used_for": "spec reference (facts)"
+        },
+        {
+          "name": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Old_fashioned_(cocktail)",
+          "used_for": "spec cross-check (facts)"
+        }
+      ],
+      "text_license": "CC-BY-4.0",
+      "review": {
+        "tags_reviewed": false,
+        "notes": "Sample record; abv_est is a rough estimate; image pending sourcing."
+      }
+    },
+    {
+      "id": "negroni",
+      "name": "Negroni",
+      "ingredients": [
+        {
+          "ingredient_id": "gin",
+          "display": "Gin",
+          "amount": 30,
+          "unit": "ml"
+        },
+        {
+          "ingredient_id": "campari",
+          "display": "Campari",
+          "amount": 30,
+          "unit": "ml"
+        },
+        {
+          "ingredient_id": "sweet_vermouth",
+          "display": "Sweet (red) vermouth",
+          "amount": 30,
+          "unit": "ml"
+        }
+      ],
+      "steps": [
+        "Fill a rocks glass with ice.",
+        "Add gin, Campari and sweet vermouth.",
+        "Stir until well chilled.",
+        "Garnish with an orange slice or peel."
+      ],
+      "glass": "rocks",
+      "method": "stirred",
+      "ice": "cubes",
+      "garnish": "Orange slice",
+      "garnish_icon": "orange_slice",
+      "color": {
+        "name": "red",
+        "hex": "#A4161A"
+      },
+      "abv_est": 22,
+      "tags": {
+        "base_spirit": [
+          "gin"
+        ],
+        "flavor": [
+          "bitter",
+          "spirit_forward",
+          "herbal"
+        ],
+        "strength": "strong",
+        "season": [
+          "all_year"
+        ],
+        "occasion": [
+          "aperitif",
+          "classic"
+        ],
+        "difficulty": 1,
+        "alcoholic": "alcoholic",
+        "iba_category": "unforgettable"
+      },
+      "image": {
+        "file": null,
+        "thumb": "images/icons/negroni.png",
+        "kind": "icon",
+        "author": null,
+        "source_url": null,
+        "license": null,
+        "license_url": null,
+        "modified": null
+      },
+      "sources": [
+        {
+          "name": "IBA official cocktails",
+          "url": "https://iba-world.com/cocktails/all-cocktails/",
+          "used_for": "spec reference (facts)"
+        },
+        {
+          "name": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Negroni",
+          "used_for": "spec cross-check (facts)"
+        }
+      ],
+      "text_license": "CC-BY-4.0",
+      "review": {
+        "tags_reviewed": false,
+        "notes": "Sample record; abv_est is a rough estimate; image pending sourcing."
+      }
+    },
+    {
+      "id": "daiquiri",
+      "name": "Daiquiri",
+      "ingredients": [
+        {
+          "ingredient_id": "rum_white",
+          "display": "White rum",
+          "amount": 60,
+          "unit": "ml"
+        },
+        {
+          "ingredient_id": "lime_juice",
+          "display": "Fresh lime juice",
+          "amount": 20,
+          "unit": "ml"
+        },
+        {
+          "ingredient_id": "simple_syrup",
+          "display": "Simple syrup",
+          "amount": 15,
+          "unit": "ml"
+        }
+      ],
+      "steps": [
+        "Add rum, lime juice and syrup to a shaker with ice.",
+        "Shake hard for about 12 seconds.",
+        "Double-strain into a chilled coupe.",
+        "Garnish with a lime wheel if you like."
+      ],
+      "glass": "coupe",
+      "method": "shaken",
+      "ice": "none",
+      "garnish": "Lime wheel (optional)",
+      "garnish_icon": "lime_wheel",
+      "color": {
+        "name": "pale yellow",
+        "hex": "#EDE6B9"
+      },
+      "abv_est": 20,
+      "tags": {
+        "base_spirit": [
+          "rum_white"
+        ],
+        "flavor": [
+          "sour",
+          "fruity"
+        ],
+        "strength": "medium",
+        "season": [
+          "summer"
+        ],
+        "occasion": [
+          "party",
+          "classic"
+        ],
+        "difficulty": 2,
+        "alcoholic": "alcoholic",
+        "iba_category": "unforgettable"
+      },
+      "image": {
+        "file": null,
+        "thumb": "images/icons/daiquiri.png",
+        "kind": "icon",
+        "author": null,
+        "source_url": null,
+        "license": null,
+        "license_url": null,
+        "modified": null
+      },
+      "sources": [
+        {
+          "name": "IBA official cocktails",
+          "url": "https://iba-world.com/cocktails/all-cocktails/",
+          "used_for": "spec reference (facts)"
+        },
+        {
+          "name": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Daiquiri",
+          "used_for": "spec cross-check (facts)"
+        }
+      ],
+      "text_license": "CC-BY-4.0",
+      "review": {
+        "tags_reviewed": false,
+        "notes": "Sample record; abv_est is a rough estimate; image pending sourcing."
+      }
+    },
+    {
+      "id": "margarita",
+      "name": "Margarita",
+      "ingredients": [
+        {
+          "ingredient_id": "tequila_blanco",
+          "display": "Blanco tequila",
+          "amount": 50,
+          "unit": "ml"
+        },
+        {
+          "ingredient_id": "triple_sec",
+          "display": "Triple sec (e.g. Cointreau)",
+          "amount": 20,
+          "unit": "ml"
+        },
+        {
+          "ingredient_id": "lime_juice",
+          "display": "Fresh lime juice",
+          "amount": 15,
+          "unit": "ml"
+        },
+        {
+          "ingredient_id": "salt",
+          "display": "Salt for the rim",
+          "amount": null,
+          "unit": "pinch",
+          "optional": true
+        }
+      ],
+      "steps": [
+        "Optional: run a lime wedge around half the rim and dip it in salt.",
+        "Shake tequila, triple sec and lime juice with ice.",
+        "Strain into the glass (over fresh ice for a rocks glass, or neat into a coupe).",
+        "Garnish with a lime wheel."
+      ],
+      "glass": "coupe",
+      "method": "shaken",
+      "ice": "none",
+      "garnish": "Salt rim, lime wheel",
+      "garnish_icon": "lime_wheel",
+      "color": {
+        "name": "pale green",
+        "hex": "#D9E8A6"
+      },
+      "abv_est": 26,
+      "tags": {
+        "base_spirit": [
+          "tequila"
+        ],
+        "flavor": [
+          "sour",
+          "fruity"
+        ],
+        "strength": "strong",
+        "season": [
+          "summer",
+          "spring"
+        ],
+        "occasion": [
+          "party",
+          "classic"
+        ],
+        "difficulty": 2,
+        "alcoholic": "alcoholic",
+        "iba_category": "contemporary_classic"
+      },
+      "image": {
+        "file": null,
+        "thumb": "images/icons/margarita.png",
+        "kind": "icon",
+        "author": null,
+        "source_url": null,
+        "license": null,
+        "license_url": null,
+        "modified": null
+      },
+      "sources": [
+        {
+          "name": "IBA official cocktails",
+          "url": "https://iba-world.com/cocktails/all-cocktails/",
+          "used_for": "spec reference (facts)"
+        },
+        {
+          "name": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Margarita",
+          "used_for": "spec cross-check (facts)"
+        }
+      ],
+      "text_license": "CC-BY-4.0",
+      "review": {
+        "tags_reviewed": false,
+        "notes": "Sample record; abv_est is a rough estimate; image pending sourcing."
+      }
+    },
+    {
+      "id": "whiskey_sour",
+      "name": "Whiskey Sour",
+      "ingredients": [
+        {
+          "ingredient_id": "bourbon_whiskey",
+          "display": "Bourbon whiskey",
+          "amount": 45,
+          "unit": "ml"
+        },
+        {
+          "ingredient_id": "lemon_juice",
+          "display": "Fresh lemon juice",
+          "amount": 25,
+          "unit": "ml"
+        },
+        {
+          "ingredient_id": "simple_syrup",
+          "display": "Simple syrup",
+          "amount": 20,
+          "unit": "ml"
+        },
+        {
+          "ingredient_id": "egg_white",
+          "display": "Egg white",
+          "amount": 20,
+          "unit": "ml",
+          "optional": true
+        },
+        {
+          "ingredient_id": "angostura_bitters",
+          "display": "Angostura bitters",
+          "amount": 3,
+          "unit": "dash",
+          "optional": true
+        }
+      ],
+      "steps": [
+        "If using egg white, shake all ingredients without ice first for 10 seconds.",
+        "Add ice and shake again until cold.",
+        "Strain into a rocks glass over fresh ice (or a coupe without ice).",
+        "Dot the foam with bitters and garnish with a cherry or orange slice."
+      ],
+      "glass": "rocks",
+      "method": "shaken",
+      "ice": "cubes",
+      "garnish": "Cherry and orange slice",
+      "garnish_icon": "cherry",
+      "color": {
+        "name": "amber",
+        "hex": "#D9A441"
+      },
+      "abv_est": 16,
+      "tags": {
+        "base_spirit": [
+          "whiskey_bourbon"
+        ],
+        "flavor": [
+          "sour",
+          "sweet"
+        ],
+        "strength": "medium",
+        "season": [
+          "fall",
+          "all_year"
+        ],
+        "occasion": [
+          "classic",
+          "date_night"
+        ],
+        "difficulty": 2,
+        "alcoholic": "alcoholic",
+        "iba_category": "unforgettable"
+      },
+      "image": {
+        "file": null,
+        "thumb": "images/icons/whiskey_sour.png",
+        "kind": "icon",
+        "author": null,
+        "source_url": null,
+        "license": null,
+        "license_url": null,
+        "modified": null
+      },
+      "sources": [
+        {
+          "name": "IBA official cocktails",
+          "url": "https://iba-world.com/cocktails/all-cocktails/",
+          "used_for": "spec reference (facts)"
+        },
+        {
+          "name": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Whiskey_sour",
+          "used_for": "spec cross-check (facts)"
+        }
+      ],
+      "text_license": "CC-BY-4.0",
+      "review": {
+        "tags_reviewed": false,
+        "notes": "Sample record; abv_est is a rough estimate; image pending sourcing."
+      }
+    },
+    {
+      "id": "espresso_martini",
+      "name": "Espresso Martini",
+      "ingredients": [
+        {
+          "ingredient_id": "vodka",
+          "display": "Vodka",
+          "amount": 50,
+          "unit": "ml"
+        },
+        {
+          "ingredient_id": "coffee_liqueur",
+          "display": "Coffee liqueur",
+          "amount": 10,
+          "unit": "ml"
+        },
+        {
+          "ingredient_id": "espresso",
+          "display": "Fresh espresso, cooled slightly",
+          "amount": 30,
+          "unit": "ml"
+        },
+        {
+          "ingredient_id": "simple_syrup",
+          "display": "Simple syrup (to taste)",
+          "amount": 10,
+          "unit": "ml",
+          "optional": true
+        }
+      ],
+      "steps": [
+        "Brew a shot of espresso.",
+        "Shake vodka, coffee liqueur, espresso and syrup with plenty of ice, hard, for 15 seconds.",
+        "Strain into a chilled coupe or martini glass.",
+        "Float three coffee beans on the foam."
+      ],
+      "glass": "martini",
+      "method": "shaken",
+      "ice": "none",
+      "garnish": "3 coffee beans",
+      "garnish_icon": "coffee_beans",
+      "color": {
+        "name": "dark brown",
+        "hex": "#3B2416"
+      },
+      "abv_est": 18,
+      "tags": {
+        "base_spirit": [
+          "vodka"
+        ],
+        "flavor": [
+          "coffee",
+          "sweet",
+          "bitter"
+        ],
+        "strength": "medium",
+        "season": [
+          "all_year"
+        ],
+        "occasion": [
+          "after_dinner",
+          "party"
+        ],
+        "difficulty": 2,
+        "alcoholic": "alcoholic",
+        "iba_category": "contemporary_classic"
+      },
+      "image": {
+        "file": null,
+        "thumb": "images/icons/espresso_martini.png",
+        "kind": "icon",
+        "author": null,
+        "source_url": null,
+        "license": null,
+        "license_url": null,
+        "modified": null
+      },
+      "sources": [
+        {
+          "name": "IBA official cocktails",
+          "url": "https://iba-world.com/cocktails/all-cocktails/",
+          "used_for": "spec reference (facts)"
+        },
+        {
+          "name": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Espresso_martini",
+          "used_for": "spec cross-check (facts)"
+        }
+      ],
+      "text_license": "CC-BY-4.0",
+      "review": {
+        "tags_reviewed": false,
+        "notes": "Sample record; abv_est is a rough estimate; image pending sourcing."
+      }
+    },
+    {
+      "id": "pina_colada",
+      "name": "Piña Colada",
+      "aka": [
+        "Pina Colada"
+      ],
+      "ingredients": [
+        {
+          "ingredient_id": "rum_white",
+          "display": "White rum",
+          "amount": 50,
+          "unit": "ml"
+        },
+        {
+          "ingredient_id": "coconut_cream",
+          "display": "Coconut cream",
+          "amount": 30,
+          "unit": "ml"
+        },
+        {
+          "ingredient_id": "pineapple_juice",
+          "display": "Pineapple juice",
+          "amount": 50,
+          "unit": "ml"
+        }
+      ],
+      "steps": [
+        "Blend rum, coconut cream and pineapple juice with a cup of crushed ice until smooth.",
+        "Pour into a hurricane or large glass.",
+        "Garnish with a pineapple wedge and a cherry."
+      ],
+      "glass": "hurricane",
+      "method": "blended",
+      "ice": "blended",
+      "garnish": "Pineapple wedge and cherry",
+      "garnish_icon": "pineapple",
+      "color": {
+        "name": "cream",
+        "hex": "#F3E9C6"
+      },
+      "abv_est": 12,
+      "tags": {
+        "base_spirit": [
+          "rum_white"
+        ],
+        "flavor": [
+          "creamy",
+          "fruity",
+          "sweet"
+        ],
+        "strength": "medium",
+        "season": [
+          "summer"
+        ],
+        "occasion": [
+          "party"
+        ],
+        "difficulty": 2,
+        "alcoholic": "alcoholic",
+        "iba_category": "contemporary_classic"
+      },
+      "image": {
+        "file": null,
+        "thumb": "images/icons/pina_colada.png",
+        "kind": "icon",
+        "author": null,
+        "source_url": null,
+        "license": null,
+        "license_url": null,
+        "modified": null
+      },
+      "sources": [
+        {
+          "name": "IBA official cocktails",
+          "url": "https://iba-world.com/cocktails/all-cocktails/",
+          "used_for": "spec reference (facts)"
+        },
+        {
+          "name": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Piña_colada",
+          "used_for": "spec cross-check (facts)"
+        }
+      ],
+      "text_license": "CC-BY-4.0",
+      "review": {
+        "tags_reviewed": false,
+        "notes": "Sample record; abv_est is a rough estimate; image pending sourcing."
+      }
+    },
+    {
+      "id": "irish_coffee",
+      "name": "Irish Coffee",
+      "ingredients": [
+        {
+          "ingredient_id": "irish_whiskey",
+          "display": "Irish whiskey",
+          "amount": 50,
+          "unit": "ml"
+        },
+        {
+          "ingredient_id": "coffee_hot",
+          "display": "Hot strong coffee",
+          "amount": 120,
+          "unit": "ml"
+        },
+        {
+          "ingredient_id": "brown_sugar",
+          "display": "Brown sugar",
+          "amount": 1,
+          "unit": "tsp"
+        },
+        {
+          "ingredient_id": "heavy_cream",
+          "display": "Lightly whipped cream",
+          "amount": 50,
+          "unit": "ml"
+        }
+      ],
+      "steps": [
+        "Warm a heatproof glass with hot water, then empty it.",
+        "Add the sugar and hot coffee and stir until dissolved.",
+        "Stir in the whiskey.",
+        "Float the lightly whipped cream on top over the back of a spoon. Don't stir."
+      ],
+      "glass": "irish_coffee_mug",
+      "method": "hot",
+      "ice": "none",
+      "garnish": "Cream float",
+      "garnish_icon": "cream_float",
+      "color": {
+        "name": "brown",
+        "hex": "#4E3423"
+      },
+      "abv_est": 9,
+      "tags": {
+        "base_spirit": [
+          "whiskey_irish"
+        ],
+        "flavor": [
+          "coffee",
+          "creamy",
+          "sweet"
+        ],
+        "strength": "light",
+        "season": [
+          "winter",
+          "holiday"
+        ],
+        "occasion": [
+          "after_dinner",
+          "nightcap"
+        ],
+        "difficulty": 2,
+        "alcoholic": "alcoholic",
+        "iba_category": "contemporary_classic"
+      },
+      "image": {
+        "file": null,
+        "thumb": "images/icons/irish_coffee.png",
+        "kind": "icon",
+        "author": null,
+        "source_url": null,
+        "license": null,
+        "license_url": null,
+        "modified": null
+      },
+      "sources": [
+        {
+          "name": "IBA official cocktails",
+          "url": "https://iba-world.com/cocktails/all-cocktails/",
+          "used_for": "spec reference (facts)"
+        },
+        {
+          "name": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Irish_coffee",
+          "used_for": "spec cross-check (facts)"
+        }
+      ],
+      "text_license": "CC-BY-4.0",
+      "review": {
+        "tags_reviewed": false,
+        "notes": "Sample record; abv_est is a rough estimate; image pending sourcing."
+      }
+    },
+    {
+      "id": "mimosa",
+      "name": "Mimosa",
+      "ingredients": [
+        {
+          "ingredient_id": "orange_juice",
+          "display": "Fresh orange juice, chilled",
+          "amount": 75,
+          "unit": "ml"
+        },
+        {
+          "ingredient_id": "sparkling_wine",
+          "display": "Champagne or dry sparkling wine, chilled",
+          "amount": 75,
+          "unit": "ml"
+        }
+      ],
+      "steps": [
+        "Pour the orange juice into a flute.",
+        "Top slowly with the sparkling wine.",
+        "Stir very gently once."
+      ],
+      "glass": "flute",
+      "method": "built",
+      "ice": "none",
+      "garnish": "Orange twist (optional)",
+      "garnish_icon": "orange_twist",
+      "color": {
+        "name": "orange",
+        "hex": "#F6A21E"
+      },
+      "abv_est": 6,
+      "tags": {
+        "base_spirit": [
+          "wine_sparkling"
+        ],
+        "flavor": [
+          "fruity",
+          "bubbly"
+        ],
+        "strength": "light",
+        "season": [
+          "spring",
+          "summer",
+          "holiday"
+        ],
+        "occasion": [
+          "brunch",
+          "party"
+        ],
+        "difficulty": 1,
+        "alcoholic": "low_abv",
+        "iba_category": "contemporary_classic"
+      },
+      "image": {
+        "file": null,
+        "thumb": "images/icons/mimosa.png",
+        "kind": "icon",
+        "author": null,
+        "source_url": null,
+        "license": null,
+        "license_url": null,
+        "modified": null
+      },
+      "sources": [
+        {
+          "name": "IBA official cocktails",
+          "url": "https://iba-world.com/cocktails/all-cocktails/",
+          "used_for": "spec reference (facts)"
+        },
+        {
+          "name": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Mimosa_(cocktail)",
+          "used_for": "spec cross-check (facts)"
+        }
+      ],
+      "text_license": "CC-BY-4.0",
+      "review": {
+        "tags_reviewed": false,
+        "notes": "Sample record; abv_est is a rough estimate; image pending sourcing."
+      }
+    },
+    {
+      "id": "shirley_temple",
+      "name": "Shirley Temple",
+      "ingredients": [
+        {
+          "ingredient_id": "ginger_ale",
+          "display": "Ginger ale",
+          "amount": 150,
+          "unit": "ml"
+        },
+        {
+          "ingredient_id": "grenadine",
+          "display": "Grenadine",
+          "amount": 15,
+          "unit": "ml"
+        },
+        {
+          "ingredient_id": "lime_juice",
+          "display": "Fresh lime juice",
+          "amount": 5,
+          "unit": "ml",
+          "optional": true
+        }
+      ],
+      "steps": [
+        "Fill a highball glass with ice.",
+        "Add the ginger ale and lime juice.",
+        "Drizzle the grenadine down the inside of the glass so it sinks.",
+        "Garnish with a maraschino cherry."
+      ],
+      "glass": "highball",
+      "method": "built",
+      "ice": "cubes",
+      "garnish": "Maraschino cherry",
+      "garnish_icon": "cherry",
+      "color": {
+        "name": "pink",
+        "hex": "#F28BA8"
+      },
+      "abv_est": 0,
+      "tags": {
+        "base_spirit": [
+          "none"
+        ],
+        "flavor": [
+          "sweet",
+          "fruity",
+          "bubbly"
+        ],
+        "strength": "light",
+        "season": [
+          "all_year",
+          "holiday"
+        ],
+        "occasion": [
+          "party",
+          "brunch"
+        ],
+        "difficulty": 1,
+        "alcoholic": "mocktail",
+        "iba_category": null
+      },
+      "image": {
+        "file": null,
+        "thumb": "images/icons/shirley_temple.png",
+        "kind": "icon",
+        "author": null,
+        "source_url": null,
+        "license": null,
+        "license_url": null,
+        "modified": null
+      },
+      "sources": [
+        {
+          "name": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Shirley_Temple_(drink)",
+          "used_for": "spec cross-check (facts)"
+        }
+      ],
+      "text_license": "CC-BY-4.0",
+      "review": {
+        "tags_reviewed": false,
+        "notes": "Sample record; abv_est is a rough estimate; image pending sourcing."
+      }
+    }
+  ]
+}
