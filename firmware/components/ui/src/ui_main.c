@@ -5,7 +5,7 @@
 
 ui_ctx_t g_ui;
 
-static lv_obj_t *s_time_lbl, *s_batt_lbl, *s_mute_lbl;
+static lv_obj_t *s_time_lbl, *s_batt_lbl, *s_mute_lbl, *s_title_lbl;
 #define MAX_OVERLAYS 4
 static lv_obj_t *s_overlays[MAX_OVERLAYS];
 static int s_n_overlays;
@@ -40,6 +40,20 @@ int ui_current_season(void)
 
 /* ---- Status bar ------------------------------------------------------- */
 
+/* Centre the title in whatever room the clock and battery leave. */
+static void fit_title(void)
+{
+    lv_obj_update_layout(g_ui.status_bar);
+    lv_area_t a;
+    lv_obj_get_coords(s_time_lbl, &a);
+    int32_t left = (lv_obj_get_width(s_time_lbl) ? a.x2 : a.x1) + 8;
+    lv_obj_get_coords(lv_obj_get_parent(s_batt_lbl), &a);
+    int32_t right = a.x1 - 8, mid = UI_HOR_RES / 2;
+    int32_t half = LV_MIN(mid - left, right - mid);
+    lv_obj_set_width(s_title_lbl, half > 0 ? 2 * half : 0);
+    lv_obj_align(s_title_lbl, LV_ALIGN_CENTER, 0, 0);
+}
+
 void ui_refresh_status(void)
 {
     struct tm t;
@@ -60,6 +74,7 @@ void ui_refresh_status(void)
         lv_obj_set_style_text_color(s_batt_lbl, ui_c(pct <= 10 && !chg ? UI_C_BAD : UI_C_TEXT), 0);
     }
     lv_label_set_text(s_mute_lbl, g_ui.st->settings.sound_on ? "" : LV_SYMBOL_MUTE);
+    fit_title();
 }
 
 static void status_timer_cb(lv_timer_t *t)
@@ -79,9 +94,11 @@ static void build_status_bar(void)
 
     s_time_lbl = ui_label(sb, &adb_font_14, UI_C_TEXT, "");
     lv_obj_align(s_time_lbl, LV_ALIGN_LEFT_MID, 0, 0);
-    lv_obj_t *title = ui_label(sb, &adb_font_12, UI_C_MUTED, "DRINK BUTLER");
-    lv_obj_set_style_text_letter_space(title, 1, 0);
-    lv_obj_align(title, LV_ALIGN_CENTER, 0, 0);
+    s_title_lbl = ui_label(sb, &adb_font_12, UI_C_MUTED, "");
+    lv_obj_set_height(s_title_lbl, lv_font_get_line_height(&adb_font_12));
+    lv_label_set_long_mode(s_title_lbl, LV_LABEL_LONG_DOT);
+    lv_obj_set_style_text_align(s_title_lbl, LV_TEXT_ALIGN_CENTER, 0);
+    lv_obj_align(s_title_lbl, LV_ALIGN_CENTER, 0, 0);
     lv_obj_t *right = ui_box(sb);
     lv_obj_set_size(right, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
     lv_obj_set_flex_flow(right, LV_FLEX_FLOW_ROW);
@@ -206,6 +223,20 @@ void ui_open_filter(void) { ui_filter_create(ui_overlay_push()); }
 void ui_open_search(const char *t) { ui_search_create(ui_overlay_push(), t); }
 void ui_open_settings(void) { ui_settings_create(ui_overlay_push()); }
 void ui_open_credits(void) { ui_credits_create(ui_overlay_push()); }
+void ui_open_owner_editor(void) { ui_owner_create(ui_overlay_push()); }
+
+/* Owner name shown in the status bar title, on Home and in Settings. */
+void ui_owner_changed(void)
+{
+    char poss[ADB_OWNER_MAX + 4], title[ADB_OWNER_MAX + 20];
+    adb_owner_possessive(&g_ui.st->settings, poss, sizeof poss, true);
+    snprintf(title, sizeof title, "%s DRINK BUTLER", poss);
+    lv_label_set_text(s_title_lbl, title);
+    fit_title();
+    adb_owner_possessive(&g_ui.st->settings, poss, sizeof poss, false);
+    ui_home_set_owner(poss);
+    ui_settings_set_owner();
+}
 
 void ui_scroll_overlay_to(int32_t y)
 {
@@ -288,6 +319,8 @@ void ui_init(const ui_config_t *cfg)
     ui_mybar_create(g_ui.pages[UI_TAB_MYBAR]);
     ui_favorites_create(g_ui.pages[UI_TAB_FAVORITES]);
 
+    ui_owner_changed();
     ui_refresh_status();
     ui_show_tab(UI_TAB_HOME);
+    if (cfg->splash_ms && g_ui.st->settings.splash_on) ui_show_splash(cfg->splash_ms);
 }

@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "ui_internal.h"
 
-static lv_obj_t *s_card_img, *s_card_kicker, *s_card_name, *s_card_sub;
+static lv_obj_t *s_card_img, *s_card_kicker, *s_card_name, *s_card_sub, *s_who;
 static int32_t s_card_recipe = -1;
 
 /* Pick a drink for the current season; changes every hour. */
@@ -101,6 +101,11 @@ static void settings_cb(lv_event_t *e)
     ui_open_settings();
 }
 
+void ui_home_set_owner(const char *possessive)
+{
+    if (s_who) lv_label_set_text_fmt(s_who, "%s bar", possessive);
+}
+
 void ui_home_create(lv_obj_t *page)
 {
     lv_obj_set_style_pad_all(page, 0, 0);
@@ -108,8 +113,13 @@ void ui_home_create(lv_obj_t *page)
     /* title row */
     lv_obj_t *title = ui_label(page, &adb_font_24, UI_C_ACCENT, "Drink Butler");
     lv_obj_set_pos(title, 16, 14);
-    lv_obj_t *who = ui_label(page, &adb_font_14, UI_C_MUTED, "Aaron's bar");
-    lv_obj_align_to(who, title, LV_ALIGN_OUT_RIGHT_BOTTOM, 8, -3);
+    lv_obj_update_layout(title);
+    s_who = ui_label(page, &adb_font_14, UI_C_MUTED, "");
+    /* room between the title and the gear button */
+    lv_obj_set_size(s_who, UI_HOR_RES - UI_TOUCH - 10 - 8 - (16 + lv_obj_get_width(title) + 8),
+                    lv_font_get_line_height(&adb_font_14));
+    lv_label_set_long_mode(s_who, LV_LABEL_LONG_DOT);
+    lv_obj_align_to(s_who, title, LV_ALIGN_OUT_RIGHT_BOTTOM, 8, -3);
     lv_obj_t *gear = ui_icon_button(page, LV_SYMBOL_SETTINGS, UI_TOUCH);
     lv_obj_set_pos(gear, UI_HOR_RES - UI_TOUCH - 10, 6);
     lv_obj_add_event_cb(gear, settings_cb, LV_EVENT_CLICKED, NULL);

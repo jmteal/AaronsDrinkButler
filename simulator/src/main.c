@@ -131,7 +131,8 @@ int main(int argc, char **argv)
     static ui_platform_t plat;
     static ui_image_provider_t img;
     sim_platform_init(&plat, &img);
-    ui_config_t cfg = { .db = &db, .state = &st, .storage = have_io ? &io : NULL, .platform = &plat, .images = &img };
+    ui_config_t cfg = { .db = &db, .state = &st, .storage = have_io ? &io : NULL, .platform = &plat, .images = &img,
+                       .splash_ms = 2500 };
     ui_init(&cfg);
 
     while (1) {

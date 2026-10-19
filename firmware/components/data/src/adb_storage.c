@@ -1,3 +1,4 @@
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -7,6 +8,8 @@
 #define KEY_FAV      "favorites"
 #define KEY_PANTRY   "pantry"
 #define KEY_SETTINGS "settings"
+#define KEY_OWNER    "owner"
+#define KEY_SPLASH   "splash"
 #define SETTINGS_VER 1
 
 void adb_settings_default(adb_settings_t *s)
@@ -16,6 +19,50 @@ void adb_settings_default(adb_settings_t *s)
     s->sound_on = true;
     s->volume = 60;
     s->use_oz = true;
+    s->owner[0] = 0;
+    s->splash_on = true;
+    s->next_logo = 0;
+}
+
+/* ---- Owner name ------------------------------------------------------- */
+
+const char *adb_owner_name(const adb_settings_t *s)
+{
+    return s->owner[0] ? s->owner : ADB_OWNER_DEFAULT;
+}
+
+bool adb_owner_is_default(const adb_settings_t *s)
+{
+    const char *n = adb_owner_name(s), *d = ADB_OWNER_DEFAULT;
+    for (; *n && *d; n++, d++)
+        if (tolower((unsigned char)*n) != tolower((unsigned char)*d)) return false;
+    return !*n && !*d;
+}
+
+void adb_owner_set(adb_settings_t *s, const char *name)
+{
+    if (!name) name = "";
+    while (*name && isspace((unsigned char)*name)) name++;
+    size_t len = strlen(name);
+    while (len && isspace((unsigned char)name[len - 1])) len--;
+    if (len > ADB_OWNER_MAX) {
+        len = ADB_OWNER_MAX;
+        while (len && ((unsigned char)name[len] & 0xC0) == 0x80) len--;   /* UTF-8 boundary */
+    }
+    memcpy(s->owner, name, len);
+    s->owner[len] = 0;
+}
+
+void adb_owner_possessive(const adb_settings_t *s, char *buf, size_t n, bool upper)
+{
+    if (!n) return;
+    const char *name = adb_owner_name(s);
+    size_t len = strlen(name);
+    char last = len ? (char)tolower((unsigned char)name[len - 1]) : 0;
+    snprintf(buf, n, "%s%s", name, last == 's' ? "'" : "'s");
+    if (upper)
+        for (char *p = buf; *p; p++)
+            if (!((unsigned char)*p & 0x80)) *p = (char)toupper((unsigned char)*p);
 }
 
 bool adb_state_init(adb_state_t *st, const adb_db_t *db)
@@ -105,6 +152,18 @@ void adb_state_load(adb_state_t *st, const adb_db_t *db, const adb_storage_t *io
         st->settings.use_oz = b.use_oz;
         st->settings.sleep_s = b.sleep_s;
     }
+    char owner[ADB_OWNER_MAX * 2 + 1];
+    len = sizeof(owner) - 1;
+    if (io->read(io->ctx, KEY_OWNER, owner, &len) && len < sizeof(owner)) {
+        owner[len] = 0;
+        adb_owner_set(&st->settings, owner);
+    }
+    uint8_t splash[2];
+    len = sizeof(splash);
+    if (io->read(io->ctx, KEY_SPLASH, splash, &len) && len == sizeof(splash)) {
+        st->settings.splash_on = splash[0] != 0;
+        st->settings.next_logo = splash[1];
+    }
 }
 
 bool adb_state_save_favorites(const adb_state_t *st, const adb_db_t *db, const adb_storage_t *io)
@@ -125,7 +184,11 @@ bool adb_state_save_settings(const adb_state_t *st, const adb_storage_t *io)
         .sound_on = st->settings.sound_on, .volume = st->settings.volume,
         .use_oz = st->settings.use_oz, .sleep_s = st->settings.sleep_s,
     };
-    return io->write(io->ctx, KEY_SETTINGS, &b, sizeof(b));
+    const uint8_t splash[2] = { st->settings.splash_on, st->settings.next_logo };
+    bool ok = io->write(io->ctx, KEY_SETTINGS, &b, sizeof(b));
+    ok &= io->write(io->ctx, KEY_OWNER, st->settings.owner, strlen(st->settings.owner));
+    ok &= io->write(io->ctx, KEY_SPLASH, splash, sizeof(splash));
+    return ok;
 }
 
 /* ---- In-memory backend ------------------------------------------------ */

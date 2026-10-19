@@ -1,6 +1,7 @@
 /* Headless screenshot script: drives the UI through every screen with a
  * fixed clock and a sample pantry/favorites, and saves PNGs. */
 #include <stdio.h>
+#include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
@@ -10,7 +11,9 @@
 
 bool sim_save_png(const char *path)
 {
-    lv_obj_t *scr = lv_screen_active();
+    /* The splash lives on the top layer and covers the whole screen. */
+    lv_obj_t *top = lv_layer_top();
+    lv_obj_t *scr = lv_obj_get_child_count(top) ? top : lv_screen_active();
     lv_obj_update_layout(scr);
     lv_draw_buf_t *snap = lv_snapshot_take(scr, LV_COLOR_FORMAT_RGB888);
     if (!snap) return false;
@@ -48,6 +51,16 @@ static void settle(void)
         lv_timer_handler();
         lv_refr_now(NULL);
     }
+}
+
+/* Let animations and delayed deletes run (the screenshot tick is real time). */
+static void wait_ms(int ms)
+{
+    for (int t = 0; t < ms; t += 10) {
+        lv_timer_handler();
+        usleep(10000);
+    }
+    settle();
 }
 
 static int s_fail;
@@ -176,6 +189,36 @@ int sim_take_screenshots(const char *dir, adb_db_t *db, adb_state_t *st)
     ui_open_detail(pc >= 0 ? (uint16_t)pc : 0);
     shot("18_detail_ml");
     ui_close_overlays();
+    st->settings.use_oz = true;
+
+    /* owner name + splash */
+    ui_show_tab(UI_TAB_HOME);
+    for (int i = 0; i < UI_LOGO_COUNT; i++) {
+        char name[32];
+        st->settings.next_logo = (uint8_t)i;
+        ui_show_splash(0);
+        snprintf(name, sizeof name, "19_splash_logo_%d", i + 1);
+        shot(name);
+    }
+    ui_hide_splash();
+    wait_ms(400);
+    ui_open_settings();
+    shot("20_settings_owner");
+    adb_owner_set(&st->settings, "James");
+    ui_open_owner_editor();
+    shot("21_owner_editor");
+    ui_close_overlays();
+    ui_owner_changed();
+    shot("22_home_named");
+    ui_show_splash(0);
+    shot("23_splash_named");
+    ui_hide_splash();
+    wait_ms(400);
+    adb_owner_set(&st->settings, "Maximilian Alexander");
+    ui_owner_changed();
+    shot("24_home_long_name");
+    adb_owner_set(&st->settings, "");
+    ui_owner_changed();
     adb_storage_mem_free(&mem);
     return s_fail;
 }
@@ -301,8 +344,16 @@ int sim_selftest(adb_db_t *db, adb_state_t *st)
 
     tap(40, 452);                               /* Home */
     tap(280, 24 + 6 + 22);                      /* gear -> settings */
+    bool splash = st->settings.splash_on;
+    tap(267, 207);                              /* startup splash switch */
+    EXPECT(st->settings.splash_on != splash);
+    tap(160, 155);                              /* owner name -> editor */
+    tap(30, 50);                                /* back, unchanged */
+    EXPECT(st->settings.owner[0] == 0 && adb_owner_is_default(&st->settings));
+    ui_scroll_overlay_to(300);                  /* Owner card pushes Sound down 212 px */
+    pump(50);
     bool sound = st->settings.sound_on;
-    tap(267, 399);                              /* sound switch */
+    tap(267, 399 + 212 - 300);                  /* sound switch */
     EXPECT(st->settings.sound_on != sound);
     tap(30, 50);                                /* back */
     tap(85, 24 + 190 + 34);                     /* What can I make? -> My Bar results */

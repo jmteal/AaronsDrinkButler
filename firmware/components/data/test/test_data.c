@@ -315,6 +315,9 @@ static void test_storage(void)
     a.settings.brightness = 33;
     a.settings.use_oz = false;
     a.settings.sleep_s = 300;
+    adb_owner_set(&a.settings, "  Jamie ");
+    a.settings.splash_on = false;
+    a.settings.next_logo = 3;
     CHECK(adb_state_save_favorites(&a, &g_db, &io));
     CHECK(adb_state_save_pantry(&a, &g_db, &io));
     CHECK(adb_state_save_settings(&a, &io));
@@ -326,6 +329,8 @@ static void test_storage(void)
     CHECK(!adb_bit_get(b.favorites, (unsigned)R("daiquiri")));
     CHECK(adb_bit_get(b.pantry, I("gin")));
     CHECK(b.settings.brightness == 33 && !b.settings.use_oz && b.settings.sleep_s == 300);
+    CHECK(strcmp(b.settings.owner, "Jamie") == 0);
+    CHECK(!b.settings.splash_on && b.settings.next_logo == 3);
     adb_state_free(&b);
 
     /* unknown ids from an older dataset are dropped */
@@ -351,12 +356,45 @@ static void test_storage(void)
     adb_state_load(&b, &g_db, &io);
     CHECK(adb_bit_get(b.favorites, (unsigned)R("daiquiri")));
     CHECK(b.settings.brightness == 60);  /* defaults when key missing */
+    CHECK(b.settings.owner[0] == 0 && b.settings.splash_on && b.settings.next_logo == 0);
     adb_state_free(&a);
     adb_state_free(&b);
     char path[300];
     snprintf(path, sizeof path, "%s/favorites.dat", dir);
     unlink(path);
     rmdir(dir);
+}
+
+static void test_owner(void)
+{
+    adb_settings_t s;
+    char buf[64];
+    adb_settings_default(&s);
+    CHECK(strcmp(adb_owner_name(&s), "Aaron") == 0 && adb_owner_is_default(&s));
+    adb_owner_possessive(&s, buf, sizeof buf, false);
+    CHECK(strcmp(buf, "Aaron's") == 0);
+    adb_owner_possessive(&s, buf, sizeof buf, true);
+    CHECK(strcmp(buf, "AARON'S") == 0);
+
+    adb_owner_set(&s, "  aaron ");                /* any case, trimmed */
+    CHECK(adb_owner_is_default(&s) && strcmp(s.owner, "aaron") == 0);
+    adb_owner_set(&s, "Aaronson");
+    CHECK(!adb_owner_is_default(&s));
+    adb_owner_set(&s, "   ");                     /* blank = default */
+    CHECK(s.owner[0] == 0 && strcmp(adb_owner_name(&s), "Aaron") == 0);
+
+    adb_owner_set(&s, "James");
+    adb_owner_possessive(&s, buf, sizeof buf, false);
+    CHECK(strcmp(buf, "James'") == 0);
+    adb_owner_set(&s, "Zo\xC3\xAB");               /* UTF-8 kept, only ASCII upper-cased */
+    adb_owner_possessive(&s, buf, sizeof buf, true);
+    CHECK(strcmp(buf, "ZO\xC3\xAB'S") == 0);
+
+    /* cut to ADB_OWNER_MAX without splitting a UTF-8 character */
+    adb_owner_set(&s, "abcdefghijklmnopqrstuvw\xC3\xA9xyz");   /* 23 ASCII + 2-byte char */
+    CHECK(strlen(s.owner) == 23);
+    adb_owner_set(&s, "abcdefghijklmnopqrstuvwxyz");
+    CHECK(strlen(s.owner) == ADB_OWNER_MAX);
 }
 
 static void test_format(void)
@@ -395,6 +433,7 @@ int main(void)
     RUN(test_pantry);
     RUN(test_pantry_substitutes_and_garnish);
     RUN(test_storage);
+    RUN(test_owner);
     RUN(test_format);
     adb_db_free(&g_db);
     printf("\n%d checks, %d failed\n", g_checks, g_fail);

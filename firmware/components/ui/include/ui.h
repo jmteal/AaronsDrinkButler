@@ -67,6 +67,8 @@ typedef struct {
     const adb_storage_t       *storage;   /* may be NULL: nothing is saved */
     const ui_platform_t       *platform;  /* may be NULL */
     const ui_image_provider_t *images;    /* may be NULL: generated icons */
+    uint32_t                   splash_ms; /* startup splash length; 0 = no splash
+                                             (it also needs settings.splash_on) */
 } ui_config_t;
 
 void ui_init(const ui_config_t *cfg);
@@ -85,6 +87,17 @@ void ui_open_filter(void);
 void ui_open_search(const char *initial_text);
 void ui_open_settings(void);
 void ui_open_credits(void);
+void ui_open_owner_editor(void);
+
+/* ---- Splash ---- */
+#define UI_LOGO_COUNT 4
+/* Show the splash for ms milliseconds (0 = until tapped). The default owner
+ * gets the next of the UI_LOGO_COUNT logos; others get a text splash. */
+void ui_show_splash(uint32_t ms);
+void ui_hide_splash(void);
+bool ui_splash_visible(void);
+/* Call after changing settings.owner outside the UI. */
+void ui_owner_changed(void);
 /* My Bar: false = ingredient checklist, true = "what can I make" results;
  * bucket 0..2 = can make / missing 1 / missing 2. */
 void ui_mybar_show(bool results, int bucket);

@@ -1,4 +1,4 @@
-/* Settings (brightness, sleep, sound, units, battery, credits, version)
+/* Settings (owner, splash, brightness, sleep, sound, units, battery, credits, version)
  * and the Credits / attribution page. */
 #include <stdio.h>
 #include <string.h>
@@ -8,7 +8,7 @@ static const uint16_t k_sleep[] = { 30, 60, 120, 300, 0 };
 static const char *const k_sleep_txt[] = { "30 s", "1 min", "2 min", "5 min", "Never" };
 #define N_SLEEP 5
 
-static lv_obj_t *s_batt_val;
+static lv_obj_t *s_batt_val, *s_owner_val;
 
 static void back_cb(lv_event_t *e)
 {
@@ -100,6 +100,81 @@ static void units_cb(lv_event_t *e)
     ui_save_settings();
 }
 
+static void owner_cb(lv_event_t *e)
+{
+    (void)e;
+    ui_sound(UI_SOUND_TAP);
+    ui_open_owner_editor();
+}
+
+static void splash_cb(lv_event_t *e)
+{
+    lv_obj_t *sw = lv_event_get_current_target_obj(e);
+    g_ui.st->settings.splash_on = lv_obj_has_state(sw, LV_STATE_CHECKED);
+    ui_save_settings();
+    ui_sound(UI_SOUND_TOGGLE);
+}
+
+static void preview_cb(lv_event_t *e)
+{
+    (void)e;
+    ui_sound(UI_SOUND_TAP);
+    ui_show_splash(2500);
+}
+
+static void owner_val_deleted_cb(lv_event_t *e)
+{
+    (void)e;
+    s_owner_val = NULL;
+}
+
+void ui_settings_set_owner(void)
+{
+    if (!s_owner_val) return;
+    const adb_settings_t *st = &g_ui.st->settings;
+    lv_label_set_text(s_owner_val, adb_owner_name(st));
+}
+
+static lv_obj_t *settings_switch(lv_obj_t *r, bool on, lv_event_cb_t cb)
+{
+    lv_obj_t *sw = lv_switch_create(r);
+    lv_obj_set_size(sw, 56, 30);
+    lv_obj_align(sw, LV_ALIGN_RIGHT_MID, 0, 0);
+    lv_obj_set_ext_click_area(sw, 8);
+    lv_obj_set_style_bg_color(sw, ui_c(UI_C_SURFACE2), LV_PART_MAIN);
+    lv_obj_set_style_bg_color(sw, ui_c(UI_C_ACCENT), LV_PART_INDICATOR | LV_STATE_CHECKED);
+    lv_obj_set_style_bg_opa(sw, LV_OPA_COVER, LV_PART_INDICATOR | LV_STATE_CHECKED);
+    if (on) lv_obj_add_state(sw, LV_STATE_CHECKED);
+    lv_obj_add_event_cb(sw, cb, LV_EVENT_VALUE_CHANGED, NULL);
+    return sw;
+}
+
+/* Full-width tappable row: icon + title on the left, value + chevron on the right. */
+static lv_obj_t *nav_row(lv_obj_t *parent, const char *sym, const char *title, lv_obj_t **value_out,
+                         lv_event_cb_t cb)
+{
+    lv_obj_t *b = ui_button(parent, NULL, false);
+    lv_obj_set_size(b, LV_PCT(100), UI_TOUCH);
+    lv_obj_set_style_bg_color(b, ui_c(UI_C_SURFACE), 0);
+    lv_obj_set_style_pad_hor(b, 0, 0);
+    char buf[64];
+    snprintf(buf, sizeof buf, "%s   %s", sym, title);
+    lv_obj_t *l = ui_label(b, &adb_font_16, UI_C_TEXT, buf);
+    lv_obj_align(l, LV_ALIGN_LEFT_MID, 0, 0);
+    lv_obj_t *chev = ui_label(b, &adb_font_14, UI_C_MUTED, LV_SYMBOL_RIGHT);
+    lv_obj_align(chev, LV_ALIGN_RIGHT_MID, 0, 0);
+    if (value_out) {
+        lv_obj_t *v = ui_label(b, &adb_font_14, UI_C_ACCENT, "");
+        lv_obj_set_width(v, 110);
+        lv_label_set_long_mode(v, LV_LABEL_LONG_DOT);
+        lv_obj_set_style_text_align(v, LV_TEXT_ALIGN_RIGHT, 0);
+        lv_obj_align(v, LV_ALIGN_RIGHT_MID, -22, 0);
+        *value_out = v;
+    }
+    lv_obj_add_event_cb(b, cb, LV_EVENT_CLICKED, NULL);
+    return b;
+}
+
 static void credits_cb(lv_event_t *e)
 {
     (void)e;
@@ -153,8 +228,17 @@ void ui_settings_create(lv_obj_t *ov)
     lv_obj_set_pos(h, 0, 0);
     lv_obj_t *body = scroll_body(ov);
 
-    section(body, "SCREEN");
+    section(body, "OWNER");
     lv_obj_t *c = card(body);
+    nav_row(c, LV_SYMBOL_EDIT, "Owner name", &s_owner_val, owner_cb);
+    lv_obj_add_event_cb(s_owner_val, owner_val_deleted_cb, LV_EVENT_DELETE, NULL);
+    ui_settings_set_owner();
+    lv_obj_t *r = row(c, LV_SYMBOL_IMAGE, "Startup splash");
+    settings_switch(r, st->splash_on, splash_cb);
+    nav_row(c, LV_SYMBOL_PLAY, "Show splash now", NULL, preview_cb);
+
+    section(body, "SCREEN");
+    c = card(body);
     row(c, UI_SYM_SUN, "Brightness");
     lv_obj_t *s = lv_slider_create(c);
     lv_obj_set_width(s, LV_PCT(94));
@@ -174,16 +258,8 @@ void ui_settings_create(lv_obj_t *ov)
 
     section(body, "SOUND");
     c = card(body);
-    lv_obj_t *r = row(c, LV_SYMBOL_VOLUME_MAX, "Sound effects");
-    lv_obj_t *sw = lv_switch_create(r);
-    lv_obj_set_size(sw, 56, 30);
-    lv_obj_align(sw, LV_ALIGN_RIGHT_MID, 0, 0);
-    lv_obj_set_ext_click_area(sw, 8);
-    lv_obj_set_style_bg_color(sw, ui_c(UI_C_SURFACE2), LV_PART_MAIN);
-    lv_obj_set_style_bg_color(sw, ui_c(UI_C_ACCENT), LV_PART_INDICATOR | LV_STATE_CHECKED);
-    lv_obj_set_style_bg_opa(sw, LV_OPA_COVER, LV_PART_INDICATOR | LV_STATE_CHECKED);
-    if (st->sound_on) lv_obj_add_state(sw, LV_STATE_CHECKED);
-    lv_obj_add_event_cb(sw, sound_cb, LV_EVENT_VALUE_CHANGED, NULL);
+    r = row(c, LV_SYMBOL_VOLUME_MAX, "Sound effects");
+    settings_switch(r, st->sound_on, sound_cb);
     lv_obj_t *vl = ui_label(c, &adb_font_14, UI_C_MUTED, "Volume");
     (void)vl;
     s = lv_slider_create(c);
@@ -213,15 +289,7 @@ void ui_settings_create(lv_obj_t *ov)
 
     section(body, "ABOUT");
     c = card(body);
-    lv_obj_t *cb = ui_button(c, NULL, false);
-    lv_obj_set_size(cb, LV_PCT(100), UI_TOUCH);
-    lv_obj_set_style_bg_color(cb, ui_c(UI_C_SURFACE), 0);
-    lv_obj_set_style_pad_hor(cb, 0, 0);
-    lv_obj_t *cl = ui_label(cb, &adb_font_16, UI_C_TEXT, UI_SYM_INFO "   Credits & photo licenses");
-    lv_obj_align(cl, LV_ALIGN_LEFT_MID, 0, 0);
-    lv_obj_t *chev = ui_label(cb, &adb_font_14, UI_C_MUTED, LV_SYMBOL_RIGHT);
-    lv_obj_align(chev, LV_ALIGN_RIGHT_MID, 0, 0);
-    lv_obj_add_event_cb(cb, credits_cb, LV_EVENT_CLICKED, NULL);
+    nav_row(c, UI_SYM_INFO, "Credits & photo licenses", NULL, credits_cb);
     char ver[96];
     snprintf(ver, sizeof ver, "Aaron's Drink Butler %s\n%u drinks  \xE2\x80\xA2  %u ingredients",
              g_ui.plat && g_ui.plat->version ? g_ui.plat->version : "",
