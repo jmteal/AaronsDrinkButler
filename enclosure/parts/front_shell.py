@@ -14,6 +14,7 @@ screen, in the second (white) filament; build_text() makes that inlay.
 from build123d import Axis, Circle, Pos, chamfer, extrude, loft, Plane
 
 import params as P
+from parts import snaps
 from parts.common import (
     EPS, box, cyl, on_plane, polygon, prism, rrect, text_sketch, x_prism, y_prism,
 )
@@ -115,5 +116,7 @@ def build(text=None):
     shell -= sd_cut()
     if P.MIC_HOLE:
         shell -= cyl(P.MIC_HOLE_D, -EPS, P.PCB_FRONT + EPS, P.MIC_X, P.MIC_Y)
+    shell -= snaps.pockets()
+    shell -= snaps.pry_notches()
     shell -= text if text is not None else build_text()
     return shell

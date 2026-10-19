@@ -23,7 +23,7 @@ from build123d import Pos  # noqa: E402
 
 import params as P  # noqa: E402
 from build import build_all, print_pose  # noqa: E402
-from parts import door, plunger, refs, stand  # noqa: E402
+from parts import door, plunger, rear_cover, refs, snaps, stand  # noqa: E402
 
 TOL_VOL = 1e-3     # mm^3 of overlap treated as zero (numerical noise)
 TOL_DIST = 0.01    # mm
@@ -124,7 +124,7 @@ def board_fit(shell, cover, wafer):
     from parts.common import box
     block = cover & box(-P.OUTER_W, P.OUTER_W, -P.OUTER_H, P.BAY_Y1 + 0.5, 0, P.DEPTH + 1)
     gap("pack to the door block", pack, block, 0.5)
-    gap("cover lip to shell wall", cover, shell, min(P.COVER_LIP_GAP, P.SEAM_GAP))
+    gap("cover lip to shell wall", rear_cover.lip(), shell, min(P.COVER_LIP_GAP, P.SEAM_GAP))
 
     glass_front = -P.GLASS_FLUSH
     check("glass flush with the front face (0 to 0.1 proud)",
@@ -190,6 +190,35 @@ def openings(shell, cover):
         no_overlap(f"cable channel {label} vs rear cover", ch, cover)
         no_overlap(f"cable channel {label} vs front shell", ch, shell)
         no_overlap(f"cable channel {label} vs pack", ch, refs.pack())
+
+
+def snap_checks(parts):
+    print("Snap tabs (toolless cover)")
+    shell, cover = parts["front_shell"], parts["rear_cover"]
+    arms = snaps.arms()
+    no_overlap("snap arms vs front shell", arms, shell)
+    touches("snap hooks seated on the pocket faces (cover held on)", arms, shell)
+    for label, body in (("pack", refs.pack()), ("wafer", parts["wafer"]), ("rear parts", refs.rear_parts()),
+                        ("door", parts["door"])):
+        no_overlap(f"snap arms vs {label}", arms, body)
+    for label, ch in zip(("left", "right"), refs.cable_channels()):
+        no_overlap(f"snap arms vs {label} cable channel", arms, ch)
+    # Each arm flexes inward on its own: nothing of the cover within the flex space.
+    room = None
+    for wall, side, pos in P.SNAPS:
+        prof = [(-P.SNAP_T - P.SNAP_ENGAGE - 0.1, P.SNAP_TIP), (-P.SNAP_T - 0.01, P.SNAP_TIP),
+                (-P.SNAP_T - 0.01, P.COVER_INNER - P.COVER_LIP_H + 0.5),
+                (-P.SNAP_T - P.SNAP_ENGAGE - 0.1, P.COVER_INNER - P.COVER_LIP_H + 0.5)]
+        r = snaps._place(prof, wall, side, pos, P.SNAP_W)
+        room = r if room is None else room + r
+    no_overlap("room for each arm to flex inward past the wall", room, cover)
+    check("hook reaches >= 0.5 mm into the wall", P.SNAP_ENGAGE >= 0.5, f"{P.SNAP_ENGAGE:.2f} mm")
+    strain = 1.5 * P.SNAP_T * P.SNAP_ENGAGE / P.SNAP_L ** 2
+    check("snap arm bending strain <= 2% (PETG)", strain <= 0.02, f"{strain * 100:.2f}%")
+    skin = P.WALL - (P.SNAP_POCKET - P.COVER_LIP_GAP)
+    check("shell wall behind each pocket >= 1.0 mm", skin >= 1.0 - 1e-6, f"{skin:.2f} mm")
+    check(f"{len(P.SNAPS)} snap tabs, on at least 3 walls", len(P.SNAPS) >= 4
+          and len({(w, s) for w, s, _ in P.SNAPS}) >= 3)
 
 
 def door_checks(parts):
@@ -289,6 +318,7 @@ def main():
     board_fit(parts["front_shell"], parts["rear_cover"], parts["wafer"])
     fasteners(parts["front_shell"], parts["rear_cover"])
     openings(parts["front_shell"], parts["rear_cover"])
+    snap_checks(parts)
     door_checks(parts)
     plunger_checks(parts)
     text_checks(parts)

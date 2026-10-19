@@ -16,7 +16,7 @@ import math
 from build123d import Axis, RegularPolygon, chamfer
 
 import params as P
-from parts import door
+from parts import door, snaps
 from parts.common import EPS, box, cyl, polygon, prism, rrect, x_cone, x_cyl, x_prism
 
 PLATE_FRONT = P.COVER_INNER        # inner face of the plate
@@ -190,8 +190,8 @@ def hinge_pins():
 
 
 def build():
-    cover = plate() + lip() + standoffs() + ribs() + switch_cradle() + led_tube()
-    cover += bay() + plunger_tubes()
+    cover = plate() + (lip() - snaps.lip_slots()) + standoffs() + ribs() + switch_cradle() + led_tube()
+    cover += bay() + plunger_tubes() + snaps.arms()
     cover -= screw_bores()
     cover -= grille_cut()
     cover -= switch_slot()

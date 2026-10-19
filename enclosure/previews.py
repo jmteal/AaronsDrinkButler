@@ -184,6 +184,8 @@ def render_all(parts):
         section(parts, P.HOLES[-1][0], "section_screw",
                 "Section through the right-hand screws: standoff clamps the PCB onto the insert"),
         section_button(parts),
+        section_snap(parts),
+        cover_inside(parts),
         door_open(parts),
         door_inside(parts),
         wafer_view(parts),
@@ -221,3 +223,28 @@ def wafer_view(parts):
         add(p, plunger.build(x, y), COLORS["plunger"])
     title(p, "Wafer, pack side: ears round the standoffs, corner fences for the pack, clear of the plungers")
     return shoot(p, "wafer", (-25, -40, -260), focal=(0, 0, -P.PACK_FRONT), zoom=1.25)
+
+
+def section_snap(parts):
+    """Section through a lower side snap tab: arm, hook seated in the wall pocket."""
+    p = plotter()
+    y = P.SNAPS[3][2]
+    plane = Plane(origin=(0, y, 0), x_dir=(1, 0, 0), z_dir=(0, 1, 0))
+    for body, color in [(parts["front_shell"], COLORS["shell"]), (parts["rear_cover"], COLORS["cover"]),
+                        *board_bodies(), (parts["wafer"], COLORS["wafer"])]:
+        try:
+            half = split(body, bisect_by=plane, keep=Keep.BOTTOM)
+        except Exception:
+            continue
+        if half is not None and half.volume > 1e-6:
+            add(p, half, color)
+    title(p, "Section through a snap tab: the cover's arm hooks into a pocket in the shell wall")
+    focal = (P.OUTER_W / 2 - 4, y, -P.SNAP_TIP - 4)
+    return shoot(p, "section_snap", (focal[0], y + 200, focal[2]), focal=focal, up=(1, 0, 0), zoom=3.2)
+
+
+def cover_inside(parts):
+    p = plotter()
+    add(p, parts["rear_cover"], COLORS["cover"])
+    title(p, "Rear cover, inside: six snap arms round the lip, door well and plunger tubes")
+    return shoot(p, "cover_inside", (90, -120, 160), focal=(0, 0, -P.DEPTH + 6), zoom=1.15)

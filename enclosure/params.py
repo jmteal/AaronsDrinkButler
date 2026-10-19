@@ -217,6 +217,29 @@ USB_ARROW_W = 4.0        # [design]
 USB_ARROW_H = 2.2        # [design]
 INLAY_D = 0.6            # [design] USB-C label is inlaid flush, 3 layers deep
 
+# --- Snap tabs: toolless cover-to-shell fit ----------------------------------------------
+# Six flexing arms on the rear cover reach forward along the inside of the shell walls.
+# A hook on each arm clicks into a blind pocket in the wall. The hooks' back faces are
+# 45 degrees, so they print without supports and let go to a firm pull at the pry
+# notches. The screws become optional: with the cover snapped on, the standoffs already
+# sit on the PCB pads and hold the board on the bands.
+SNAP_W = 5.0             # [design] arm width along the wall
+SNAP_T = 1.4             # [design] arm thickness (flexes inward)
+SNAP_L = 10.0            # [design] arm length from the cover's inner face
+SNAP_HOOK = 0.8          # [design] hook height off the arm (0.6 of it goes into the wall)
+SNAP_RAMP = 1.4          # [design] lead-in ramp length at the arm tip
+SNAP_FLAT = 0.4          # [design] flat on top of the hook
+SNAP_POCKET = 1.0        # [design] pocket depth into the wall (1.0 mm of the 2.0 wall stays)
+SNAP_SIDE_GAP = 0.3      # [design] pocket to arm, each side
+SNAP_SLOT = 0.5          # [design] slot cut through the lip beside each arm
+# (wall, side, position along the wall): "x" = left/right walls, "y" = top wall.
+# None on the bottom wall: the door block fills it.
+SNAPS = [("x", -1, 43.0), ("x", 1, 43.0), ("x", -1, -41.0), ("x", 1, -41.0),
+         ("y", 1, -12.0), ("y", 1, 12.0)]
+PRY_D = 1.0              # [design] 45-degree pry notch at the seam, each side wall
+PRY_W = 10.0             # [design]
+PRY_Y = 0.0              # [design]
+
 # --- Desk stand -------------------------------------------------------------------------
 STAND_ANGLE = 60.0       # [design] screen angle from horizontal (55-70 sensible)
 STAND_LIFT = 10.0        # [design] lowest point of the device above the counter (8-12)
@@ -291,3 +314,6 @@ BTN_TOP = PCB_BACK + BTN_H
 PLUNGERS = [(BOOT_X, BTN_Y, "BOOT"), (RESET_X, BTN_Y, "RESET")]
 assert HINGE_BARREL_R + DOOR_GAP <= HINGE_CLEAR_R, "door barrel would rub the cover"
 assert DOOR_OPEN_HW + 0.8 <= HOLES[0][0] * -1 - CBORE_D / 2 + 1e-6, "door opening cuts a screw counterbore"
+
+SNAP_TIP = COVER_INNER - SNAP_L                  # arm tip depth
+SNAP_ENGAGE = SNAP_HOOK - COVER_LIP_GAP          # hook reach past the wall face
