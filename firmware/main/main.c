@@ -32,6 +32,7 @@ static const char *TAG = "hwtest";
 #define MAX_DOTS        64
 #define BEEP_HZ         880
 #define BEEP_MS         250
+#define BACKLIGHT_START 60      // % set once the UI is built
 
 typedef enum {
     CMD_BEEP,
@@ -167,17 +168,19 @@ static lv_obj_t *make_button(lv_obj_t *parent, const char *text, int x, int y, i
     return btn;
 }
 
+// lv_line clips points outside its own box, which starts at (0, 0), so the cross is drawn
+// in a 20 x 20 box and that box is centred on (x, y).
 static void make_cross(lv_obj_t *parent, int x, int y)
 {
-    static lv_point_precise_t h[] = {{-10, 0}, {10, 0}};
-    static lv_point_precise_t v[] = {{0, -10}, {0, 10}};
+    static lv_point_precise_t h[] = {{0, 10}, {20, 10}};
+    static lv_point_precise_t v[] = {{10, 0}, {10, 20}};
     lv_point_precise_t *pts[] = {h, v};
     for (int i = 0; i < 2; i++) {
         lv_obj_t *line = lv_line_create(parent);
         lv_line_set_points(line, pts[i], 2);
         lv_obj_set_style_line_color(line, lv_color_hex(0x00FF00), 0);
         lv_obj_set_style_line_width(line, 2, 0);
-        lv_obj_set_pos(line, x, y);
+        lv_obj_set_pos(line, x - 10, y - 10);
         lv_obj_remove_flag(line, LV_OBJ_FLAG_CLICKABLE);
     }
 }
@@ -278,11 +281,11 @@ static void build_ui(void)
     lv_obj_set_pos(slider, 20, 246);
     lv_obj_set_size(slider, 280, 16);
     lv_slider_set_range(slider, 5, 100);
-    lv_slider_set_value(slider, bsp_backlight_get(), LV_ANIM_OFF);
+    lv_slider_set_value(slider, BACKLIGHT_START, LV_ANIM_OFF);
     lv_obj_set_ext_click_area(slider, 14);
     lv_obj_add_event_cb(slider, slider_cb, LV_EVENT_VALUE_CHANGED, NULL);
     lv_obj_add_event_cb(slider, slider_cb, LV_EVENT_RELEASED, NULL);
-    lv_label_set_text_fmt(s_bl_label, "Backlight %d%%", bsp_backlight_get());
+    lv_label_set_text_fmt(s_bl_label, "Backlight %d%%", BACKLIGHT_START);
 
     make_button(scr, "Beep", 8, 278, 94, button_cb, (void *)CMD_BEEP);
     make_button(scr, "Light sleep", 108, 278, 110, button_cb, (void *)CMD_LIGHT_SLEEP);
@@ -391,6 +394,6 @@ void app_main(void)
     lvgl_port_lock(0);
     build_ui();
     lvgl_port_unlock();
-    bsp_backlight_set(60);
-    ESP_LOGI(TAG, "TEST ui: built, backlight 60%%");
+    bsp_backlight_set(BACKLIGHT_START);
+    ESP_LOGI(TAG, "TEST ui: built, backlight %d%%", BACKLIGHT_START);
 }
