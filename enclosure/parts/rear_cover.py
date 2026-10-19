@@ -1,9 +1,14 @@
-"""Rear cover: back plate, locating lip, clamp standoffs, pack ribs, grille, switch, LED pipe.
+"""Rear cover: back plate, locating lip, clamp standoffs, pack ribs, grille, switch, LED pipe,
+and the button door's well.
 
 Four M3 x 30 button-head screws pass through the cover's standoffs and the PCB holes into
 the inserts in the front bands, so one set of screws clamps the board and holds the
 cover. The standoffs bear only on the Ø5.6 pad rings. Ribs press the pack against the
-1 mm pad; the speaker fires through the grille.
+1 mm printed wafer; the speaker fires through the grille.
+
+The door (parts/door.py) prints in place in an opening over BOOT and RESET. Behind it a
+solid block inside the cover holds a shallow well, the hinge's cone pins, the latch
+grooves and two plunger guide tubes that reach down to the buttons.
 """
 
 import math
@@ -11,7 +16,8 @@ import math
 from build123d import Axis, RegularPolygon, chamfer
 
 import params as P
-from parts.common import EPS, box, cyl, prism, rrect
+from parts import door
+from parts.common import EPS, box, cyl, polygon, prism, rrect, x_cone, x_cyl, x_prism
 
 PLATE_FRONT = P.COVER_INNER        # inner face of the plate
 PLATE_BACK = P.DEPTH               # outer face
@@ -117,32 +123,82 @@ def led_hole():
     return cyl(P.LED_PIPE_HOLE_D, PLATE_FRONT - P.LED_TUBE_L - EPS, PLATE_BACK + EPS, P.LED_X, P.LED_Y)
 
 
-def button_tubes():
-    end = P.REAR_ENVELOPE + P.BTN_TUBE_CLEAR
+# --- Button door well -------------------------------------------------------------------
+
+def bay():
+    """Solid block inside the cover round the door well (it merges with the lip)."""
+    y0 = -(P.INNER_H / 2 - P.COVER_LIP_GAP)
+    return box(-P.BAY_HW, P.BAY_HW, y0, P.BAY_Y1, P.FLOOR_BOTTOM, PLATE_FRONT + EPS)
+
+
+def plunger_tubes():
     solid = None
-    for x in (P.RESET_X, P.BOOT_X):
-        t = cyl(P.BTN_TUBE_OD, end, PLATE_FRONT + EPS, x, P.BTN_Y)
+    for x, y, _ in P.PLUNGERS:
+        t = cyl(P.PLUNGER_TUBE_OD, P.PLUNGER_TUBE_END, P.FLOOR_BOTTOM + EPS, x, y)
         solid = t if solid is None else solid + t
     return solid
 
 
-def button_holes():
-    end = P.REAR_ENVELOPE + P.BTN_TUBE_CLEAR
+def well_cut():
+    """Door opening plus the well behind it, the hinge clearance and its edge chamfer."""
+    hw, y0, ya = P.DOOR_OPEN_HW, P.DOOR_OPEN_Y0, P.HINGE_Y
+    y1 = ya + 1.0                       # past the axis; the clearance cylinder takes over
+    cut = prism(rrect(2 * hw, y1 - y0, P.DOOR_CORNER_R + P.DOOR_GAP),
+                P.FLOOR_TOP, PLATE_BACK + EPS, 0, (y0 + y1) / 2)
+    cut += x_cyl(P.HINGE_CLEAR_R, ya, P.HINGE_DEPTH, -hw, hw)
+    # 45-degree chamfer on the cover edge past the hinge lets the door swing further.
+    yc, c = ya + P.HINGE_EDGE_V, P.HINGE_CHAMFER
+    sk = polygon([(yc - 0.5, PLATE_BACK + 1), (yc + c + 1, PLATE_BACK + 1),
+                  (yc - 0.5, PLATE_BACK - c - 0.5)])
+    cut += x_prism(sk, -hw, hw)
+    return cut
+
+
+def latch_grooves():
+    a, b = P.LATCH_TAB_X
+    g = P.LATCH_GAP
+    sk = polygon(door.ridge_profile(grow=g))
+    return x_prism(sk, -b - g, -a + g) + x_prism(sk, a - g, b + g)
+
+
+def nail_notch():
+    """45-degree scoop in the cover at the middle of the door's free edge."""
+    y0, d = P.DOOR_OPEN_Y0, P.NAIL_D
+    sk = polygon([(y0 + 0.5, PLATE_BACK + 1), (y0 - d - 1, PLATE_BACK + 1),
+                  (y0 + 0.5, PLATE_BACK - d - 0.5)])
+    return x_prism(sk, -P.NAIL_HW, P.NAIL_HW)
+
+
+def plunger_bores():
     solid = None
-    for x in (P.RESET_X, P.BOOT_X):
-        h = cyl(P.BTN_HOLE_D, end - EPS, PLATE_BACK + EPS, x, P.BTN_Y)
+    for x, y, _ in P.PLUNGERS:
+        h = cyl(P.PLUNGER_BORE_D, P.PLUNGER_TUBE_END - EPS, P.FLOOR_TOP + EPS, x, y)
         solid = h if solid is None else solid + h
+    return solid
+
+
+def hinge_pins():
+    """45-degree cone pins on the well's side walls, pointing in at the door's sockets."""
+    wall = P.DOOR_OPEN_HW
+    r0, h = P.HINGE_CONE_R, P.HINGE_CONE_H
+    solid = None
+    for s in (-1, 1):
+        base_x = wall + 0.3                        # rooted 0.3 inside the wall
+        c = x_cone(s * base_x, r0 + 0.3, s * (wall - h), r0 - h, P.HINGE_Y, P.HINGE_DEPTH)
+        solid = c if solid is None else solid + c
     return solid
 
 
 def build():
     cover = plate() + lip() + standoffs() + ribs() + switch_cradle() + led_tube()
-    if P.BTN_POKE:
-        cover += button_tubes()
+    cover += bay() + plunger_tubes()
     cover -= screw_bores()
     cover -= grille_cut()
     cover -= switch_slot()
     cover -= led_hole()
-    if P.BTN_POKE:
-        cover -= button_holes()
+    cover -= well_cut()
+    cover -= latch_grooves()
+    cover -= nail_notch()
+    cover -= plunger_bores()
+    cover += hinge_pins()
     return cover

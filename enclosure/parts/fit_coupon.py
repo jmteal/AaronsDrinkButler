@@ -12,7 +12,10 @@ from parts.common import prism, rrect
 DEPTH = P.PCB_BACK + P.COUPON_EXTRA
 
 
+def slab():
+    return prism(rrect(P.OUTER_W + 2, P.OUTER_H + 2, P.OUTER_R), -1, DEPTH)
+
+
 def build(shell=None):
     shell = shell if shell is not None else front_shell.build()
-    slab = prism(rrect(P.OUTER_W + 2, P.OUTER_H + 2, P.OUTER_R), -1, DEPTH)
-    return shell & slab
+    return shell & slab()

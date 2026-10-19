@@ -4,18 +4,25 @@ The glass is exactly as wide as the PCB, so nothing behind the glass edge can ho
 board. Instead the PCB front face bears on two solid bands over the 9.25 mm strips above
 and below the glass, PCB_FRONT behind the case face. The four M3 inserts sit in those
 bands; the rear cover's standoffs clamp the PCB onto them.
+
+The glass sits flush with the front face. A 45-degree bevel (FRONT_BEVEL) runs round the
+outside of the front face, so a thumb coming in from any side meets a slope, not an edge.
+"USB-C" and an arrow pointing down at the port are inlaid flush in the band below the
+screen, in the second (white) filament; build_text() makes that inlay.
 """
 
-from build123d import Axis, Circle, Pos, chamfer, loft, Plane
+from build123d import Axis, Circle, Pos, chamfer, extrude, loft, Plane
 
 import params as P
-from parts.common import EPS, box, cyl, polygon, prism, rrect, x_prism, y_prism
+from parts.common import (
+    EPS, box, cyl, on_plane, polygon, prism, rrect, text_sketch, x_prism, y_prism,
+)
 
 
 def outer_body(depth):
     body = prism(rrect(P.OUTER_W, P.OUTER_H, P.OUTER_R), 0, depth)
     front_edges = body.edges().group_by(Axis.Z)[-1]
-    return chamfer(front_edges, P.EDGE_CHAMFER)
+    return chamfer(front_edges, P.FRONT_BEVEL)
 
 
 def window_cut():
@@ -88,7 +95,17 @@ def sd_cut():
     return slot + groove
 
 
-def build():
+def build_text():
+    """USB-C label and arrow, inlaid INLAY_D deep and flush with the front face."""
+    sk = on_plane(text_sketch(P.USB_LABEL, P.USB_LABEL_SIZE),
+                  (P.USB_X, P.USB_LABEL_Y, -P.INLAY_D), (1, 0, 0), (0, 0, 1))
+    label = extrude(sk, amount=P.INLAY_D)
+    w, h, y = P.USB_ARROW_W / 2, P.USB_ARROW_H, P.USB_ARROW_Y
+    arrow = polygon([(P.USB_X - w, y), (P.USB_X + w, y), (P.USB_X, y - h)])
+    return label + prism(arrow, 0, P.INLAY_D)
+
+
+def build(text=None):
     shell = outer_body(P.SHELL_DEPTH)
     shell -= window_cut()
     shell -= pocket_cut(P.SHELL_DEPTH)
@@ -98,4 +115,5 @@ def build():
     shell -= sd_cut()
     if P.MIC_HOLE:
         shell -= cyl(P.MIC_HOLE_D, -EPS, P.PCB_FRONT + EPS, P.MIC_X, P.MIC_Y)
+    shell -= text if text is not None else build_text()
     return shell

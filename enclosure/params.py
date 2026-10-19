@@ -58,7 +58,10 @@ LED_BY = 47.4            # [assumed]
 LED_H = 1.6              # [assumed] LED height above the PCB back
 RESET_BX = 40.98         # [drawing] RESET button, rear side
 BOOT_BX = 13.55          # [drawing] BOOT button, rear side
-BTN_BY = 98.2            # [drawing]
+BTN_BY = 98.2            # [drawing] 3.3 mm from the USB-C edge, so the door sits over this end
+BTN_H = 2.0              # [assumed] button actuator top above the PCB back. MEASURE (plunger length)
+BTN_TRAVEL = 0.25        # [assumed] tact switch travel
+BTN_KEEP_D = 3.4         # [assumed] clear space above each button for the plunger tip
 MIC_BX = 44.68           # [drawing] bottom-port MEMS mic, hole through the PCB to the front
 MIC_BY = 3.94            # [drawing]
 MIC_HOLE = False         # [design] Ø1.2 hole in the front band; off (voice is not used in v1)
@@ -74,9 +77,9 @@ PACK_L = 66.0            # [plan] along the board's 101.5 length
 PACK_W = 35.5            # [plan] across the board, centred side to side
 PACK_T = 19.7            # [plan] including the speaker
 PACK_CY = 0.0            # [design] pack centre in Y (0 = centred along the board)
-PAD_T = 1.0              # [plan] insulating pad between rear parts and pack
+PAD_T = 1.0              # [plan] printed wafer between rear parts and pack (WAFER_T)
 PACK_REAR_GAP = 0.5      # [plan] pack back face to the rear-cover inner face
-RIB_PRELOAD = 0.3        # [design] ribs reach this far past the 0.5 gap, squeezing the pad
+RIB_PRELOAD = 0.2        # [design] ribs reach this far past the 0.5 gap; the cover plate flexes
 
 # --- Speaker grille (rear cover) --------------------------------------------------------
 GRILLE_CX = 0.0          # [assumed] speaker centre on the pack's back face, from the pack centre
@@ -99,7 +102,8 @@ OUTER_R = 4.0            # [design] vertical corner radius
 WALL = 2.0               # [design] side walls behind the board
 COVER_T = 2.0            # [design] rear cover plate
 FRONT_SKIN_MIN = 1.2     # [design] minimum plastic in front of an insert
-EDGE_CHAMFER = 0.6       # [design] outer front and back edges
+EDGE_CHAMFER = 0.6       # [design] outer back edges
+FRONT_BEVEL = 1.5        # [design] 45-degree bevel round the front face (bezel edge, finger friendly)
 WINDOW_CHAMFER = 0.4     # [design] window edge on the front face
 POCKET_LIP = 0.5         # [design] board pocket continues this far behind the PCB back
 COVER_LIP_H = 2.0        # [design] locating lip height
@@ -128,14 +132,90 @@ SW_CRADLE_WALL = 1.2     # [design]
 SW_CRADLE_H = 3.0        # [design]
 SW_CRADLE_GAP = 0.15     # [design] body to cradle, per side (glue it in)
 
-# --- WS2812 light pipe and button poke holes (rear cover) --------------------------------
+# --- WS2812 light pipe (rear cover) -----------------------------------------------------
 LED_PIPE_HOLE_D = 3.2    # [design] for a Ø3 acrylic rod
 LED_TUBE_OD = 5.2        # [design]
 LED_TUBE_L = 8.0         # [design] guide tube length from the cover inner face
-BTN_POKE = True          # [design] paperclip holes for RESET and BOOT
-BTN_HOLE_D = 2.0         # [design]
-BTN_TUBE_OD = 4.0        # [design]
-BTN_TUBE_CLEAR = 1.5     # [design] tube end stops this far behind the rear-parts envelope
+
+# --- Button door (rear cover, over BOOT and RESET) ---------------------------------------
+# A flush door in the back, printed in place with the cover. It hinges on two cone pins
+# along its top edge (toward the device top) and swings out past vertical. A flexing
+# strip on the bottom edge carries two ridges that click into grooves in the cover.
+# Behind it is a shallow well; two printed plungers pass through the well floor to the
+# buttons. "Depth" below is the distance in from the cover's outer (back) face.
+DOOR_GAP = 0.4           # [design] print-in-place gap round the door's edges (PETG)
+DOOR_HW = 19.4           # [design] door half-width (counterbores for the screws sit at 20.85)
+DOOR_Y0 = -52.0          # [design] door bottom (free) edge, toward the USB-C end
+DOOR_CORNER_R = 1.0      # [design]
+HINGE_Y = -41.0          # [design] hinge axis Y
+HINGE_H = 2.2            # [design] hinge axis depth in from the back face
+HINGE_LIP = 1.5          # [design] door's flat back face runs this far past the axis
+HINGE_GAP = 0.35         # [design] normal gap, cone pin to socket
+HINGE_CHAMFER = 1.5      # [design] 45-degree chamfer on the cover edge past the hinge (opening angle)
+HINGE_CONE_R = 1.2       # [design] cone pin radius at the well side wall
+HINGE_CONE_H = 1.0       # [design] cone pin length (45 degrees, so the tip is 0.2)
+HINGE_BARREL_R = 2.0     # [design] door barrels round the sockets, at each end of the hinge
+HINGE_BARREL_L = 3.0     # [design]
+DOOR_OPEN_MIN = 100.0    # [design] the door must swing at least this far without touching
+
+LATCH_STRIP_W = 1.2      # [design] flexing strip along the free edge
+LATCH_SLOT_W = 0.8       # [design] slot behind the strip (through the door)
+LATCH_SLOT_HL = 10.0     # [design] slot half-length
+LATCH_TAB_X = (4.5, 8.5) # [design] each latch tab spans this |X| range
+LATCH_TAB_T = 1.0        # [design] tab thickness (Y)
+LATCH_TAB_DROP = 1.7     # [design] tab hangs this far in from the door's inner face
+LATCH_RIDGE = 0.8        # [design] ridge height off the tab (0.4 of it engages the groove)
+LATCH_RIDGE_DEPTH = 2.7  # [design] ridge centre, depth in from the back face
+LATCH_GAP = 0.3          # [design] ridge to groove, normal
+NAIL_HW = 3.5            # [design] fingernail notch half-width, centred on the free edge
+NAIL_D = 1.5             # [design] notch depth in the cover (45 degrees)
+NAIL_GROOVE = 0.35       # [design] V-groove in the door edge the nail pulls on
+
+WELL_D = 5.2             # [design] well floor, depth in from the back face
+FLOOR_T = 1.2            # [design]
+BAY_HW = 21.2            # [design] solid block round the well, inside the cover
+BAY_Y1 = -36.9           # [design] block's top edge (the pack starts at -33)
+
+# Plungers (two loose printed pins, dropped into the floor holes from outside)
+PLUNGER_D = 4.5          # [design] shaft
+PLUNGER_BORE_D = 4.9     # [design] floor hole and guide tube bore
+PLUNGER_TUBE_OD = 8.0    # [design]
+PLUNGER_TUBE_END = 12.4  # [design] guide tube end, depth from the front face
+PLUNGER_SHAFT_END = 11.6 # [design] shaft end at rest, depth from the front face
+PLUNGER_TIP_D = 2.4      # [design] narrow tip that presses the button
+PLUNGER_CAP_D = 7.0      # [design] finger cap in the well
+PLUNGER_CAP_T = 1.0      # [design]
+PLUNGER_CAP_GAP = 0.5    # [design] cap to floor at rest (tip on the button): stops over-travel
+
+# --- Wafer between the board's rear parts and the pack (printed, replaces the pad) -------
+WAFER_T = PAD_T          # [design] 5 layers at 0.2
+WAFER_EAR_X = 28.2       # [design] the corner ears reach the standoffs, which locate the wafer
+WAFER_BODY_HL = 44.5     # [design] main body half-length (stops short of the plungers)
+WAFER_EAR_X0 = 17.0      # [design] bottom ears start here (clear of the plungers)
+WAFER_EAR_Y = (40.5, 51.0)   # [design] |Y| range of the ears
+WAFER_HOLE_D = 6.0       # [design] standoff holes (standoffs are 5.4)
+WAFER_R = 2.0            # [design] corner radius
+FENCE_T = 0.8            # [design] corner fences that locate the pack on the wafer
+FENCE_H = 1.5            # [design]
+FENCE_L = 6.0            # [design] each leg of the L
+FENCE_GAP = 0.3          # [design] pack to fence
+
+# --- White labels (second filament) -------------------------------------------------------
+FONT = "fonts/Inter-Bold.otf"  # [design] relative to enclosure/; SIL OFL 1.1 (fonts/OFL.txt)
+LABEL_SIZE = 5.0         # [design] font size; Inter Bold caps are 0.75 of this (3.7 mm)
+LABEL_RELIEF = 0.8       # [design] BOOT / RESET stand this proud of the door's inner face
+LABEL_Y = -47.5          # [design] label centre (over the plunger caps when shut)
+LABEL_EDGE = 0.8         # [design] labels stay this far inside the door edge
+POINTER_W = 3.0          # [design] triangle under each label, at the button's exact X
+POINTER_H = 1.6          # [design]
+POINTER_Y = -45.0        # [design] triangle base; it points toward the hinge (and the plunger)
+USB_LABEL = "USB-C"      # [design] on the front face, below the screen
+USB_LABEL_SIZE = 6.0     # [design] caps 4.5 mm
+USB_LABEL_Y = -47.6      # [design]
+USB_ARROW_Y = -51.3      # [design] arrow (pointing at the port) top edge
+USB_ARROW_W = 4.0        # [design]
+USB_ARROW_H = 2.2        # [design]
+INLAY_D = 0.6            # [design] USB-C label is inlaid flush, 3 layers deep
 
 # --- Desk stand -------------------------------------------------------------------------
 STAND_ANGLE = 60.0       # [design] screen angle from horizontal (55-70 sensible)
@@ -162,7 +242,7 @@ BUILD_VOLUME = (256.0, 256.0, 256.0)   # [plan] Bambu Lab P2S
 PCB_FRONT = GLASS_TO_PCB - GLASS_FLUSH           # depth of the PCB front face (= band face)
 PCB_BACK = PCB_FRONT + PCB_T
 REAR_ENVELOPE = PCB_BACK + REAR_PARTS_H          # back of the tallest rear part
-PAD_FRONT = REAR_ENVELOPE
+PAD_FRONT = REAR_ENVELOPE                        # wafer front face
 PACK_FRONT = PAD_FRONT + PAD_T
 PACK_BACK = PACK_FRONT + PACK_T
 COVER_INNER = PACK_BACK + PACK_REAR_GAP
@@ -195,3 +275,19 @@ GRILLE_Y = PACK_CY + GRILLE_CY
 INNER_W = OUTER_W - 2 * WALL
 INNER_H = OUTER_H - 2 * WALL
 INNER_R = OUTER_R - WALL
+
+# Door, hinge and well (depths measured from the front face, like everything else)
+DOOR_OPEN_HW = DOOR_HW + DOOR_GAP                # well and opening half-width
+DOOR_OPEN_Y0 = DOOR_Y0 - DOOR_GAP                # well bottom wall
+HINGE_DEPTH = DEPTH - HINGE_H                    # axis depth
+HINGE_RHO = (HINGE_LIP ** 2 + HINGE_H ** 2) ** 0.5   # door hinge-end radius
+HINGE_CLEAR_R = HINGE_RHO + DOOR_GAP             # cover clearance round the hinge
+HINGE_EDGE_V = (HINGE_CLEAR_R ** 2 - HINGE_H ** 2) ** 0.5   # cover edge past the axis
+FLOOR_TOP = DEPTH - WELL_D
+FLOOR_BOTTOM = FLOOR_TOP - FLOOR_T
+LATCH_RIDGE_D = DEPTH - LATCH_RIDGE_DEPTH
+LATCH_ENGAGE = LATCH_RIDGE - DOOR_GAP            # how far the ridge reaches past the wall face
+BTN_TOP = PCB_BACK + BTN_H
+PLUNGERS = [(BOOT_X, BTN_Y, "BOOT"), (RESET_X, BTN_Y, "RESET")]
+assert HINGE_BARREL_R + DOOR_GAP <= HINGE_CLEAR_R, "door barrel would rub the cover"
+assert DOOR_OPEN_HW + 0.8 <= HOLES[0][0] * -1 - CBORE_D / 2 + 1e-6, "door opening cuts a screw counterbore"

@@ -56,14 +56,14 @@ Layout: a 24 px status bar at the top (time, battery %, mute icon), content in t
 
 **Parts** (all parametric, regenerated from one `params.py`):
 1. **Front shell**: the glass sits **flush** with the front face. Since the glass is no wider than the PCB, the shell locates the board by the 9.25 mm PCB strips above and below the glass, using solid bands 4.2 mm behind the face with **M3 heat-set inserts**. The screen opening is cut to the glass outline with a 0.15–0.2 mm gap.
-2. **Rear cover**: screwed on, with a **speaker grille**, a **USB-C cutout** (bottom), a **microSD slot cutout** (right side), a **power switch cutout**, and a slot for the WS2812 light.
-3. **Battery + speaker bay**: your battery has the speaker mounted on it, and the pack measures **66 L × 35.5 W × 19.7 T mm** with the speaker included. Its 66 × 35.5 face sits **flat against the back of the board**, long side running along the board's 101.5 mm length and centred side to side, so it stays inside the board's footprint. The board's rear components stick out up to 4.7 mm, so a **1 mm insulating pad** sits between them and the battery. The pad also shields the cell from board heat while charging (up to 62 °C). Ribs on the rear cover press the battery against the pad, so no glue is needed.
+2. **Rear cover**: screwed on, with a **speaker grille**, a **USB-C cutout** (bottom), a **microSD slot cutout** (right side), a **power switch cutout**, a slot for the WS2812 light, and a **hinged door over BOOT and RESET** with white labels inside (see `enclosure/README.md`).
+3. **Battery + speaker bay**: your battery has the speaker mounted on it, and the pack measures **66 L × 35.5 W × 19.7 T mm** with the speaker included. Its 66 × 35.5 face sits **flat against the back of the board**, long side running along the board's 101.5 mm length and centred side to side, so it stays inside the board's footprint. The board's rear components stick out up to 4.7 mm, so a **1 mm printed wafer** sits between them and the battery (`enclosure/parts/wafer.py`; it replaced the stick-on pad first planned here). The wafer also shields the cell from board heat while charging (up to 62 °C). Ribs on the rear cover press the battery against the wafer, so no glue is needed.
    - The battery leaves about 9.5 mm free on each side, so the edge sockets stay reachable (SD on the right, battery and speaker sockets on the sides).
    - It also leaves about 35 mm of free length inside the case, used for cable routing and the power switch.
 4. **Speaker grille**: the speaker sits on the battery pack and faces away from the board, so the grille goes in the **rear cover**, directly over the speaker. The pack's back face sits 0.5 mm from the rear wall; a thin foam gasket around the speaker seals it to the grille for louder, cleaner sound. The grille's position is a parameter, set once the speaker's position on the pack is measured.
 5. **Desk stand**: a separate wedge that tilts the screen about 60° and raises the bottom 8–12 mm so the USB-C cable runs out the back. The device lifts off for handheld use.
 
-**Depth stack (front to back):** glass/front face → PCB front 4.2 mm → PCB 1.6 mm → rear components 4.7 mm → pad 1.0 mm → battery 19.7 mm → clearance 0.5 mm → rear wall 2.0 mm ≈ **33.7 mm**.
+**Depth stack (front to back):** glass/front face → PCB front 4.2 mm → PCB 1.6 mm → rear components 4.7 mm → wafer 1.0 mm → battery 19.7 mm → clearance 0.5 mm → rear wall 2.0 mm ≈ **33.7 mm**.
 
 **Proposed size:** about **64 W × 112 H × 34 D mm**. The battery fixes the depth; the board fixes the width and height.
 
@@ -71,7 +71,7 @@ Layout: a 24 px status bar at the top (time, battery %, mute icon), content in t
 
 **Fit check first:** print a thin "fit coupon" (just the front frame and board pocket, about 20 min) before the full case.
 
-**Calipers needed:** [enclosure.md](research/enclosure.md) lists 22 board measurements; the key ones are total thickness (10.0 vs 10.5), USB-C and SD socket heights, and the glass-to-PCB offset. Also check **where the tallest rear components are**, so the pad and battery clear them.
+**Calipers needed:** [enclosure.md](research/enclosure.md) lists 22 board measurements; the key ones are total thickness (10.0 vs 10.5), USB-C and SD socket heights, and the glass-to-PCB offset. Also check **where the tallest rear components are**, so the wafer and battery clear them.
 
 ## 6. Data pipeline (Mac only)
 
@@ -113,7 +113,7 @@ Phases 1a–1d each work in their own folder on their own branch, so they can ru
 ## 9. Parts list (beyond the board)
 
 - 3.7 V 3000 mAh battery, **66 × 35.5 × 19.7 mm** (yours). It needs a **protection circuit** and a **1.25 mm 2-pin plug** (adapter or re-crimp; check polarity)
-- 1 mm insulating pad (EVA foam or silicone) cut to 66 × 35.5 mm, optionally with Kapton tape on the PCB side
+- Nothing to buy for the board-to-pack spacer: it's the printed 1 mm wafer. Optional Kapton tape on the PCB side
 - Speaker: mounted on the battery pack (yours). It needs a 1.25 mm 2-pin plug for the board's speaker socket
 - Mini slide switch (e.g. SS12D00) on the battery lead
 - 4× M3 heat-set inserts (short) + 4× M3×8 screws; 4× M2 or M3 screws for the rear cover
