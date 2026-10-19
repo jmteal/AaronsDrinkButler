@@ -1,0 +1,30 @@
+# Hand review of photo picks (2026-10-18, by looking at every chosen photo).
+# none = no suitable photo; use the generated icon.
+# Reasons are noted so a later pass can look for better files.
+cardinale: none   # search hit was a painting of a cardinal
+rabo_de_galo: none   # search hit was a plant
+champagne_cocktail: none   # photo shows a different, layered drink
+kir: none   # wrong colour; not clearly a Kir
+bamboo: none   # bamboo forest
+poinsettia: none   # railway platform
+batanga: none   # thatched hut
+ti_punch: none   # table scene with bottles, drink not visible
+painkiller: none   # rum bottle and can, no drink
+mulled_wine: none   # cooking pot with a sign, poor crop
+ranch_water: none   # bottle only
+el_presidente: none   # unclear drink, wrong colour
+death_in_the_afternoon: none   # wrong colour, not clearly the drink
+gold_rush: none   # roller-derby team
+brown_derby: none   # restaurant building
+golden_dream: none   # motorcycles
+virgin_mary: none   # stained-glass window
+pussyfoot: none   # record sleeve
+lime_rickey: none   # plants
+virgin_sunrise: none   # church domes
+virgin_bellini: none   # painting
+mulled_cider: none   # candle jar
+eggnog: none   # carton, drink barely visible
+virgin_mojito: none   # drinks dispenser, not a served drink
+virgin_mule: none   # drinks too small in frame
+espresso_tonic: none   # not clearly an espresso tonic
+fresh_lemonade: none   # shows a spritz, not lemonade

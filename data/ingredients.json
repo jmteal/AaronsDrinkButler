@@ -1,0 +1,1613 @@
+{
+ "schema_version": 1,
+ "categories": [
+  {
+   "id": "spirit",
+   "label": "Spirits"
+  },
+  {
+   "id": "liqueur",
+   "label": "Liqueurs & amari"
+  },
+  {
+   "id": "wine",
+   "label": "Wine, vermouth & sparkling"
+  },
+  {
+   "id": "mixer",
+   "label": "Mixers, coffee & tea"
+  },
+  {
+   "id": "juice",
+   "label": "Juices & purées"
+  },
+  {
+   "id": "syrup",
+   "label": "Syrups & sweeteners"
+  },
+  {
+   "id": "bitters",
+   "label": "Bitters"
+  },
+  {
+   "id": "dairy",
+   "label": "Dairy & coconut"
+  },
+  {
+   "id": "egg",
+   "label": "Eggs"
+  },
+  {
+   "id": "garnish",
+   "label": "Fresh fruit, herbs & garnishes"
+  },
+  {
+   "id": "other",
+   "label": "Spices, sauces & other"
+  }
+ ],
+ "ingredients": [
+  {
+   "id": "tequila_blanco",
+   "name": "Blanco tequila",
+   "category": "spirit",
+   "substitutes": [
+    "tequila_reposado"
+   ],
+   "pantry_essential": true,
+   "pantry_ignore": false,
+   "abv": 40,
+   "used_by": 9
+  },
+  {
+   "id": "bourbon_whiskey",
+   "name": "Bourbon",
+   "category": "spirit",
+   "substitutes": [
+    "rye_whiskey"
+   ],
+   "pantry_essential": true,
+   "pantry_ignore": false,
+   "abv": 45,
+   "used_by": 10
+  },
+  {
+   "id": "cognac",
+   "name": "Cognac or brandy",
+   "category": "spirit",
+   "substitutes": [],
+   "pantry_essential": true,
+   "pantry_ignore": false,
+   "abv": 40,
+   "used_by": 15
+  },
+  {
+   "id": "gin",
+   "name": "Gin",
+   "category": "spirit",
+   "substitutes": [
+    "old_tom_gin"
+   ],
+   "pantry_essential": true,
+   "pantry_ignore": false,
+   "abv": 40,
+   "used_by": 34
+  },
+  {
+   "id": "vodka",
+   "name": "Vodka",
+   "category": "spirit",
+   "substitutes": [],
+   "pantry_essential": true,
+   "pantry_ignore": false,
+   "abv": 40,
+   "used_by": 30
+  },
+  {
+   "id": "rum_white",
+   "name": "White rum",
+   "category": "spirit",
+   "substitutes": [
+    "rum_aged"
+   ],
+   "pantry_essential": true,
+   "pantry_ignore": false,
+   "abv": 40,
+   "used_by": 15
+  },
+  {
+   "id": "absinthe",
+   "name": "Absinthe",
+   "category": "spirit",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 60,
+   "used_by": 7
+  },
+  {
+   "id": "rum_aged",
+   "name": "Aged (gold) rum",
+   "category": "spirit",
+   "substitutes": [
+    "rum_dark",
+    "rum_white"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 40,
+   "used_by": 8
+  },
+  {
+   "id": "cachaca",
+   "name": "Cachaça",
+   "category": "spirit",
+   "substitutes": [
+    "rum_white"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 40,
+   "used_by": 2
+  },
+  {
+   "id": "calvados",
+   "name": "Calvados or applejack",
+   "category": "spirit",
+   "substitutes": [
+    "cognac"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 40,
+   "used_by": 2
+  },
+  {
+   "id": "vodka_citron",
+   "name": "Citrus vodka",
+   "category": "spirit",
+   "substitutes": [
+    "vodka"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 40,
+   "used_by": 1
+  },
+  {
+   "id": "rum_dark",
+   "name": "Dark rum",
+   "category": "spirit",
+   "substitutes": [
+    "rum_aged"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 40,
+   "used_by": 8
+  },
+  {
+   "id": "grappa",
+   "name": "Grappa",
+   "category": "spirit",
+   "substitutes": [
+    "pisco"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 40,
+   "used_by": 1
+  },
+  {
+   "id": "irish_whiskey",
+   "name": "Irish whiskey",
+   "category": "spirit",
+   "substitutes": [
+    "bourbon_whiskey",
+    "scotch_whisky"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 40,
+   "used_by": 2
+  },
+  {
+   "id": "islay_scotch",
+   "name": "Islay (peated) Scotch",
+   "category": "spirit",
+   "substitutes": [
+    "scotch_whisky"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 43,
+   "used_by": 1
+  },
+  {
+   "id": "mezcal",
+   "name": "Mezcal",
+   "category": "spirit",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 42,
+   "used_by": 3
+  },
+  {
+   "id": "old_tom_gin",
+   "name": "Old Tom gin",
+   "category": "spirit",
+   "substitutes": [
+    "gin"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 40,
+   "used_by": 3
+  },
+  {
+   "id": "rum_overproof",
+   "name": "Overproof rum",
+   "category": "spirit",
+   "substitutes": [
+    "rum_dark"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 63,
+   "used_by": 2
+  },
+  {
+   "id": "pisco",
+   "name": "Pisco",
+   "category": "spirit",
+   "substitutes": [
+    "cognac"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 40,
+   "used_by": 3
+  },
+  {
+   "id": "tequila_reposado",
+   "name": "Reposado tequila",
+   "category": "spirit",
+   "substitutes": [
+    "tequila_blanco"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 40,
+   "used_by": 2
+  },
+  {
+   "id": "rum_agricole",
+   "name": "Rhum agricole",
+   "category": "spirit",
+   "substitutes": [
+    "rum_white"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 50,
+   "used_by": 3
+  },
+  {
+   "id": "rye_whiskey",
+   "name": "Rye whiskey",
+   "category": "spirit",
+   "substitutes": [
+    "bourbon_whiskey"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 45,
+   "used_by": 8
+  },
+  {
+   "id": "scotch_whisky",
+   "name": "Scotch whisky",
+   "category": "spirit",
+   "substitutes": [
+    "islay_scotch"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 40,
+   "used_by": 6
+  },
+  {
+   "id": "vodka_vanilla",
+   "name": "Vanilla vodka",
+   "category": "spirit",
+   "substitutes": [
+    "vodka"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 37.5,
+   "used_by": 2
+  },
+  {
+   "id": "campari",
+   "name": "Campari",
+   "category": "liqueur",
+   "substitutes": [],
+   "pantry_essential": true,
+   "pantry_ignore": false,
+   "abv": 25,
+   "used_by": 8
+  },
+  {
+   "id": "coffee_liqueur",
+   "name": "Coffee liqueur",
+   "category": "liqueur",
+   "substitutes": [],
+   "pantry_essential": true,
+   "pantry_ignore": false,
+   "abv": 20,
+   "used_by": 5
+  },
+  {
+   "id": "triple_sec",
+   "name": "Triple sec",
+   "category": "liqueur",
+   "substitutes": [
+    "orange_curacao",
+    "grand_marnier"
+   ],
+   "pantry_essential": true,
+   "pantry_ignore": false,
+   "abv": 40,
+   "used_by": 15
+  },
+  {
+   "id": "allspice_dram",
+   "name": "Allspice dram",
+   "category": "liqueur",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 22,
+   "used_by": 1
+  },
+  {
+   "id": "amaretto",
+   "name": "Amaretto",
+   "category": "liqueur",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 24,
+   "used_by": 5
+  },
+  {
+   "id": "amaro_nonino",
+   "name": "Amaro Nonino",
+   "category": "liqueur",
+   "substitutes": [
+    "averna"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 35,
+   "used_by": 1
+  },
+  {
+   "id": "aperol",
+   "name": "Aperol",
+   "category": "liqueur",
+   "substitutes": [
+    "campari"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 11,
+   "used_by": 3
+  },
+  {
+   "id": "apricot_brandy",
+   "name": "Apricot brandy (liqueur)",
+   "category": "liqueur",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 24,
+   "used_by": 2
+  },
+  {
+   "id": "averna",
+   "name": "Averna",
+   "category": "liqueur",
+   "substitutes": [
+    "amaro_nonino"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 29,
+   "used_by": 1
+  },
+  {
+   "id": "blue_curacao",
+   "name": "Blue curaçao",
+   "category": "liqueur",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 25,
+   "used_by": 2
+  },
+  {
+   "id": "benedictine",
+   "name": "Bénédictine",
+   "category": "liqueur",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 40,
+   "used_by": 2
+  },
+  {
+   "id": "cherry_liqueur",
+   "name": "Cherry liqueur (Cherry Heering)",
+   "category": "liqueur",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 24,
+   "used_by": 3
+  },
+  {
+   "id": "creme_de_cacao",
+   "name": "Crème de cacao",
+   "category": "liqueur",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 25,
+   "used_by": 3
+  },
+  {
+   "id": "creme_de_cassis",
+   "name": "Crème de cassis",
+   "category": "liqueur",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 20,
+   "used_by": 4
+  },
+  {
+   "id": "creme_de_menthe",
+   "name": "Crème de menthe",
+   "category": "liqueur",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 25,
+   "used_by": 2
+  },
+  {
+   "id": "creme_de_mure",
+   "name": "Crème de mûre (blackberry liqueur)",
+   "category": "liqueur",
+   "substitutes": [
+    "creme_de_cassis"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 20,
+   "used_by": 1
+  },
+  {
+   "id": "creme_de_violette",
+   "name": "Crème de violette",
+   "category": "liqueur",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 20,
+   "used_by": 1
+  },
+  {
+   "id": "cynar",
+   "name": "Cynar",
+   "category": "liqueur",
+   "substitutes": [
+    "averna"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 16.5,
+   "used_by": 1
+  },
+  {
+   "id": "drambuie",
+   "name": "Drambuie",
+   "category": "liqueur",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 40,
+   "used_by": 1
+  },
+  {
+   "id": "falernum",
+   "name": "Falernum",
+   "category": "liqueur",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 11,
+   "used_by": 4
+  },
+  {
+   "id": "fernet_branca",
+   "name": "Fernet-Branca",
+   "category": "liqueur",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 39,
+   "used_by": 2
+  },
+  {
+   "id": "galliano",
+   "name": "Galliano",
+   "category": "liqueur",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 30,
+   "used_by": 2
+  },
+  {
+   "id": "grand_marnier",
+   "name": "Grand Marnier",
+   "category": "liqueur",
+   "substitutes": [
+    "triple_sec"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 40,
+   "used_by": 3
+  },
+  {
+   "id": "green_chartreuse",
+   "name": "Green Chartreuse",
+   "category": "liqueur",
+   "substitutes": [
+    "yellow_chartreuse"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 55,
+   "used_by": 4
+  },
+  {
+   "id": "hazelnut_liqueur",
+   "name": "Hazelnut liqueur (Frangelico)",
+   "category": "liqueur",
+   "substitutes": [
+    "amaretto"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 20,
+   "used_by": 1
+  },
+  {
+   "id": "irish_cream",
+   "name": "Irish cream liqueur",
+   "category": "liqueur",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 17,
+   "used_by": 2
+  },
+  {
+   "id": "limoncello",
+   "name": "Limoncello",
+   "category": "liqueur",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 30,
+   "used_by": 1
+  },
+  {
+   "id": "maraschino_liqueur",
+   "name": "Maraschino liqueur",
+   "category": "liqueur",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 32,
+   "used_by": 10
+  },
+  {
+   "id": "melon_liqueur",
+   "name": "Melon liqueur (Midori)",
+   "category": "liqueur",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 20,
+   "used_by": 1
+  },
+  {
+   "id": "orange_curacao",
+   "name": "Orange curaçao",
+   "category": "liqueur",
+   "substitutes": [
+    "triple_sec"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 40,
+   "used_by": 4
+  },
+  {
+   "id": "passion_fruit_liqueur",
+   "name": "Passion fruit liqueur",
+   "category": "liqueur",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 17,
+   "used_by": 1
+  },
+  {
+   "id": "peach_liqueur",
+   "name": "Peach schnapps",
+   "category": "liqueur",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 20,
+   "used_by": 3
+  },
+  {
+   "id": "pimms",
+   "name": "Pimm's No. 1",
+   "category": "liqueur",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 25,
+   "used_by": 1
+  },
+  {
+   "id": "raspberry_liqueur",
+   "name": "Raspberry liqueur (Chambord)",
+   "category": "liqueur",
+   "substitutes": [
+    "creme_de_cassis"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 16.5,
+   "used_by": 1
+  },
+  {
+   "id": "sloe_gin",
+   "name": "Sloe gin",
+   "category": "liqueur",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 26,
+   "used_by": 1
+  },
+  {
+   "id": "apple_liqueur",
+   "name": "Sour apple schnapps",
+   "category": "liqueur",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 18,
+   "used_by": 1
+  },
+  {
+   "id": "yellow_chartreuse",
+   "name": "Yellow Chartreuse",
+   "category": "liqueur",
+   "substitutes": [
+    "green_chartreuse"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 40,
+   "used_by": 1
+  },
+  {
+   "id": "dry_vermouth",
+   "name": "Dry vermouth",
+   "category": "wine",
+   "substitutes": [],
+   "pantry_essential": true,
+   "pantry_ignore": false,
+   "abv": 17,
+   "used_by": 10
+  },
+  {
+   "id": "sparkling_wine",
+   "name": "Sparkling wine (Champagne",
+   "category": "wine",
+   "substitutes": [],
+   "pantry_essential": true,
+   "pantry_ignore": false,
+   "abv": 12,
+   "used_by": 16
+  },
+  {
+   "id": "sweet_vermouth",
+   "name": "Sweet (red) vermouth",
+   "category": "wine",
+   "substitutes": [],
+   "pantry_essential": true,
+   "pantry_ignore": false,
+   "abv": 16,
+   "used_by": 15
+  },
+  {
+   "id": "white_wine",
+   "name": "Dry white wine",
+   "category": "wine",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 12,
+   "used_by": 2
+  },
+  {
+   "id": "lillet_blanc",
+   "name": "Lillet Blanc",
+   "category": "wine",
+   "substitutes": [
+    "dry_vermouth"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 17,
+   "used_by": 2
+  },
+  {
+   "id": "port",
+   "name": "Port",
+   "category": "wine",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 20,
+   "used_by": 1
+  },
+  {
+   "id": "red_wine",
+   "name": "Red wine",
+   "category": "wine",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 13,
+   "used_by": 3
+  },
+  {
+   "id": "sherry",
+   "name": "Sherry (amontillado or fino)",
+   "category": "wine",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 17,
+   "used_by": 2
+  },
+  {
+   "id": "cola",
+   "name": "Cola",
+   "category": "mixer",
+   "substitutes": [],
+   "pantry_essential": true,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 5
+  },
+  {
+   "id": "ginger_beer",
+   "name": "Ginger beer",
+   "category": "mixer",
+   "substitutes": [
+    "ginger_ale"
+   ],
+   "pantry_essential": true,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 6
+  },
+  {
+   "id": "soda_water",
+   "name": "Soda water",
+   "category": "mixer",
+   "substitutes": [],
+   "pantry_essential": true,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 24
+  },
+  {
+   "id": "tonic_water",
+   "name": "Tonic water",
+   "category": "mixer",
+   "substitutes": [],
+   "pantry_essential": true,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 2
+  },
+  {
+   "id": "black_tea",
+   "name": "Black tea (brewed",
+   "category": "mixer",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 1
+  },
+  {
+   "id": "espresso",
+   "name": "Espresso",
+   "category": "mixer",
+   "substitutes": [
+    "coffee_hot"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 2
+  },
+  {
+   "id": "ginger_ale",
+   "name": "Ginger ale",
+   "category": "mixer",
+   "substitutes": [
+    "ginger_beer"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 3
+  },
+  {
+   "id": "grapefruit_soda",
+   "name": "Grapefruit soda",
+   "category": "mixer",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 2
+  },
+  {
+   "id": "coffee_hot",
+   "name": "Hot coffee",
+   "category": "mixer",
+   "substitutes": [
+    "espresso"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 1
+  },
+  {
+   "id": "hot_water",
+   "name": "Hot water",
+   "category": "mixer",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": true,
+   "abv": 0,
+   "used_by": 2
+  },
+  {
+   "id": "lemon_lime_soda",
+   "name": "Lemon-lime soda (7UP",
+   "category": "mixer",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 4
+  },
+  {
+   "id": "water",
+   "name": "Water",
+   "category": "mixer",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": true,
+   "abv": 0,
+   "used_by": 5
+  },
+  {
+   "id": "cranberry_juice",
+   "name": "Cranberry juice",
+   "category": "juice",
+   "substitutes": [],
+   "pantry_essential": true,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 9
+  },
+  {
+   "id": "lemon_juice",
+   "name": "Lemon juice",
+   "category": "juice",
+   "substitutes": [],
+   "pantry_essential": true,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 45
+  },
+  {
+   "id": "lime_juice",
+   "name": "Lime juice",
+   "category": "juice",
+   "substitutes": [],
+   "pantry_essential": true,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 57
+  },
+  {
+   "id": "orange_juice",
+   "name": "Orange juice",
+   "category": "juice",
+   "substitutes": [],
+   "pantry_essential": true,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 24
+  },
+  {
+   "id": "pineapple_juice",
+   "name": "Pineapple juice",
+   "category": "juice",
+   "substitutes": [],
+   "pantry_essential": true,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 13
+  },
+  {
+   "id": "apple_cider",
+   "name": "Apple cider (unfiltered",
+   "category": "juice",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 1
+  },
+  {
+   "id": "clamato_juice",
+   "name": "Clamato (tomato-clam juice)",
+   "category": "juice",
+   "substitutes": [
+    "tomato_juice"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 1
+  },
+  {
+   "id": "grapefruit_juice",
+   "name": "Grapefruit juice",
+   "category": "juice",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 6
+  },
+  {
+   "id": "lemonade",
+   "name": "Lemonade",
+   "category": "juice",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 1
+  },
+  {
+   "id": "passion_fruit_puree",
+   "name": "Passion fruit purée",
+   "category": "juice",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 3
+  },
+  {
+   "id": "strawberry_puree",
+   "name": "Strawberry purée",
+   "category": "juice",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 1
+  },
+  {
+   "id": "tomato_juice",
+   "name": "Tomato juice",
+   "category": "juice",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 2
+  },
+  {
+   "id": "peach_puree",
+   "name": "White peach purée",
+   "category": "juice",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 3
+  },
+  {
+   "id": "grenadine",
+   "name": "Grenadine",
+   "category": "syrup",
+   "substitutes": [],
+   "pantry_essential": true,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 15
+  },
+  {
+   "id": "simple_syrup",
+   "name": "Simple syrup",
+   "category": "syrup",
+   "substitutes": [
+    "sugar",
+    "sugar_cube"
+   ],
+   "pantry_essential": true,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 41
+  },
+  {
+   "id": "agave_syrup",
+   "name": "Agave syrup",
+   "category": "syrup",
+   "substitutes": [
+    "simple_syrup"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 4
+  },
+  {
+   "id": "brown_sugar",
+   "name": "Brown sugar",
+   "category": "syrup",
+   "substitutes": [
+    "sugar"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 2
+  },
+  {
+   "id": "chamomile_syrup",
+   "name": "Chamomile syrup",
+   "category": "syrup",
+   "substitutes": [
+    "honey_syrup"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 1
+  },
+  {
+   "id": "cinnamon_syrup",
+   "name": "Cinnamon syrup",
+   "category": "syrup",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 1
+  },
+  {
+   "id": "elderflower_syrup",
+   "name": "Elderflower cordial",
+   "category": "syrup",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 2
+  },
+  {
+   "id": "honey",
+   "name": "Honey",
+   "category": "syrup",
+   "substitutes": [
+    "honey_syrup"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 3
+  },
+  {
+   "id": "honey_syrup",
+   "name": "Honey syrup",
+   "category": "syrup",
+   "substitutes": [
+    "honey"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 10
+  },
+  {
+   "id": "maple_syrup",
+   "name": "Maple syrup",
+   "category": "syrup",
+   "substitutes": [
+    "simple_syrup"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 1
+  },
+  {
+   "id": "orgeat",
+   "name": "Orgeat (almond syrup)",
+   "category": "syrup",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 2
+  },
+  {
+   "id": "passion_fruit_syrup",
+   "name": "Passion fruit syrup",
+   "category": "syrup",
+   "substitutes": [
+    "passion_fruit_puree"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 3
+  },
+  {
+   "id": "raspberry_syrup",
+   "name": "Raspberry syrup",
+   "category": "syrup",
+   "substitutes": [
+    "grenadine"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 1
+  },
+  {
+   "id": "sugar",
+   "name": "Sugar",
+   "category": "syrup",
+   "substitutes": [
+    "simple_syrup",
+    "sugar_cube"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 7
+  },
+  {
+   "id": "sugar_cube",
+   "name": "Sugar cube",
+   "category": "syrup",
+   "substitutes": [
+    "sugar",
+    "simple_syrup"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 3
+  },
+  {
+   "id": "vanilla_syrup",
+   "name": "Vanilla syrup",
+   "category": "syrup",
+   "substitutes": [
+    "simple_syrup"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 1
+  },
+  {
+   "id": "angostura_bitters",
+   "name": "Angostura bitters",
+   "category": "bitters",
+   "substitutes": [],
+   "pantry_essential": true,
+   "pantry_ignore": false,
+   "abv": 44.7,
+   "used_by": 23
+  },
+  {
+   "id": "orange_bitters",
+   "name": "Orange bitters",
+   "category": "bitters",
+   "substitutes": [
+    "angostura_bitters"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 28,
+   "used_by": 7
+  },
+  {
+   "id": "peychauds_bitters",
+   "name": "Peychaud's bitters",
+   "category": "bitters",
+   "substitutes": [
+    "angostura_bitters"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 35,
+   "used_by": 2
+  },
+  {
+   "id": "heavy_cream",
+   "name": "Cream",
+   "category": "dairy",
+   "substitutes": [],
+   "pantry_essential": true,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 9
+  },
+  {
+   "id": "butter",
+   "name": "Butter",
+   "category": "dairy",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 1
+  },
+  {
+   "id": "coconut_cream",
+   "name": "Cream of coconut",
+   "category": "dairy",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 3
+  },
+  {
+   "id": "milk",
+   "name": "Milk",
+   "category": "dairy",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 1
+  },
+  {
+   "id": "whole_egg",
+   "name": "Egg (whole)",
+   "category": "egg",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 1
+  },
+  {
+   "id": "egg_white",
+   "name": "Egg white",
+   "category": "egg",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 9
+  },
+  {
+   "id": "egg_yolk",
+   "name": "Egg yolk",
+   "category": "egg",
+   "substitutes": [
+    "whole_egg"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 2
+  },
+  {
+   "id": "mint",
+   "name": "Fresh mint",
+   "category": "garnish",
+   "substitutes": [],
+   "pantry_essential": true,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 11
+  },
+  {
+   "id": "lime",
+   "name": "Lime (fresh fruit)",
+   "category": "garnish",
+   "substitutes": [
+    "lime_juice"
+   ],
+   "pantry_essential": true,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 2
+  },
+  {
+   "id": "cucumber",
+   "name": "Cucumber",
+   "category": "garnish",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 2
+  },
+  {
+   "id": "basil",
+   "name": "Fresh basil",
+   "category": "garnish",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 1
+  },
+  {
+   "id": "chili_pepper",
+   "name": "Fresh chili or jalapeño",
+   "category": "garnish",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 2
+  },
+  {
+   "id": "fresh_ginger",
+   "name": "Fresh ginger",
+   "category": "garnish",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 2
+  },
+  {
+   "id": "lemon",
+   "name": "Lemon (fresh fruit)",
+   "category": "garnish",
+   "substitutes": [
+    "lemon_juice"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 3
+  },
+  {
+   "id": "orange",
+   "name": "Orange (fresh fruit)",
+   "category": "garnish",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 5
+  },
+  {
+   "id": "pineapple",
+   "name": "Pineapple (fresh)",
+   "category": "garnish",
+   "substitutes": [
+    "pineapple_juice"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 1
+  },
+  {
+   "id": "strawberry",
+   "name": "Strawberries",
+   "category": "garnish",
+   "substitutes": [
+    "strawberry_puree"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 4
+  },
+  {
+   "id": "watermelon",
+   "name": "Watermelon",
+   "category": "garnish",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 1
+  },
+  {
+   "id": "black_pepper",
+   "name": "Black pepper",
+   "category": "other",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 2
+  },
+  {
+   "id": "celery_salt",
+   "name": "Celery salt",
+   "category": "other",
+   "substitutes": [
+    "salt"
+   ],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 3
+  },
+  {
+   "id": "cinnamon",
+   "name": "Cinnamon sticks",
+   "category": "other",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 3
+  },
+  {
+   "id": "hot_sauce",
+   "name": "Hot sauce (Tabasco)",
+   "category": "other",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 3
+  },
+  {
+   "id": "nutmeg",
+   "name": "Nutmeg",
+   "category": "other",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 1
+  },
+  {
+   "id": "olive_brine",
+   "name": "Olive brine",
+   "category": "other",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 1
+  },
+  {
+   "id": "orange_flower_water",
+   "name": "Orange flower water",
+   "category": "other",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 1
+  },
+  {
+   "id": "orange_marmalade",
+   "name": "Orange marmalade",
+   "category": "other",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 1
+  },
+  {
+   "id": "salt",
+   "name": "Salt",
+   "category": "other",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 7
+  },
+  {
+   "id": "star_anise",
+   "name": "Star anise",
+   "category": "other",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 2
+  },
+  {
+   "id": "vanilla_extract",
+   "name": "Vanilla extract",
+   "category": "other",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 1
+  },
+  {
+   "id": "cloves",
+   "name": "Whole cloves",
+   "category": "other",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 4
+  },
+  {
+   "id": "worcestershire_sauce",
+   "name": "Worcestershire sauce",
+   "category": "other",
+   "substitutes": [],
+   "pantry_essential": false,
+   "pantry_ignore": false,
+   "abv": 0,
+   "used_by": 3
+  }
+ ]
+}
