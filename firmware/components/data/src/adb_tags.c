@@ -11,7 +11,7 @@ static const kv_t k_spirit[] = {
     {"whiskey_rye", "Rye"}, {"whiskey_scotch", "Scotch"}, {"whiskey_irish", "Irish whiskey"},
     {"brandy_cognac", "Brandy"}, {"pisco", "Pisco"}, {"cachaca", "Cachaça"},
     {"amaro_aperitif", "Amaro"}, {"wine_sparkling", "Sparkling wine"},
-    {"liqueur", "Liqueur"}, {"none", "No spirit"},
+    {"liqueur", "Liqueur"}, {"none", "No spirit"}, {"wine", "Wine"},
 };
 static const kv_t k_flavor[] = {
     {"sweet", "Sweet"}, {"sour", "Sour"}, {"bitter", "Bitter"},
