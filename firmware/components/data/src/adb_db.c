@@ -145,8 +145,9 @@ int adb_db_add_recipe(adb_db_t *db, const adb_recipe_t *r)
 
 uint8_t adb_guess_category(const char *id)
 {
+    /* first match wins: specific words before ones they contain ("ginger" > "gin") */
     static const struct { const char *needle; uint8_t cat; } rules[] = {
-        {"bitters", ADB_CAT_BITTERS}, {"juice", ADB_CAT_JUICE}, {"syrup", ADB_CAT_SYRUP},
+        {"ginger", ADB_CAT_MIXER}, {"bitters", ADB_CAT_BITTERS}, {"juice", ADB_CAT_JUICE}, {"syrup", ADB_CAT_SYRUP},
         {"grenadine", ADB_CAT_SYRUP}, {"sugar", ADB_CAT_SYRUP}, {"honey", ADB_CAT_SYRUP},
         {"agave", ADB_CAT_SYRUP}, {"egg", ADB_CAT_EGG}, {"cream", ADB_CAT_DAIRY},
         {"milk", ADB_CAT_DAIRY}, {"butter", ADB_CAT_DAIRY}, {"liqueur", ADB_CAT_LIQUEUR},

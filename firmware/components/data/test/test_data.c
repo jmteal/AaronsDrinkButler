@@ -80,6 +80,10 @@ static void test_load(void)
     CHECK(g_db.ingredients[I("lime_juice")].category == ADB_CAT_JUICE);
     CHECK(g_db.ingredients[I("gin")].category == ADB_CAT_SPIRIT);
     CHECK(g_db.ingredients[I("angostura_bitters")].category == ADB_CAT_BITTERS);
+    CHECK(g_db.ingredients[I("ginger_ale")].category == ADB_CAT_MIXER);
+    CHECK(adb_guess_category("ginger_beer") == ADB_CAT_MIXER);
+    CHECK(adb_guess_category("old_tom_gin") == ADB_CAT_SPIRIT);
+    CHECK(adb_guess_category("coffee_liqueur") == ADB_CAT_LIQUEUR);
     CHECK_STR(g_db.ingredients[I("gin")].name, "Gin");
     /* category order: spirits come first */
     CHECK(g_db.ingredients[g_db.ing_by_category[0]].category == ADB_CAT_SPIRIT);
