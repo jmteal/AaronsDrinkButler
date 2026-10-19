@@ -22,12 +22,18 @@ typedef struct adb_storage {
     void *ctx;
 } adb_storage_t;
 
+#define ADB_OWNER_MAX     24          /* bytes, without the terminator */
+#define ADB_OWNER_DEFAULT "Aaron"
+
 typedef struct {
     uint8_t  brightness;      /* 5..100 % */
     uint16_t sleep_s;         /* screen-off timeout, 0 = never */
     bool     sound_on;
     uint8_t  volume;          /* 0..100 */
     bool     use_oz;          /* units on the detail screen */
+    char     owner[ADB_OWNER_MAX + 1];   /* UTF-8; empty = ADB_OWNER_DEFAULT */
+    bool     splash_on;       /* show the splash screen at startup */
+    uint8_t  next_logo;       /* default owner: which logo the next splash shows */
 } adb_settings_t;
 
 typedef struct {
@@ -37,6 +43,15 @@ typedef struct {
 } adb_state_t;
 
 void adb_settings_default(adb_settings_t *s);
+
+/* Owner name helpers. The name is trimmed; blank means ADB_OWNER_DEFAULT. */
+const char *adb_owner_name(const adb_settings_t *s);
+/* True when the owner is the default (Aaron, any case), who gets the logos. */
+bool adb_owner_is_default(const adb_settings_t *s);
+/* Store a new owner name (trimmed, cut to ADB_OWNER_MAX on a UTF-8 boundary). */
+void adb_owner_set(adb_settings_t *s, const char *name);
+/* "Aaron's" / "James'" into buf; upper = ASCII upper case ("AARON'S"). */
+void adb_owner_possessive(const adb_settings_t *s, char *buf, size_t n, bool upper);
 
 /* Allocates bitsets sized for db and sets defaults. */
 bool adb_state_init(adb_state_t *st, const adb_db_t *db);

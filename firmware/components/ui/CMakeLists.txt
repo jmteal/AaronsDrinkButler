@@ -6,7 +6,8 @@
 # Host: add_subdirectory() this folder after creating the `lvgl` and
 # `adb_data` targets to get the static library `adb_ui`.
 
-file(GLOB ADB_UI_SRCS ${CMAKE_CURRENT_LIST_DIR}/src/*.c ${CMAKE_CURRENT_LIST_DIR}/fonts/*.c)
+file(GLOB ADB_UI_SRCS ${CMAKE_CURRENT_LIST_DIR}/src/*.c ${CMAKE_CURRENT_LIST_DIR}/fonts/*.c
+                      ${CMAKE_CURRENT_LIST_DIR}/assets/*.c)
 
 if(ESP_PLATFORM)
     idf_component_register(SRCS ${ADB_UI_SRCS}

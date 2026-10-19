@@ -145,6 +145,9 @@ void ui_filter_create(lv_obj_t *overlay);
 void ui_search_create(lv_obj_t *overlay, const char *initial);
 void ui_settings_create(lv_obj_t *overlay);
 void ui_credits_create(lv_obj_t *overlay);
+void ui_owner_create(lv_obj_t *overlay);
+void ui_home_set_owner(const char *possessive);
+void ui_settings_set_owner(void);
 void ui_detail_create(lv_obj_t *overlay, uint16_t recipe);
 
 /* Called when favorites change anywhere. */
