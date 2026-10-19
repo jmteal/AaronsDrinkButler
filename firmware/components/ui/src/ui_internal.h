@@ -77,6 +77,9 @@ typedef struct {
 
 extern ui_ctx_t g_ui;
 
+/* Starts the screensaver idle watch (ui_splash.c). */
+void ui_saver_init(void);
+
 /* ---- Theme / widgets (ui_theme.c) ------------------------------------- */
 void      ui_theme_init(void);
 lv_obj_t *ui_box(lv_obj_t *parent);                       /* style-less container */

@@ -334,6 +334,20 @@ static void test_storage(void)
     CHECK(!b.settings.splash_on && b.settings.next_logo == 3);
     adb_state_free(&b);
 
+    /* old screen-off options (under 5 min) load as the 10 min default; "never" stays */
+    a.settings.sleep_s = 120;
+    CHECK(adb_state_save_settings(&a, &io));
+    CHECK(adb_state_init(&b, &g_db));
+    adb_state_load(&b, &g_db, &io);
+    CHECK(b.settings.sleep_s == 600);
+    adb_state_free(&b);
+    a.settings.sleep_s = 0;
+    CHECK(adb_state_save_settings(&a, &io));
+    CHECK(adb_state_init(&b, &g_db));
+    adb_state_load(&b, &g_db, &io);
+    CHECK(b.settings.sleep_s == 0);
+    adb_state_free(&b);
+
     /* unknown ids from an older dataset are dropped */
     io.write(io.ctx, "favorites", "gone_drink\nnegroni\n", 19);
     CHECK(adb_state_init(&b, &g_db));

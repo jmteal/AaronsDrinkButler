@@ -206,6 +206,10 @@ lv_obj_t *ui_overlay_top(void)
     return s_n_overlays ? s_overlays[s_n_overlays - 1] : NULL;
 }
 
+ui_tab_t ui_current_tab(void) { return g_ui.tab; }
+
+bool ui_overlay_open(void) { return s_n_overlays > 0; }
+
 void ui_close_overlays(void)
 {
     while (s_n_overlays) {
@@ -322,5 +326,7 @@ void ui_init(const ui_config_t *cfg)
     ui_owner_changed();
     ui_refresh_status();
     ui_show_tab(UI_TAB_HOME);
-    if (cfg->splash_ms && g_ui.st->settings.splash_on) ui_show_splash(cfg->splash_ms);
+    if (cfg->splash_ms && g_ui.st->settings.splash_on)
+        ui_show_splash(cfg->splash_ms == UI_SPLASH_UNTIL_TAP ? 0 : cfg->splash_ms);
+    ui_saver_init();
 }

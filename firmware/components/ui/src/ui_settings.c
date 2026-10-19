@@ -4,8 +4,9 @@
 #include <string.h>
 #include "ui_internal.h"
 
-static const uint16_t k_sleep[] = { 30, 60, 120, 300, 0 };
-static const char *const k_sleep_txt[] = { "30 s", "1 min", "2 min", "5 min", "Never" };
+/* Screen-off times. The logo screensaver starts at UI_SAVER_AFTER_S. */
+static const uint16_t k_sleep[] = { 300, 600, 900, 1800, 0 };
+static const char *const k_sleep_txt[] = { "5 min", "10 min", "15 min", "30 min", "Never" };
 #define N_SLEEP 5
 
 static lv_obj_t *s_batt_val, *s_owner_val;
@@ -233,7 +234,7 @@ void ui_settings_create(lv_obj_t *ov)
     nav_row(c, LV_SYMBOL_EDIT, "Owner name", &s_owner_val, owner_cb);
     lv_obj_add_event_cb(s_owner_val, owner_val_deleted_cb, LV_EVENT_DELETE, NULL);
     ui_settings_set_owner();
-    lv_obj_t *r = row(c, LV_SYMBOL_IMAGE, "Startup splash");
+    lv_obj_t *r = row(c, LV_SYMBOL_IMAGE, "Logo on start/wake");
     settings_switch(r, st->splash_on, splash_cb);
     nav_row(c, LV_SYMBOL_PLAY, "Show splash now", NULL, preview_cb);
 
