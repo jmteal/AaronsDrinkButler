@@ -15,6 +15,8 @@ firmware/dependencies.lock
 
 # Simulator
 simulator/build/
+simulator/build-*/
+simulator/build.log
 
 # Data pipeline caches (built outputs in data/ are committed)
 tools/data/.cache/
@@ -22,3 +24,4 @@ tools/data/.cache/
 # Editors
 .vscode/
 .idea/
+build/
