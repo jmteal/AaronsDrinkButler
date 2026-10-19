@@ -118,6 +118,7 @@ static void tab_cb(lv_event_t *e)
 {
     ui_tab_t tab = (ui_tab_t)(intptr_t)lv_event_get_user_data(e);
     ui_sound(UI_SOUND_TAP);
+    ui_speech_stop();
     ui_close_overlays();
     ui_show_tab(tab);
 }
@@ -154,6 +155,11 @@ static void build_tabbar(void)
         lv_obj_add_event_cb(b, tab_cb, LV_EVENT_CLICKED, (void *)(intptr_t)i);
         g_ui.tab_btns[i] = b;
     }
+}
+
+void ui_speech_stop(void)
+{
+    if (g_ui.plat && g_ui.plat->speech_stop) g_ui.plat->speech_stop(g_ui.plat->ctx);
 }
 
 void ui_show_tab(ui_tab_t tab)

@@ -19,6 +19,8 @@ crc32 (zlib) covers everything after the header. The archive holds:
     ingredients.json    data/ingredients.json
     images/detail/*.jpg, images/thumb/*.jpg   the photos (drinks without one get the
                         UI's generated glass icon, so the PNG icons are left out)
+    speech/<id>.opk     the spoken recipe, Opus (format: adb/audio.py). Left out with
+                        --no-audio; the UI hides its speaker button for a drink without one
 """
 
 from __future__ import annotations
@@ -44,9 +46,14 @@ def _compact(obj) -> bytes:
     return json.dumps(obj, ensure_ascii=False, separators=(",", ":")).encode()
 
 
-def collect(data_dir: Path) -> dict[str, bytes]:
+def collect(data_dir: Path, audio: bool = False, verify: bool = False, device: str = "auto") -> dict[str, bytes]:
     recipes = json.loads((data_dir / "recipes.json").read_text())
     files: dict[str, bytes] = {}
+    if audio:
+        # Imported here so --no-audio never touches the TTS setup.
+        from . import audio as speech_audio
+
+        files.update(speech_audio.build(recipes["recipes"], verify=verify, device=device))
     for r in recipes["recipes"]:
         for k in DROP_RECIPE_KEYS:
             r.pop(k, None)
@@ -82,18 +89,39 @@ def build(files: dict[str, bytes]) -> bytes:
     return HEADER.pack(MAGIC, VERSION, len(names), zlib.crc32(body)) + body
 
 
+def say(argv: list[str]) -> int:
+    ap = argparse.ArgumentParser(prog="build.py say", description="Play a drink's spoken recipe on the Mac")
+    ap.add_argument("drink_id")
+    ap.add_argument("--data", type=Path, default=DATA_DIR)
+    args = ap.parse_args(argv)
+    from . import audio as speech_audio
+
+    return speech_audio.say(args.drink_id, args.data)
+
+
 def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(prog="build.py pack", description="Write the device recipe pack")
     ap.add_argument("-o", "--output", type=Path, default=REPO_DIR / "firmware" / "build" / "drinks.bin")
     ap.add_argument("--data", type=Path, default=DATA_DIR)
+    ap.add_argument("--no-audio", action="store_true",
+                    help="leave out the spoken recipes (no TTS venv, no opusenc; standard library only)")
+    ap.add_argument("--verify", action="store_true",
+                    help="transcribe every sentence with Whisper and re-record bad ones (see voice.yaml)")
+    ap.add_argument("--device", choices=["auto", "mps", "cpu"], default="auto", help="torch device for the TTS")
     args = ap.parse_args(argv)
-    files = collect(args.data)
+    if not args.no_audio:
+        from . import audio as speech_audio
+
+        speech_audio.need_opusenc()   # fail before any slow work
+    files = collect(args.data, audio=not args.no_audio, verify=args.verify, device=args.device)
     image = build(files)
     if len(image) > PARTITION_SIZE:
         raise SystemExit(f"pack: {len(image)} bytes does not fit the {PARTITION_SIZE}-byte drinks partition")
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_bytes(image)
     n_photos = sum(1 for n in files if n.startswith("images/detail/"))
+    n_speech = sum(1 for n in files if n.startswith("speech/"))
     print(f"pack: {args.output} ({len(image) / 1024 / 1024:.2f} MB, {len(files)} files, "
-          f"{n_photos} photos, {100 * len(image) / PARTITION_SIZE:.0f}% of the partition)")
+          f"{n_photos} photos, {n_speech} spoken recipes, {100 * len(image) / PARTITION_SIZE:.0f}% of the "
+          f"{PARTITION_SIZE / 1024 / 1024:.1f} MB partition)")
     return 0

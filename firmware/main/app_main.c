@@ -2,7 +2,8 @@
  * Aaron's Drink Butler: device app.
  *
  * Boot: NVS -> map the recipe pack in the "drinks" partition and load it -> user
- * state from NVS -> BSP display/touch, audio, battery -> shared UI (components/ui).
+ * state from NVS -> BSP display/touch, audio, battery -> photo cache and speech player
+ * -> shared UI (components/ui).
  * The hardware test app is still available: see firmware/README.md (sdkconfig.hwtest).
  */
 #include <inttypes.h>
@@ -76,6 +77,7 @@ void app_main(void)
     }
     app_platform_init(&s_platform, &s_state.settings);
     app_images_init(&s_pack, &s_db, &s_images);
+    if (rc == 0) app_speech_init(&s_pack);
 
     lvgl_port_lock(0);
     if (rc == 0) {

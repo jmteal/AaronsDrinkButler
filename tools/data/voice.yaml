@@ -1,0 +1,29 @@
+# The "speak the recipe" persona. One persona per pack; changing anything that affects the
+# sound (speaker, description, seed, model) re-records every sentence on the next
+# `build.py pack`. Pause lengths and the Opus bitrate only re-join and re-encode (fast).
+#
+# Parler-TTS has 34 named speakers that keep a consistent voice across clips; naming one in
+# the description selects it. See tools/data/README.md ("Speech") for the list.
+
+speaker: Gary
+# {speaker} is replaced with the name above. Keep "Very clear audio." at the end: it steers
+# the model away from noisy, far-field output.
+description: >-
+  {speaker} speaks in a warm, friendly tone, like a relaxed bartender chatting with a guest,
+  at a moderate pace, with a very close recording and almost no background noise.
+  Very clear audio.
+seed: 1234
+
+# Silence, in milliseconds.
+pause_sentence: 350     # between sentences
+pause_section: 650      # after the drink name, after "You will need:", and before the steps
+lead_in: 150            # before the first word
+tail: 300               # after the last word
+
+opus_kbps: 12
+
+# --verify: transcribe each sentence with Whisper and re-record any whose word error rate is
+# above the threshold, with a different seed, up to `retries` times.
+verify_model: small
+verify_wer: 0.25
+verify_retries: 3

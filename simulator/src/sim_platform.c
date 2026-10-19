@@ -32,6 +32,35 @@ static void play_sound(void *ctx, ui_sound_t s)
     if (!g_sim.quiet) printf("[sound] %s\n", names[s]);
 }
 
+/* Spoken recipes: a silent stand-in (the clips live in the device pack), so
+ * the detail screen's speaker button can be seen and exercised here. A
+ * "clip" lasts SIM_SPEECH_MS. */
+#define SIM_SPEECH_MS 4000
+static uint32_t s_speech_start;
+static bool s_speech_on;
+
+static bool speech_available(void *ctx, const char *id) { return true; }
+
+static bool speech_play(void *ctx, const char *id)
+{
+    if (!g_sim.quiet) printf("[speech] play %s (silent in the simulator)\n", id);
+    s_speech_start = lv_tick_get();
+    s_speech_on = true;
+    return true;
+}
+
+static void speech_stop(void *ctx)
+{
+    if (s_speech_on && !g_sim.quiet) printf("[speech] stop\n");
+    s_speech_on = false;
+}
+
+static bool speech_playing(void *ctx)
+{
+    if (s_speech_on && lv_tick_elaps(s_speech_start) >= SIM_SPEECH_MS) s_speech_on = false;
+    return s_speech_on;
+}
+
 static bool get_time(void *ctx, struct tm *out)
 {
     if (g_sim.fixed_time) { *out = g_sim.time; return true; }
@@ -76,6 +105,10 @@ void sim_platform_init(ui_platform_t *p, ui_image_provider_t *img)
     p->set_sound = set_sound;
     p->play_sound = play_sound;
     p->get_time = get_time;
+    p->speech_available = speech_available;
+    p->speech_play = speech_play;
+    p->speech_stop = speech_stop;
+    p->speech_playing = speech_playing;
     p->version = "v0.1.0 (simulator)";
     memset(img, 0, sizeof(*img));
     img->thumb = thumb;

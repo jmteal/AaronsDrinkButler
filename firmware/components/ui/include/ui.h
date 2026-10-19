@@ -8,6 +8,8 @@
  *    device: JPEGs decoded into a PSRAM cache)
  *  - adb_storage_t: favorites / pantry / settings persistence
  * Every callback is optional; missing ones fall back to sensible defaults.
+ *  - speech: the "speak the recipe" clips (device: Opus from the pack;
+ *    simulator: a silent stand-in)
  *
  * Call ui_init() once after lv_init() and the display/indev are set up.
  */
@@ -45,6 +47,13 @@ typedef struct {
     void (*set_sound)(void *ctx, bool on, uint8_t volume);
     void (*play_sound)(void *ctx, ui_sound_t s);
     bool (*get_time)(void *ctx, struct tm *out);  /* false = clock not set */
+    /* Spoken recipe ("speak the recipe" button on the detail screen). The UI
+     * polls speech_playing to flip its stop icon back when a clip ends. A
+     * platform without speech_available never shows the button. */
+    bool (*speech_available)(void *ctx, const char *recipe_id);
+    bool (*speech_play)(void *ctx, const char *recipe_id);    /* false = not started */
+    void (*speech_stop)(void *ctx);                           /* must not block */
+    bool (*speech_playing)(void *ctx);
     const char *version;                          /* shown in Settings */
     void *ctx;
 } ui_platform_t;

@@ -1,11 +1,61 @@
-/* Drink detail: 320x240 photo with back + favorite buttons, then a
- * scrolling section with ingredients (oz/ml), steps, glass, garnish, credit. */
+/* Drink detail: 320x240 photo with back, speak and favorite buttons, then a
+ * scrolling section with ingredients (oz/ml), steps, glass, garnish, credit.
+ * The speaker button reads the recipe aloud (platform speech_*); it shows a
+ * stop icon while playing and is hidden for drinks without a clip. */
 #include <stdio.h>
 #include <string.h>
 #include "ui_internal.h"
 
-static lv_obj_t *s_heart, *s_ings_box, *s_overlay;
+static lv_obj_t *s_heart, *s_ings_box, *s_overlay, *s_speak_lbl;
+static lv_timer_t *s_speak_timer;
 static int32_t s_recipe = -1;
+
+/* ---- speak the recipe ---- */
+
+static bool speaking(void)
+{
+    return g_ui.plat && g_ui.plat->speech_playing && g_ui.plat->speech_playing(g_ui.plat->ctx);
+}
+
+static void speak_refresh(void)
+{
+    if (!s_speak_lbl) return;
+    bool on = speaking();
+    lv_label_set_text(s_speak_lbl, on ? LV_SYMBOL_STOP : g_ui.st->settings.sound_on ? LV_SYMBOL_VOLUME_MAX : LV_SYMBOL_MUTE);
+    lv_obj_set_style_text_color(s_speak_lbl, ui_c(on ? UI_C_ACCENT : g_ui.st->settings.sound_on ? UI_C_TEXT : UI_C_MUTED), 0);
+}
+
+static void speak_timer_cb(lv_timer_t *t)
+{
+    (void)t;
+    speak_refresh();   /* flips the stop icon back when the clip ends */
+}
+
+static void speak_hint(const char *text)
+{
+    lv_obj_t *l = ui_label(s_overlay, &adb_font_14, UI_C_TEXT, text);
+    lv_obj_set_style_bg_color(l, ui_c(UI_C_STATUS), 0);
+    lv_obj_set_style_bg_opa(l, LV_OPA_80, 0);
+    lv_obj_set_style_pad_hor(l, 10, 0);
+    lv_obj_set_style_pad_ver(l, 6, 0);
+    lv_obj_set_style_radius(l, 8, 0);
+    lv_obj_align(l, LV_ALIGN_TOP_MID, 0, 64);
+    lv_obj_delete_delayed(l, 2000);
+}
+
+static void speak_cb(lv_event_t *e)
+{
+    (void)e;
+    const ui_platform_t *p = g_ui.plat;
+    if (speaking()) {
+        p->speech_stop(p->ctx);
+    } else if (!g_ui.st->settings.sound_on) {
+        speak_hint("Sound is off (Settings)");
+    } else if (!p->speech_play || !p->speech_play(p->ctx, g_ui.db->recipes[s_recipe].id)) {
+        speak_hint("Couldn't play the recipe");
+    }
+    speak_refresh();
+}
 
 static void back_cb(lv_event_t *e)
 {
@@ -64,6 +114,10 @@ static void units_cb(lv_event_t *e)
 static void overlay_deleted_cb(lv_event_t *e)
 {
     (void)e;
+    ui_speech_stop();
+    if (s_speak_timer) lv_timer_delete(s_speak_timer);
+    s_speak_timer = NULL;
+    s_speak_lbl = NULL;
     s_overlay = NULL;
     s_recipe = -1;
 }
@@ -103,6 +157,21 @@ void ui_detail_create(lv_obj_t *ov, uint16_t recipe)
     s_heart = lv_obj_get_child(hb, 0);
     lv_obj_add_event_cb(hb, heart_cb, LV_EVENT_CLICKED, NULL);
     ui_detail_refresh_heart();
+
+    const ui_platform_t *p = g_ui.plat;
+    if (s_speak_timer) lv_timer_delete(s_speak_timer);   /* a detail opened over another */
+    s_speak_timer = NULL;
+    s_speak_lbl = NULL;
+    if (p && p->speech_available && p->speech_stop && p->speech_available(p->ctx, r->id)) {
+        lv_obj_t *sb = ui_icon_button(ov, LV_SYMBOL_VOLUME_MAX, 48);
+        lv_obj_set_pos(sb, UI_HOR_RES - 2 * (48 + 8), 8);
+        lv_obj_set_style_bg_color(sb, ui_c(UI_C_STATUS), 0);
+        lv_obj_set_style_text_font(sb, &adb_font_20, 0);
+        s_speak_lbl = lv_obj_get_child(sb, 0);
+        lv_obj_add_event_cb(sb, speak_cb, LV_EVENT_CLICKED, NULL);
+        s_speak_timer = lv_timer_create(speak_timer_cb, 250, NULL);
+        speak_refresh();
+    }
 
     /* scrolling body */
     lv_obj_t *body = lv_obj_create(ov);

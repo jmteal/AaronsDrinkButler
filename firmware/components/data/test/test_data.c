@@ -7,6 +7,7 @@
 #include "adb_filter.h"
 #include "adb_load.h"
 #include "adb_pack.h"
+#include "adb_speech.h"
 #include "adb_pantry.h"
 #include "adb_storage.h"
 
@@ -473,6 +474,41 @@ static void test_pack(void)
     CHECK(photos > 100);
     CHECK(found == photos);
     CHECK(adb_pack_find(&p, "nope.jpg", NULL) == NULL);
+
+    /* Spoken recipes: with audio on (the default pack), every drink has a clip
+     * whose packets add up and whose length is plausible for a recipe. */
+    int clips = 0, clips_ok = 0;
+    uint32_t total_ms = 0;
+    for (int i = 0; i < db.n_recipes; i++) {
+        adb_speech_t sp;
+        int rc = adb_speech_find(&sp, &p, db.recipes[i].id);
+        if (rc == -1) continue;
+        clips++;
+        if (rc != 0) continue;
+        const uint8_t *pkt;
+        int len;
+        uint32_t packets = 0;
+        bool sane = true;
+        while ((len = adb_speech_next(&sp, &pkt)) > 0) {
+            packets++;
+            sane &= len < 1500;
+        }
+        uint32_t ms = adb_speech_ms(&sp);
+        total_ms += ms;
+        if (len == 0 && sane && packets == sp.packets && sp.p == sp.end && ms > 5000 && ms < 180000) clips_ok++;
+        else printf("  bad clip for %s (%u packets, %u ms)\n", db.recipes[i].id, (unsigned)packets, (unsigned)ms);
+    }
+#if PACK_AUDIO
+    CHECK(clips == db.n_recipes);
+    printf("  %d spoken recipes, %.1f min\n", clips, total_ms / 60000.0);
+#else
+    (void)total_ms;
+    CHECK(clips == 0);
+#endif
+    CHECK(clips_ok == clips);
+    CHECK(adb_speech_find(NULL, &p, "no_such_drink") == -1);
+    static const uint8_t bad[] = "ADBS\x02\0\0\0\0\0\0\0\0\0\0\0";
+    CHECK(adb_speech_open(NULL, bad, 16) != 0);                 /* wrong version */
     adb_db_free(&db);
 
     buf[n / 2] ^= 0x55;   /* corrupt a byte: CRC must catch it */

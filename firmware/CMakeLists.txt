@@ -6,6 +6,18 @@ include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 idf_build_set_property(MINIMAL_BUILD ON)
 project(drink_butler)
 
+# esp_audio_codec adds an unquoted "-L <its dir>/lib/<target>" link flag, which breaks when
+# the checkout path has a space (".../Standalone Projects/..."). Its libraries are linked by
+# full path anyway, so drop the flag.
+idf_component_get_property(acodec_lib espressif__esp_audio_codec COMPONENT_LIB)
+foreach(prop LINK_LIBRARIES INTERFACE_LINK_LIBRARIES)
+    get_target_property(libs ${acodec_lib} ${prop})
+    if(libs)
+        list(FILTER libs EXCLUDE REGEX "-L ")
+        set_target_properties(${acodec_lib} PROPERTIES ${prop} "${libs}")
+    endif()
+endforeach()
+
 # Recipe pack for the read-only "drinks" partition. `idf.py drinks-flash` packs ../data
 # (tools/data/build.py pack, standard library only) into build/drinks.bin and writes it
 # to the partition. `idf.py flash` leaves the partition alone, so app reflashes stay fast.

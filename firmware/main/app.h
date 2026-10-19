@@ -39,6 +39,19 @@ void app_platform_idle_start(void);
 // Debug: keep the screen awake regardless of the timeout (until reboot).
 void app_platform_stay_awake(bool on);
 
+/* ---- Spoken recipes (app_speech.c) ---- */
+
+// Starts the Opus worker task. Clips are speech/<id>.opk in the pack.
+void app_speech_init(const adb_pack_t *pack);
+bool app_speech_available(const char *drink_id);
+// Starts playing (replacing any clip in progress). False if there is no clip or Sound is off.
+bool app_speech_play(const char *drink_id);
+// Never blocks unless wait: then up to 500 ms, until the audio output is free.
+void app_speech_stop(bool wait);
+bool app_speech_playing(void);
+// Settings > Sound. Off stops playback and refuses new clips.
+void app_speech_set_enabled(bool on);
+
 /* ---- Serial debug console (app_console.c) ---- */
 
 void app_console_start(adb_db_t *db, adb_state_t *st);

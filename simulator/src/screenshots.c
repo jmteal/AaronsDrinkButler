@@ -329,7 +329,13 @@ int sim_selftest(adb_db_t *db, adb_state_t *st)
     tap(200, 24 + 52 + 48);                     /* first favorite -> detail */
     tap(288, 56);                               /* un-heart */
     EXPECT(!adb_bit_get(st->favorites, first));
+    tap(232, 56);                               /* speak the recipe */
+    EXPECT(plat.speech_playing(plat.ctx));
+    tap(232, 56);                               /* stop */
+    EXPECT(!plat.speech_playing(plat.ctx));
+    tap(232, 56);                               /* play again, then leave the screen */
     tap(30, 56);
+    EXPECT(!plat.speech_playing(plat.ctx));     /* closing the detail stops it */
 
     tap(200, 452);                              /* My Bar */
     uint16_t ing = ADB_ING_NONE;
