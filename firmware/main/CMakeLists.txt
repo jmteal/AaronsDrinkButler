@@ -1,5 +1,12 @@
+if(CONFIG_ADB_HWTEST)
+    set(srcs "hwtest.c")
+else()
+    set(srcs "app_main.c" "app_images.c" "app_storage_nvs.c" "app_platform.c" "app_console.c")
+endif()
+
 idf_component_register(
-    SRCS "main.c"
+    SRCS ${srcs}
     INCLUDE_DIRS "."
-    REQUIRES bsp esp_driver_gpio esp_partition esp_timer
+    REQUIRES bsp data ui esp_driver_gpio esp_partition esp_timer nvs_flash esp_driver_usb_serial_jtag
+    PRIV_REQUIRES esp_app_format json
 )

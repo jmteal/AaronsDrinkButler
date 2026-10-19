@@ -10,6 +10,7 @@
  *   - touch area with five crosshair targets; every touch leaves a dot (Clear wipes them)
  *
  * Every test logs a line starting with "TEST" to the serial console.
+ * Built instead of the app with CONFIG_ADB_HWTEST (sdkconfig.hwtest; see README.md).
  */
 #include <inttypes.h>
 #include <math.h>

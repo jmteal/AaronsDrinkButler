@@ -10,8 +10,16 @@ add_subdirectory(.. adb_data)
 add_executable(adb_data_tests test_data.c)
 target_link_libraries(adb_data_tests PRIVATE adb_data)
 target_compile_options(adb_data_tests PRIVATE -Wall -Wextra -Wno-unused-parameter)
+get_filename_component(ADB_REPO_DIR "${CMAKE_CURRENT_LIST_DIR}/../../../.." ABSOLUTE)
 target_compile_definitions(adb_data_tests PRIVATE
-    SAMPLE_JSON="${CMAKE_CURRENT_LIST_DIR}/../../../../docs/research/sample_recipes.json")
+    SAMPLE_JSON="${ADB_REPO_DIR}/docs/research/sample_recipes.json"
+    PACK_BIN="${CMAKE_CURRENT_BINARY_DIR}/drinks.bin")
+
+# The full dataset as a device pack, written by the same tool that makes the flash image
+find_package(Python3 REQUIRED COMPONENTS Interpreter)
+add_custom_target(test_pack ALL
+    COMMAND ${Python3_EXECUTABLE} ${ADB_REPO_DIR}/tools/data/build.py pack -o ${CMAKE_CURRENT_BINARY_DIR}/drinks.bin
+    COMMENT "Packing data/ for the pack test")
 
 enable_testing()
 add_test(NAME adb_data_tests COMMAND adb_data_tests)

@@ -2,7 +2,7 @@
 
 ESP-IDF 5.5 + LVGL 9.4 firmware for the Hosyond ES3C35P (ESP32-S3R8, 3.5" 320×480 ST77922 QSPI touch display). Board facts and pin map: [docs/research/board_es3c35p.md](../docs/research/board_es3c35p.md).
 
-Right now `main/` is a **hardware test app** (phase 1b). The real UI (`components/ui`, `components/data`) replaces it in phase 2.
+`main/` is the drink app: it maps the recipe pack from flash, loads favorites, pantry and settings from NVS, and runs the shared UI (`components/ui`, the same code as the desktop simulator). The phase-1b **hardware test app** is still there behind a Kconfig option ([below](#hardware-test-app)).
 
 ## Set up ESP-IDF (macOS, once)
 
@@ -27,8 +27,11 @@ Tested with ESP-IDF **v5.5.5** (installed at `~/esp/esp-idf`). Any 5.4 or 5.5 re
 ```bash
 cd firmware
 idf.py build
-idf.py -p /dev/cu.usbmodem* flash monitor     # Ctrl-] quits the monitor
+idf.py -p /dev/cu.usbmodem* drinks-flash       # recipe pack; once, and again whenever data/ changes
+idf.py -p /dev/cu.usbmodem* flash monitor      # Ctrl-] quits the monitor
 ```
+
+The app needs the **recipe pack** in the `drinks` partition; without it the screen says "No recipes loaded". `idf.py drinks-flash` builds it from `../data` with `tools/data/build.py pack` (plain `python3`, no packages needed) into `build/drinks.bin` and writes it at 0x310000. `idf.py flash` doesn't touch that partition, so app reflashes stay quick and the pack stays put. See [Recipe pack](#recipe-pack).
 
 The first build downloads the managed components (LVGL, esp_lvgl_port, panel and touch drivers, esp_codec_dev) into `managed_components/`. `sdkconfig` is generated from `sdkconfig.defaults`; edit the defaults, not `sdkconfig`.
 
@@ -41,7 +44,9 @@ USB is the chip's own USB-Serial/JTAG (no CH340), so the port is `/dev/cu.usbmod
 | Path | What |
 |---|---|
 | `components/bsp/` | Board support: display + touch + LVGL, backlight, audio, battery, microSD, sleep. API in [`bsp.h`](components/bsp/include/bsp.h), pins in [`bsp_pins.h`](components/bsp/include/bsp_pins.h) |
-| `main/` | Hardware test app |
+| `main/` | The app: `app_main.c` (boot), `app_images.c` (JPEG decode + PSRAM cache), `app_storage_nvs.c`, `app_platform.c` (battery, backlight, sounds, idle sleep), `app_console.c` (serial debug console); `hwtest.c` is the hardware test app |
+| `components/data/` | Recipe database, filters, pantry, persistence, recipe-pack reader (shared with the simulator) |
+| `components/ui/` | LVGL screens (shared with the simulator) |
 | `partitions.csv` | 16 MB layout (below) |
 | `sdkconfig.defaults` | Octal PSRAM, 16 MB QIO flash, USB console, LVGL options |
 
@@ -51,10 +56,32 @@ USB is the chip's own USB-Serial/JTAG (no CH340), so the port is `/dev/cu.usbmod
 |---|---|---|---|---|
 | nvs | data/nvs | 0x9000 | 24 KB | favorites, pantry, settings |
 | phy_init | data/phy | 0xF000 | 4 KB | (unused, radio is off) |
-| factory | app | 0x10000 | 3 MB | firmware (the test app is ~0.8 MB) |
+| factory | app | 0x10000 | 3 MB | firmware (the app is about 1.6 MB) |
 | drinks | data/0x40, readonly | 0x310000 | 12.9 MB (0xCF0000) | recipe pack built by `tools/data` |
 
-Flash a pack image with `esptool.py --chip esp32s3 write_flash 0x310000 drinks.bin` (or `parttool.py write_partition --partition-name drinks --input drinks.bin`). The app finds it with `esp_partition_find_first(ESP_PARTITION_TYPE_DATA, 0x40, "drinks")` and can `esp_partition_mmap()` it.
+`idf.py drinks-flash` writes the recipe pack. By hand: `python3 ../tools/data/build.py pack -o drinks.bin`, then `esptool.py --chip esp32s3 write_flash 0x310000 drinks.bin` (or `parttool.py write_partition --partition-name drinks --input drinks.bin`).
+
+## Recipe pack
+
+`tools/data/build.py pack` turns `data/` into one flat image (format in [`adb_pack.h`](components/data/include/adb_pack.h)): a header with a CRC32, a sorted table of contents, then the files, each 4-byte aligned and NUL-terminated. It holds `recipes.json` (minus sources and review notes), `ingredients.json` and the 150 photos as JPEG (320×240 detail, 96×96 thumbnail): about 2.2 MB, 17% of the partition. Drinks without a photo get the UI's generated glass icon, so the PNG icons aren't packed.
+
+At boot the app maps the partition (`esp_partition_mmap`, only as much as the pack uses), checks the CRC, and parses the JSON in place with IDF's cJSON (its nodes in PSRAM). Boot to first frame is about 1.3 s; loading 200 drinks takes about 0.5 s of that.
+
+**Photos**: JPEGs are decoded straight from the mapped flash with `esp_jpeg` (TJpgDec in ROM) to RGB565 in PSRAM. A background task decodes every thumbnail after boot (150 in about 1.5 s, 2.7 MB; about 10 ms each) and they stay cached, so lists never wait on a decode. Detail photos (about 60 ms each) are kept in a 6-entry LRU.
+
+**User state** (favorites, pantry, settings, owner name) is stored as NVS blobs in namespace `adb`, keyed by drink and ingredient id so it survives a new pack.
+
+**Sounds and sleep (first pass)**: UI sounds are short synthesized tones played by a worker task through the ES8311. After the Settings screen-off timeout (default 2 min) with no touch, the app light-sleeps (`bsp_sleep_light`) until a touch or BOOT; the waking touch is swallowed. Battery-life tuning is phase 3.
+
+## Serial debug console
+
+With `CONFIG_ADB_DEBUG_CONSOLE` (on by default) the app reads commands on the USB serial port: `stats`, `favs`, `find`, `tab`, `open`, `close`, `tap x y`, `drag`, `shot`, `stay`, `reboot` (`help` lists them; details in [`app_console.c`](main/app_console.c)). `tap` and `drag` go through a real LVGL pointer device, so they exercise the same path as a finger. From the Mac (in an ESP-IDF shell, for pyserial):
+
+```bash
+python ../tools/device/adb_console.py stats "open negroni" "shot negroni.png"
+```
+
+`shot` saves a PNG of what LVGL renders (not the top layer, so not the splash). On macOS, opening the port resets the board; the script waits for the console and the splash before sending commands.
 
 ## BSP notes
 
@@ -67,6 +94,15 @@ Flash a pack image with `esptool.py --chip esp32s3 write_flash 0x310000 drinks.b
 - **Wi-Fi / BT**: off. `MINIMAL_BUILD` keeps them out of the build entirely.
 
 ## Hardware test app
+
+Build it into its own folder so it doesn't disturb the app's build:
+
+```bash
+idf.py -B build-hwtest -D SDKCONFIG=build-hwtest/sdkconfig -D SDKCONFIG_DEFAULTS="sdkconfig.defaults;sdkconfig.hwtest" build
+idf.py -B build-hwtest -D SDKCONFIG=build-hwtest/sdkconfig -D SDKCONFIG_DEFAULTS="sdkconfig.defaults;sdkconfig.hwtest" -p /dev/cu.usbmodem* flash monitor
+```
+
+Flash the app again afterwards with plain `idf.py flash`; the recipe pack and NVS are untouched.
 
 The screen shows colour bars and a grey ramp, a live readout (battery, last touch, touch-INT edges, free memory), a backlight slider, **Beep / Light sleep / Deep sleep** buttons, and five green crosshairs. Every touch leaves a red dot. Each result is also logged to serial as a line starting with `TEST`.
 

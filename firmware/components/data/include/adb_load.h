@@ -5,10 +5,10 @@
  *
  *  - adb_load_json_*: desktop simulator and tests (needs cJSON). Reads the
  *    readable dataset: recipes.json and, if present, ingredients.json.
- *  - Device (phase 2): the firmware maps the "drinks" flash partition and
- *    calls a packed-binary loader with the same builder API (planned:
- *    adb_load_packed(db, blob, len), format written by tools/data). Nothing
- *    above this layer changes.
+ *  - Device: the firmware maps the "drinks" flash partition, which holds a
+ *    recipe pack (adb_pack.h, written by tools/data/build.py pack), and
+ *    adb_load_pack() feeds the pack's JSON to the same loader in place.
+ *    Nothing above this layer changes.
  */
 #ifndef ADB_LOAD_H
 #define ADB_LOAD_H

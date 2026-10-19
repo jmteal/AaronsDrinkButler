@@ -6,6 +6,7 @@
 #include "adb_data.h"
 #include "adb_filter.h"
 #include "adb_load.h"
+#include "adb_pack.h"
 #include "adb_pantry.h"
 #include "adb_storage.h"
 
@@ -422,6 +423,54 @@ static void test_format(void)
     CHECK(adb_text_contains("anything", ""));
 }
 
+/* The real dataset, packed by tools/data/build.py pack (see CMakeLists.txt). */
+static void test_pack(void)
+{
+    FILE *fp = fopen(PACK_BIN, "rb");
+    CHECK(fp != NULL);
+    if (!fp) return;
+    fseek(fp, 0, SEEK_END);
+    long n = ftell(fp);
+    fseek(fp, 0, SEEK_SET);
+    uint8_t *buf = malloc((size_t)n);
+    CHECK(fread(buf, 1, (size_t)n, fp) == (size_t)n);
+    fclose(fp);
+
+    CHECK(adb_pack_toc_size(buf, 16) > 16);
+    CHECK(adb_pack_image_size(buf, (size_t)n) == (size_t)n);
+    adb_pack_t p;
+    char err[96] = "";
+    CHECK(adb_pack_open(&p, buf, (size_t)n, true, err, sizeof err) == 0);
+    adb_db_t db;
+    adb_db_init(&db);
+    CHECK(adb_load_pack(&db, &p) == 0);
+    CHECK(db.n_recipes >= 200);
+    CHECK(db.n_warnings == 0);
+    int photos = 0, found = 0;
+    for (int i = 0; i < db.n_recipes; i++) {
+        const adb_recipe_t *r = &db.recipes[i];
+        if (!r->image.is_photo) { CHECK(r->image.thumb == NULL && r->image.file == NULL); continue; }
+        photos++;
+        size_t sz = 0;
+        const uint8_t *t = adb_pack_find(&p, r->image.thumb, &sz);
+        const uint8_t *d = adb_pack_find(&p, r->image.file, NULL);
+        if (t && d && sz > 4 && t[0] == 0xFF && t[1] == 0xD8 && d[0] == 0xFF && d[1] == 0xD8 && t[sz] == 0) found++;
+    }
+    CHECK(photos > 100);
+    CHECK(found == photos);
+    CHECK(adb_pack_find(&p, "nope.jpg", NULL) == NULL);
+    adb_db_free(&db);
+
+    buf[n / 2] ^= 0x55;   /* corrupt a byte: CRC must catch it */
+    CHECK(adb_pack_open(&p, buf, (size_t)n, true, err, sizeof err) != 0);
+    CHECK(strstr(err, "CRC") != NULL);
+    buf[n / 2] ^= 0x55;
+    CHECK(adb_pack_open(&p, buf, (size_t)n - 100, false, err, sizeof err) != 0);   /* truncated */
+    memcpy(buf, "XXXX", 4);
+    CHECK(adb_pack_open(&p, buf, (size_t)n, false, err, sizeof err) != 0);
+    free(buf);
+}
+
 int main(void)
 {
     adb_db_init(&g_db);
@@ -435,6 +484,7 @@ int main(void)
     RUN(test_storage);
     RUN(test_owner);
     RUN(test_format);
+    RUN(test_pack);
     adb_db_free(&g_db);
     printf("\n%d checks, %d failed\n", g_checks, g_fail);
     return g_fail ? 1 : 0;

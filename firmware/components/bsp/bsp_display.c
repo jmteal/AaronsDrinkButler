@@ -274,7 +274,8 @@ lv_display_t *bsp_display_start(void)
 
     ESP_RETURN_ON_FALSE(panel_start(&s_io) == ESP_OK, NULL, TAG, "panel init failed");
 
-    const lvgl_port_cfg_t port_cfg = ESP_LVGL_PORT_INIT_CONFIG();
+    lvgl_port_cfg_t port_cfg = ESP_LVGL_PORT_INIT_CONFIG();
+    port_cfg.task_stack = 16 * 1024;    // the app decodes JPEGs on the LVGL task
     ESP_RETURN_ON_FALSE(lvgl_port_init(&port_cfg) == ESP_OK, NULL, TAG, "lvgl_port_init failed");
 
     const lvgl_port_display_cfg_t disp_cfg = {
