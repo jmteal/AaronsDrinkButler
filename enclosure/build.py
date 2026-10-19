@@ -83,6 +83,52 @@ def print_pose(name, part):
     raise KeyError(name)
 
 
+# One-plate layout for a full build (everything except the test pieces). Each entry is
+# (print, copy, lower-left corner X, Y on the plate). The top-right corner stays empty
+# for Bambu Studio's prime tower (multi-colour needs one).
+PLATE = (256.0, 256.0)
+PLATE_MARGIN = 10.0
+PLATE_GAP = 10.0
+PRIME_TOWER_KEEP = (60.0, 60.0)     # left free in the top-right corner
+PLATE_LAYOUT = [
+    ("front_shell", 0, 10.0, 10.0),
+    ("rear_cover", 0, 84.0, 10.0),
+    ("wafer", 0, 158.0, 10.0),
+    ("stand", 0, 10.0, 132.0),
+    ("plunger", 0, 92.0, 132.0),
+    ("plunger", 1, 109.0, 132.0),
+]
+
+
+def plate_bodies(parts):
+    """Every print in its print pose, moved to its place on the plate.
+
+    Returns (black bodies, white bodies, footprints) with footprints as (name, bbox).
+    """
+    black, white, feet = [], [], []
+    for name, copy, x, y in PLATE_LAYOUT:
+        b_names, w_names, kind = PRINTS[name]
+        posed_b = [pose(kind, parts[k]) for k in b_names]
+        posed_w = [pose(kind, parts[k]) for k in w_names]
+        bb = _one(posed_b).bounding_box()
+        move = Pos(x - bb.min.X, y - bb.min.Y, -bb.min.Z)
+        black += [move * s for s in posed_b]
+        white += [move * s for s in posed_w]
+        feet.append((f"{name}#{copy + 1}", _one([move * s for s in posed_b]).bounding_box()))
+    return black, white, feet
+
+
+def export_plate(parts):
+    black, white, _ = plate_bodies(parts)
+    b, w = _one(black), _one(white)
+    write_stl(b, OUT / "plate.stl")
+    write_stl(w, OUT / "plate_text.stl")
+    mesher = Mesher()
+    mesher.add_shape(b, linear_deflection=0.01, angular_deflection=0.1, part_number="plate (black)")
+    mesher.add_shape(w, linear_deflection=0.01, angular_deflection=0.1, part_number="plate text (white)")
+    mesher.write(str(OUT / "plate.3mf"))
+
+
 def _one(bodies):
     return bodies[0] if len(bodies) == 1 else Compound(children=list(bodies))
 
@@ -109,6 +155,7 @@ def export(parts):
         parts["door_text"], parts["wafer"], plunger.installed(),
     ])
     export_step(assembly, str(OUT / "assembly.step"))
+    export_plate(parts)
 
 
 def main():
@@ -121,6 +168,11 @@ def main():
         vol = sum(parts[k].volume for k in black + white) / 1000
         print(f"{name:12s} {bb.size.X:6.1f} x {bb.size.Y:6.1f} x {bb.size.Z:6.1f} mm"
               f"  {vol:6.1f} cm3" + ("  (+ white text)" if white else ""))
+    _, _, feet = plate_bodies(parts)
+    x1 = max(bb.max.X for _, bb in feet)
+    y1 = max(bb.max.Y for _, bb in feet)
+    print(f"plate       {len(feet)} parts on one {PLATE[0]:.0f} x {PLATE[1]:.0f} plate, "
+          f"footprint {x1:.0f} x {y1:.0f} mm (out/plate.stl + plate_text.stl)")
     print(f"wrote {OUT} in {time.time() - t0:.1f} s")
     return parts
 

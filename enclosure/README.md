@@ -35,7 +35,7 @@ A parametric build123d case for the Hosyond ES3C35P board and the 66 × 35.5 × 
 | `parts/refs.py` | Simple boxes for the board, buttons, pack, USB plug and cable channels (validation and previews only) |
 | `fonts/` | Inter Bold, used for the labels (SIL Open Font License, see `fonts/OFL.txt`) |
 | `build.py` | Writes `out/<part>.stl`, `.3mf` and `.step` in print orientation, plus `out/assembly.step`. Two-colour parts also get `out/<part>_text.stl` (see Printing) |
-| `validate.py` | 122 checks (see below), then renders `out/previews/*.png` |
+| `validate.py` | 126 checks (see below), then renders `out/previews/*.png` |
 
 ## Setup
 
@@ -67,6 +67,7 @@ The build takes about 15 s. Validation takes about 20 s, plus about 25 s for the
 
 - **Solids.** Every part is one valid solid (the label bodies are one solid per letter).
 - **Build volume.** Every part fits the 256 mm build volume, lying flat on the plate in its print orientation.
+- **One-plate layout.** All 6 parts sit flat on the 256 mm plate with 10 mm margins and gaps, the prime-tower corner is free, and every white label sits on its part.
 - **Interference.** No printed part overlaps the glass, PCB, rear-parts envelope or pack, or another printed part. The wafer is rigid, so the ribs' 0.2 mm preload is taken by the cover plate flexing back. The pack is checked against the cover moved back by that much.
 - **Clearances and contacts.**
   - Glass-to-window gap: 0.2 mm.
@@ -150,6 +151,15 @@ Load **black PETG in AMS slot 1** and **white PETG in slot 2**.
    - Rear cover: 4 layers (z = 2.0–2.8 mm), on the door's inside face. The labels stand proud.
 
 `rear_cover.stl` holds two bodies: the cover and the door printed in place inside it. Keep them together. The `.3mf` files hold the same bodies as separate objects. If Bambu Studio splits them apart, use the STLs instead.
+
+**Whole case on one plate.** `out/plate.stl` (black) and `out/plate_text.stl` (white) hold every part for one build, already laid out on the 256 × 256 plate:
+- the front shell, the rear cover with its door, the wafer, the stand and 2 plungers;
+- 10 mm from the edges and 10 mm apart, footprint 214 × 192 mm;
+- a 60 × 60 mm corner left empty for the prime tower.
+
+Load both files together exactly as above, answer **Yes**, and set `plate_text` to white. Bambu Studio loads the whole layout as one object and centres it. If the prime tower lands on a part, drag it into the empty corner. Don't use Auto-arrange: it would move the white labels away from their parts. The test pieces (`fit_coupon`, `door_test`) aren't on the plate, because they're meant to be printed and checked first.
+
+![plate](out/previews/plate.png)
 
 Start from Bambu Studio's **Generic PETG** (or your brand's) profile on the **textured PEI** plate, then change:
 

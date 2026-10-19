@@ -191,6 +191,7 @@ def render_all(parts):
         wafer_view(parts),
         on_stand(parts),
         coupon(parts),
+        plate_view(parts),
     ]
 
 
@@ -248,3 +249,21 @@ def cover_inside(parts):
     add(p, parts["rear_cover"], COLORS["cover"])
     title(p, "Rear cover, inside: six snap arms round the lip, door well and plunger tubes")
     return shoot(p, "cover_inside", (90, -120, 160), focal=(0, 0, -P.DEPTH + 6), zoom=1.15)
+
+
+def plate_view(parts):
+    """The one-plate layout from above, with the 256 mm plate and the prime-tower corner."""
+    import pyvista as pv
+    from build import PLATE, PRIME_TOWER_KEEP, plate_bodies
+    black, white, _ = plate_bodies(parts)
+    p = plotter()
+    w, h = PLATE
+    p.add_mesh(pv.Plane(center=(w / 2, h / 2, -0.3), i_size=w, j_size=h), color="#b9b2a6")
+    tx, ty = PRIME_TOWER_KEEP
+    p.add_mesh(pv.Plane(center=(w - tx / 2, h - ty / 2, -0.2), i_size=tx, j_size=ty), color="#d8cfbf")
+    for s in black:
+        add(p, s, COLORS["shell"])
+    for s in white:
+        add(p, s, COLORS["text"])
+    title(p, "One plate (256 x 256): shell, cover + door, wafer, stand, 2 plungers; prime tower top right")
+    return shoot(p, "plate", (w / 2, h / 2 - 260, 560), focal=(w / 2, h / 2, 0), up=(0, 1, 0), zoom=1.0)

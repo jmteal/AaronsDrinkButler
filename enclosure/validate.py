@@ -89,6 +89,35 @@ def build_volume(parts):
               "{:.1f} x {:.1f} x {:.1f} mm, bottom at Z={:.2f}".format(*size, bb.min.Z))
 
 
+def plate_check(parts):
+    from build import PLATE, PLATE_GAP, PLATE_MARGIN, PRIME_TOWER_KEEP, plate_bodies
+    print("One-plate layout (out/plate.stl)")
+    black, white, feet = plate_bodies(parts)
+    m = PLATE_MARGIN - 0.01
+    inside = all(bb.min.X >= m and bb.min.Y >= m and bb.max.X <= PLATE[0] - m
+                 and bb.max.Y <= PLATE[1] - m and abs(bb.min.Z) < 0.05 for _, bb in feet)
+    check(f"all {len(feet)} parts on the plate, {PLATE_MARGIN:.0f} mm from the edges, flat",
+          inside, ", ".join(f"{n} {bb.size.X:.0f}x{bb.size.Y:.0f}" for n, bb in feet))
+    worst = 1e9
+    for i in range(len(feet)):
+        for j in range(i + 1, len(feet)):
+            a, b = feet[i][1], feet[j][1]
+            dx = max(b.min.X - a.max.X, a.min.X - b.max.X)
+            dy = max(b.min.Y - a.max.Y, a.min.Y - b.max.Y)
+            worst = min(worst, max(dx, dy))
+    check(f"parts at least {PLATE_GAP - 3:.0f} mm apart", worst >= PLATE_GAP - 3 - 1e-6,
+          f"closest pair {worst:.1f} mm")
+    tx, ty = PLATE[0] - PRIME_TOWER_KEEP[0], PLATE[1] - PRIME_TOWER_KEEP[1]
+    free = all(bb.max.X <= tx or bb.max.Y <= ty for _, bb in feet)
+    check(f"top-right {PRIME_TOWER_KEEP[0]:.0f} x {PRIME_TOWER_KEEP[1]:.0f} mm free for the prime tower", free)
+    for s in white:
+        if not any(s.distance_to(bl) < 1e-3 for bl in black):
+            check("every white label sits on its black part", False)
+            break
+    else:
+        check("every white label sits on its black part", True)
+
+
 def board_fit(shell, cover, wafer):
     print("Board, wafer and pack")
     glass, pcb, rear = refs.glass(), refs.pcb(), refs.rear_parts()
@@ -315,6 +344,7 @@ def main():
     parts_g.update(parts)
     solids(parts)
     build_volume(parts)
+    plate_check(parts)
     board_fit(parts["front_shell"], parts["rear_cover"], parts["wafer"])
     fasteners(parts["front_shell"], parts["rear_cover"])
     openings(parts["front_shell"], parts["rear_cover"])
