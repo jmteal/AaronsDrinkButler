@@ -15,7 +15,7 @@
 void adb_settings_default(adb_settings_t *s)
 {
     s->brightness = 60;
-    s->sleep_s = 120;
+    s->sleep_s = 600;
     s->sound_on = true;
     s->volume = 60;
     s->use_oz = true;
@@ -150,7 +150,8 @@ void adb_state_load(adb_state_t *st, const adb_db_t *db, const adb_storage_t *io
         st->settings.sound_on = b.sound_on;
         st->settings.volume = b.volume > 100 ? 100 : b.volume;
         st->settings.use_oz = b.use_oz;
-        st->settings.sleep_s = b.sleep_s;
+        /* Below 5 min is an old option (30 s - 2 min): use the new default */
+        st->settings.sleep_s = (b.sleep_s && b.sleep_s < 300) ? 600 : b.sleep_s;
     }
     char owner[ADB_OWNER_MAX * 2 + 1];
     len = sizeof(owner) - 1;

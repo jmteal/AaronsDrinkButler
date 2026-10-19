@@ -2,9 +2,14 @@
  * ui_platform_t for the board: battery, backlight, UI sounds and idle light sleep.
  *
  * Sounds are short synthesized tones played by a worker task (bsp_audio_play blocks
- * for the clip's length, which must not happen on the LVGL task). Idle sleep watches
- * LVGL's inactivity time and light-sleeps until a touch or BOOT (bsp_sleep_light
- * swallows the waking touch so it doesn't land as a tap). It never sleeps while a USB
+ * for the clip's length, which must not happen on the LVGL task).
+ *
+ * Idle schedule (the UI runs the logo screensaver from UI_SAVER_AFTER_S):
+ *   sleep_s idle  -> screen off, light sleep; a touch or BOOT wakes it to a logo
+ *                    (bsp_sleep_light swallows the waking touch; the next tap goes Home)
+ *   + DEEP_AFTER_MS asleep -> deep sleep. Touch can't wake deep sleep (GPIO47 is not
+ *                    an RTC pin): BOOT or a power cycle restarts the device.
+ * It never sleeps while a USB
  * host is attached: light sleep suspends the USB-Serial/JTAG link, so the console and
  * esptool's auto-reset can't reach the chip until someone touches it. The board has no
  * VBUS sense pin; usb_serial_jtag_is_connected() watches the host's 1 ms SOF packets
@@ -22,6 +27,8 @@
 #include "freertos/task.h"
 
 static const char *TAG = "platform";
+
+#define DEEP_AFTER_MS (30u * 60u * 1000u)   // light sleep this long, then deep sleep
 
 static volatile uint8_t s_brightness = 60;
 static volatile bool s_screen_on;            // backlight follows s_brightness once true
@@ -80,12 +87,26 @@ static void idle_task(void *arg)
         }
         if (usb_attached) continue;
         ESP_LOGI(TAG, "idle %u s: screen off", (unsigned)(idle_ms / 1000));
-        bsp_wake_src_t src = bsp_sleep_light(0, NULL);
+        // Dark first, then swap in the wake logo and let it reach the panel. With the
+        // backlight at 0 here, bsp_sleep_light leaves it off on return; we turn it back
+        // on only for a touch/BOOT wake, so a timer wake into deep sleep doesn't flash.
+        bsp_backlight_set(0);
+        if (lvgl_port_lock(100)) {
+            ui_sleep_prepare();
+            lvgl_port_unlock();
+        }
+        vTaskDelay(pdMS_TO_TICKS(150));
+        bsp_wake_src_t src = bsp_sleep_light(DEEP_AFTER_MS, NULL);
+        if (src == BSP_WAKE_TIMER) {
+            ESP_LOGI(TAG, "asleep %u min: deep sleep", (unsigned)(DEEP_AFTER_MS / 60000));
+            bsp_sleep_deep();   // does not return
+        }
         ESP_LOGI(TAG, "screen on (woke by %s)", bsp_wake_src_name(src));
         if (lvgl_port_lock(100)) {
             lv_display_trigger_activity(NULL);
             lvgl_port_unlock();
         }
+        bsp_backlight_set(s_brightness);
     }
 }
 

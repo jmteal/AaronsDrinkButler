@@ -1,6 +1,11 @@
-/* Startup splash. The default owner (Aaron) gets one of the four logos,
- * a different one each time; anyone else gets a text splash with their
- * name. Tapping dismisses it early. */
+/* Splash and screensaver. The default owner (Aaron) gets one of the four
+ * logos, a different one each time; anyone else gets a text splash with
+ * their name. Tapping dismisses it.
+ *
+ * Screensaver: after UI_SAVER_AFTER_S without a touch the splash comes up
+ * and cycles through the logos. ui_sleep_prepare() puts up a fresh logo just
+ * before the screen goes off, so that is what shows on wake. Tapping the
+ * screensaver or the wake splash goes to the Home tab. */
 #include <stdio.h>
 #include "ui_internal.h"
 
@@ -14,24 +19,61 @@ static const lv_image_dsc_t *const k_logos[UI_LOGO_COUNT] = {
 };
 
 static lv_obj_t *s_splash;
-static lv_timer_t *s_timer;
+static lv_obj_t *s_logo;          /* logo image, NULL for the text splash */
+static lv_timer_t *s_timer;       /* auto-hide */
+static lv_timer_t *s_cycle;       /* screensaver logo cycle */
+static lv_timer_t *s_swap;        /* mid-fade logo swap */
+static lv_timer_t *s_idle;        /* watches for the screensaver timeout */
+static bool s_go_home;            /* tapping it goes to the Home tab */
+static bool s_logo_dirty;         /* next_logo changed but not saved */
+
+static void del_timer(lv_timer_t **t)
+{
+    if (*t) {
+        lv_timer_delete(*t);
+        *t = NULL;
+    }
+}
 
 static void splash_deleted_cb(lv_event_t *e)
 {
     (void)e;
     s_splash = NULL;
-    if (s_timer) {
-        lv_timer_delete(s_timer);
-        s_timer = NULL;
-    }
+    s_logo = NULL;
+    del_timer(&s_timer);
+    del_timer(&s_cycle);
+    del_timer(&s_swap);
+}
+
+/* The next logo in turn (and advance the counter). Saved later, not on
+ * every screensaver step, to spare the flash. */
+static const lv_image_dsc_t *take_logo(void)
+{
+    adb_settings_t *set = &g_ui.st->settings;
+    const lv_image_dsc_t *img = k_logos[set->next_logo % UI_LOGO_COUNT];
+    set->next_logo = (uint8_t)((set->next_logo + 1) % UI_LOGO_COUNT);
+    s_logo_dirty = true;
+    return img;
+}
+
+static void save_logo(void)
+{
+    if (!s_logo_dirty) return;
+    s_logo_dirty = false;
+    ui_save_settings();
 }
 
 void ui_hide_splash(void)
 {
     if (!s_splash) return;
-    if (s_timer) {
-        lv_timer_delete(s_timer);
-        s_timer = NULL;
+    del_timer(&s_timer);
+    del_timer(&s_cycle);
+    del_timer(&s_swap);
+    save_logo();
+    if (s_go_home) {
+        s_go_home = false;
+        ui_close_overlays();
+        ui_show_tab(UI_TAB_HOME);
     }
     lv_obj_remove_flag(s_splash, LV_OBJ_FLAG_CLICKABLE);
     lv_obj_fade_out(s_splash, 300, 0);
@@ -92,6 +134,7 @@ void ui_show_splash(uint32_t ms)
 {
     if (s_splash) lv_obj_delete(s_splash);
     adb_settings_t *set = &g_ui.st->settings;
+    s_go_home = false;
 
     s_splash = lv_obj_create(lv_layer_top());
     lv_obj_remove_style_all(s_splash);
@@ -107,11 +150,10 @@ void ui_show_splash(uint32_t ms)
         /* The logos are RGB565 with UI_C_BG baked in; use the same rounded
          * colour so no square shows around them on 24-bit displays. */
         lv_obj_set_style_bg_color(s_splash, ui_c(UI_C_BG & 0xF8FCF8), 0);
-        lv_obj_t *img = lv_image_create(s_splash);
-        lv_image_set_src(img, k_logos[set->next_logo % UI_LOGO_COUNT]);
-        lv_obj_align(img, LV_ALIGN_TOP_MID, 0, 84);
-        set->next_logo = (uint8_t)((set->next_logo + 1) % UI_LOGO_COUNT);
-        ui_save_settings();
+        s_logo = lv_image_create(s_splash);
+        lv_image_set_src(s_logo, take_logo());
+        lv_obj_align(s_logo, LV_ALIGN_TOP_MID, 0, 84);
+        if (ms) save_logo();   /* a timed splash is a startup/preview: save now */
     } else {
         build_named(s_splash);
     }
@@ -126,3 +168,61 @@ void ui_show_splash(uint32_t ms)
 }
 
 bool ui_splash_visible(void) { return s_splash != NULL; }
+
+/* ---- Screensaver ------------------------------------------------------ */
+
+#define SWAP_FADE_MS 400
+
+static void swap_cb(lv_timer_t *t)
+{
+    (void)t;
+    s_swap = NULL;   /* one-shot */
+    if (!s_logo) return;
+    lv_image_set_src(s_logo, take_logo());
+    lv_obj_fade_in(s_logo, SWAP_FADE_MS, 0);
+}
+
+static void cycle_cb(lv_timer_t *t)
+{
+    (void)t;
+    if (!s_logo || s_swap) return;
+    lv_obj_fade_out(s_logo, SWAP_FADE_MS, 0);
+    s_swap = lv_timer_create(swap_cb, SWAP_FADE_MS + 20, NULL);
+    lv_timer_set_repeat_count(s_swap, 1);
+}
+
+static void saver_start(void)
+{
+    if (!s_splash) ui_show_splash(0);
+    s_go_home = true;
+    del_timer(&s_timer);
+    if (s_logo && !s_cycle) s_cycle = lv_timer_create(cycle_cb, UI_SAVER_CYCLE_MS, NULL);
+}
+
+static void idle_cb(lv_timer_t *t)
+{
+    (void)t;
+    if (!g_ui.st->settings.sleep_s || s_cycle) return;   /* "Never", or already running */
+    if (lv_display_get_inactive_time(NULL) >= UI_SAVER_AFTER_S * 1000u) saver_start();
+}
+
+void ui_saver_init(void)
+{
+    if (!s_idle) s_idle = lv_timer_create(idle_cb, 1000, NULL);
+}
+
+void ui_sleep_prepare(void)
+{
+    del_timer(&s_cycle);
+    del_timer(&s_swap);
+    if (!g_ui.st->settings.splash_on) {
+        /* No logo wanted on wake: drop straight back to Home */
+        if (s_splash) lv_obj_delete(s_splash);
+        ui_close_overlays();
+        ui_show_tab(UI_TAB_HOME);
+        return;
+    }
+    ui_show_splash(0);   /* a fresh logo, shown as soon as the screen wakes */
+    save_logo();
+    s_go_home = true;
+}

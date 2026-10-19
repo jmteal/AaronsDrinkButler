@@ -32,7 +32,7 @@ typedef struct {
     uint8_t  volume;          /* 0..100 */
     bool     use_oz;          /* units on the detail screen */
     char     owner[ADB_OWNER_MAX + 1];   /* UTF-8; empty = ADB_OWNER_DEFAULT */
-    bool     splash_on;       /* show the splash screen at startup */
+    bool     splash_on;       /* show a logo at startup and on wake */
     uint8_t  next_logo;       /* default owner: which logo the next splash shows */
 } adb_settings_t;
 

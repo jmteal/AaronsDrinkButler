@@ -17,8 +17,6 @@
 
 static const char *TAG = "app";
 
-#define SPLASH_MS 2500
-
 static adb_pack_t s_pack;
 
 // cJSON makes thousands of small nodes; keep them out of internal RAM, which the
@@ -87,7 +85,7 @@ void app_main(void)
             .storage = have_io ? &s_io : NULL,
             .platform = &s_platform,
             .images = &s_images,
-            .splash_ms = SPLASH_MS,
+            .splash_ms = UI_SPLASH_UNTIL_TAP,
         };
         ui_init(&cfg);
     } else {

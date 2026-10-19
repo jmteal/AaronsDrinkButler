@@ -35,7 +35,7 @@ A handheld or countertop cocktail browser in a printed case. It ships 150–250 
 | Favorites / pantry | NVS bitsets keyed by stable drink IDs |
 | Recipe data | Our own curated list: IBA's 102 official cocktails + classics + mocktails. Ingredient specs recorded as facts, instructions in our own words |
 | Photos | Wikimedia Commons (CC0/PD/CC BY/CC BY-SA) with attribution. **Generated glass icon** for drinks with no photo (expect ~35–50% of drinks) |
-| Power | Screen dims after 30 s and turns off after 2 min (light sleep, wake on touch, to be verified). Inline power switch. Battery % in the status bar. About 20+ h of screen-on use at 40% brightness (estimate) |
+| Power | Logo screensaver after 4 min; screen off after 10 min (light sleep, wake on touch to a logo); deep sleep after 30 more min (wake with BOOT or power switch). Inline power switch. Battery % in the status bar. About 20+ h of screen-on use at 40% brightness (estimate) |
 | Sound | Short tap and "clink" effects through the onboard amp, with mute and volume settings |
 | Enclosure CAD | **build123d** (Python, parametric); every measurement in one parameter file; outputs STL (as you asked) plus 3MF/STEP |
 | Print material | **PETG or ASA**, not PLA: the board can reach 62 °C while charging |

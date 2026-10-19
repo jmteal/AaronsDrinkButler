@@ -67,7 +67,8 @@ typedef struct {
     const adb_storage_t       *storage;   /* may be NULL: nothing is saved */
     const ui_platform_t       *platform;  /* may be NULL */
     const ui_image_provider_t *images;    /* may be NULL: generated icons */
-    uint32_t                   splash_ms; /* startup splash length; 0 = no splash
+    uint32_t                   splash_ms; /* startup splash length; 0 = no splash,
+                                             UI_SPLASH_UNTIL_TAP = until tapped
                                              (it also needs settings.splash_on) */
 } ui_config_t;
 
@@ -82,6 +83,8 @@ typedef enum { UI_TAB_HOME, UI_TAB_BROWSE, UI_TAB_MYBAR, UI_TAB_FAVORITES, UI_TA
 
 void ui_show_tab(ui_tab_t tab);
 void ui_close_overlays(void);
+ui_tab_t ui_current_tab(void);
+bool ui_overlay_open(void);
 void ui_open_detail(uint16_t recipe);
 void ui_open_filter(void);
 void ui_open_search(const char *initial_text);
@@ -89,8 +92,19 @@ void ui_open_settings(void);
 void ui_open_credits(void);
 void ui_open_owner_editor(void);
 
-/* ---- Splash ---- */
+/* ---- Splash, screensaver and sleep ---- */
 #define UI_LOGO_COUNT 4
+#define UI_SPLASH_UNTIL_TAP UINT32_MAX
+/* After this long without a touch the logos cycle on screen (every
+ * UI_SAVER_CYCLE_MS) until a tap, which goes to the Home tab. Off when
+ * settings.sleep_s is 0 ("Never"). The platform turns the screen off at
+ * settings.sleep_s. */
+#define UI_SAVER_AFTER_S  240
+#define UI_SAVER_CYCLE_MS 8000
+/* Call with the LVGL lock just before the screen goes off: stops the cycle
+ * and puts up a fresh logo, so the device wakes to it (tap -> Home). With
+ * settings.splash_on off it goes straight to Home instead. */
+void ui_sleep_prepare(void);
 /* Show the splash for ms milliseconds (0 = until tapped). The default owner
  * gets the next of the UI_LOGO_COUNT logos; others get a text splash. */
 void ui_show_splash(uint32_t ms);

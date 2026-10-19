@@ -357,6 +357,35 @@ int sim_selftest(adb_db_t *db, adb_state_t *st)
     EXPECT(st->settings.sound_on != sound);
     tap(30, 50);                                /* back */
     tap(85, 24 + 190 + 34);                     /* What can I make? -> My Bar results */
+
+    printf("Screensaver and sleep:\n");
+    st->settings.splash_on = true;
+    st->settings.sleep_s = 600;
+    tap(120, 452);                              /* Browse */
+    tap(200, 150);                              /* a drink's detail stays open... */
+    EXPECT(ui_overlay_open());
+    pump(UI_SAVER_AFTER_S * 1000 - 3000);
+    EXPECT(!ui_splash_visible());               /* ...not yet */
+    pump(4500);
+    EXPECT(ui_splash_visible());                /* logos are up after 4 min */
+    uint8_t logo = st->settings.next_logo;
+    pump(UI_SAVER_CYCLE_MS + 1000);
+    EXPECT(st->settings.next_logo != logo);     /* and cycling */
+    tap(160, 240);
+    pump(400);
+    EXPECT(!ui_splash_visible() && !ui_overlay_open() && ui_current_tab() == UI_TAB_HOME);
+
+    tap(120, 452);                              /* Browse, then the screen goes off */
+    ui_sleep_prepare();
+    pump(100);
+    EXPECT(ui_splash_visible());                /* wakes to a logo */
+    tap(160, 240);
+    pump(400);
+    EXPECT(!ui_splash_visible() && ui_current_tab() == UI_TAB_HOME);
+
+    st->settings.sleep_s = 0;                   /* "Never": no screensaver */
+    pump(UI_SAVER_AFTER_S * 1000 + 2000);
+    EXPECT(!ui_splash_visible());
     adb_storage_mem_free(&mem);
     printf("%s\n", fails ? "self-test FAILED" : "self-test passed");
     return fails;
