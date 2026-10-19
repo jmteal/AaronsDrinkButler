@@ -1,0 +1,19 @@
+menu "Aaron's Drink Butler"
+
+    config ADB_HWTEST
+        bool "Build the hardware test app instead of the drink app"
+        default n
+        help
+            The phase-1b bring-up screen (colour bars, touch crosses, backlight, beep,
+            sleep). Build it with sdkconfig.hwtest, see firmware/README.md.
+
+    config ADB_DEBUG_CONSOLE
+        bool "Serial debug console (tap, open, screenshot, stats)"
+        depends on !ADB_HWTEST
+        default y
+        help
+            Reads line commands from the USB serial port so the UI can be driven and
+            captured from a computer (tools/device/adb_console.py). Type "help" in
+            idf.py monitor for the list.
+
+endmenu

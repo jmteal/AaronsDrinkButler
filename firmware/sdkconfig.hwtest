@@ -1,0 +1,2 @@
+# Extra defaults for the hardware test app. See README.md, "Hardware test app".
+CONFIG_ADB_HWTEST=y

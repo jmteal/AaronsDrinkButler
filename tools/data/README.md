@@ -42,6 +42,18 @@ roughly 30–40 minutes because of the throttling.
 7. **Icons** (`adb/icons.py`): a glass + liquid colour + ice + garnish drawing for every drink, 96×96 and 320×240 palette PNGs.
 8. **Write** `data/recipes.json`, `data/ingredients.json`, `data/ATTRIBUTION.md`, `data/review/tags.csv` + `tags.html`, validate against `recipe.schema.json`, and write `reports/REPORT.md`.
 
+## Device recipe pack
+
+```bash
+python3 build.py pack                 # -> firmware/build/drinks.bin
+python3 build.py pack -o drinks.bin
+```
+
+Packs `data/` into the image for the firmware's read-only `drinks` flash partition (format:
+[`adb/pack.py`](adb/pack.py), reader: `firmware/components/data/src/adb_pack.c`). It only
+reads `data/`, so it runs on a plain `python3` without the packages above. From `firmware/`,
+`idf.py drinks-flash` runs it and flashes the result.
+
 ## Reviewing tags
 
 Open `data/review/tags.html` in a browser to scan the proposed tags with each drink's picture.
