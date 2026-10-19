@@ -1,0 +1,5 @@
+# Aaron's Drink Butler data pipeline (Python 3.11+; tested with 3.13)
+PyYAML>=6.0.2
+Pillow>=11.3
+requests>=2.32
+jsonschema>=4.23

@@ -1,0 +1,1029 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tag Review</title>
+<style>
+:root { --bg:#faf7f2; --fg:#221a14; --muted:#7a6a5c; --line:#e3dbd0; --chip:#efe6da; }
+@media (prefers-color-scheme: dark) { :root { --bg:#191411; --fg:#efe6da; --muted:#a8988a; --line:#3a2f27; --chip:#2e251f; } }
+body { background:var(--bg); color:var(--fg); font:14px/1.4 system-ui, sans-serif; margin:0; padding:16px; }
+h1 { font-size:20px; margin:0 0 4px; } p { color:var(--muted); margin:0 0 12px; max-width:70ch; }
+input { font:inherit; padding:8px 10px; width:min(420px,100%); border:1px solid var(--line); border-radius:8px; background:transparent; color:inherit; }
+.wrap { overflow-x:auto; } table { border-collapse:collapse; margin-top:12px; min-width:900px; }
+td { border-top:1px solid var(--line); padding:8px; vertical-align:top; }
+.chip { display:inline-block; background:var(--chip); border-radius:10px; padding:1px 8px; margin:1px; font-size:12px; }
+.id { color:var(--muted); font-size:12px; } .sw { display:inline-block; width:12px; height:12px; border-radius:3px; vertical-align:-2px; border:1px solid var(--line); }
+.ing { max-width:340px; font-size:12px; color:var(--muted); } img { border-radius:6px; } .ic { margin-top:4px; }
+</style></head><body>
+<h1>Proposed tags — review sheet</h1>
+<p>200 drinks. Flavor, season, occasion and colour were <b>proposed by an LLM</b> and have not been reviewed.
+Edit <code>data/review/tags.csv</code> (set <code>reviewed</code> to <code>yes</code> on rows you checked), then run
+<code>tools/data/build.py import-review</code> and rebuild. Large image: photo (or icon when no photo); small image: the generated icon.</p>
+<input id="q" placeholder="Filter by name or tag…" autofocus>
+<div class="wrap"><table><tbody id="rows">
+<tr data-search="alexander creamy sweet winter holiday after_dinner date_night classic brandy_cognac liqueur">
+<td><img src="../images/thumb/alexander.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/alexander.png" width="48" height="48" alt=""></td>
+<td><b>Alexander</b><br><span class="id">alexander</span><br><span class="sw" style="background:#C8A27A"></span> tan<br><small>CC-BY-2.0 · Jason Lam</small></td>
+<td><span class="chip f">creamy</span><span class="chip f">sweet</span></td><td><span class="chip s">winter</span><span class="chip s">holiday</span></td><td><span class="chip o">after_dinner</span><span class="chip o">date_night</span><span class="chip o">classic</span></td>
+<td><span class="chip b">brandy_cognac</span><span class="chip b">liqueur</span><br>medium · 17.3% · alcoholic<br>diff 2 · coupe · shaken</td>
+<td class="ing">30 ml Cognac or brandy; 30 ml Dark crème de cacao; 30 ml Cream</td></tr><tr data-search="americano bitter bubbly herbal spring summer aperitif classic amaro_aperitif">
+<td><img src="../images/thumb/americano.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/americano.png" width="48" height="48" alt=""></td>
+<td><b>Americano</b><br><span class="id">americano</span><br><span class="sw" style="background:#B5302A"></span> red<br><small>CC-BY-2.0 · Conrad and Peter</small></td>
+<td><span class="chip f">bitter</span><span class="chip f">bubbly</span><span class="chip f">herbal</span></td><td><span class="chip s">spring</span><span class="chip s">summer</span></td><td><span class="chip o">aperitif</span><span class="chip o">classic</span></td>
+<td><span class="chip b">amaro_aperitif</span><br>light · 9.3% · low_abv<br>diff 1 · rocks · built</td>
+<td class="ing">30 ml Campari; 30 ml Sweet (red) vermouth; top: Splash of soda water</td></tr><tr data-search="angel face spirit_forward fruity fall nightcap date_night classic gin brandy_cognac">
+<td><img src="../images/thumb/angel_face.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/angel_face.png" width="48" height="48" alt=""></td>
+<td><b>Angel Face</b><br><span class="id">angel_face</span><br><span class="sw" style="background:#D9A35B"></span> amber<br><small>CC-BY-SA-2.0 · Michael Styne from Averill Park, NY, USA</small></td>
+<td><span class="chip f">spirit_forward</span><span class="chip f">fruity</span></td><td><span class="chip s">fall</span></td><td><span class="chip o">nightcap</span><span class="chip o">date_night</span><span class="chip o">classic</span></td>
+<td><span class="chip b">gin</span><span class="chip b">brandy_cognac</span><br>strong · 27.7% · alcoholic<br>diff 2 · coupe · shaken</td>
+<td class="ing">30 ml Gin; 30 ml Apricot brandy (liqueur); 30 ml Calvados or applejack</td></tr><tr data-search="aviation sour herbal fruity spring date_night aperitif classic gin">
+<td><img src="../images/thumb/aviation.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/aviation.png" width="48" height="48" alt=""></td>
+<td><b>Aviation</b><br><span class="id">aviation</span><br><span class="sw" style="background:#C9C3E6"></span> lavender<br><small>Public-Domain · Bskinner112 at English Wikipedia</small></td>
+<td><span class="chip f">sour</span><span class="chip f">herbal</span><span class="chip f">fruity</span></td><td><span class="chip s">spring</span></td><td><span class="chip o">date_night</span><span class="chip o">aperitif</span><span class="chip o">classic</span></td>
+<td><span class="chip b">gin</span><br>strong · 23.8% · alcoholic<br>diff 2 · coupe · shaken</td>
+<td class="ing">45 ml Gin; 15 ml Maraschino liqueur; 15 ml Lemon juice; 1 barspoon Crème de violette</td></tr><tr data-search="between the sheets sour fruity spirit_forward all_year date_night party classic rum_white brandy_cognac">
+<td><img src="../images/thumb/between_the_sheets.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/between_the_sheets.png" width="48" height="48" alt=""></td>
+<td><b>Between the Sheets</b><br><span class="id">between_the_sheets</span><br><span class="sw" style="background:#E8C77A"></span> pale gold<br><small>CC-BY-SA-4.0 · Zach</small></td>
+<td><span class="chip f">sour</span><span class="chip f">fruity</span><span class="chip f">spirit_forward</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">date_night</span><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">rum_white</span><span class="chip b">brandy_cognac</span><br>strong · 26.2% · alcoholic<br>diff 2 · coupe · shaken</td>
+<td class="ing">30 ml White rum; 30 ml Cognac or brandy; 30 ml Triple sec; 20 ml Lemon juice</td></tr><tr data-search="boulevardier bitter spirit_forward sweet fall winter nightcap classic whiskey_bourbon amaro_aperitif">
+<td><img src="../images/thumb/boulevardier.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/boulevardier.png" width="48" height="48" alt=""></td>
+<td><b>Boulevardier</b><br><span class="id">boulevardier</span><br><span class="sw" style="background:#8E2A1E"></span> deep red<br><small>CC-BY-SA-2.0 · Edsel Little</small></td>
+<td><span class="chip f">bitter</span><span class="chip f">spirit_forward</span><span class="chip f">sweet</span></td><td><span class="chip s">fall</span><span class="chip s">winter</span></td><td><span class="chip o">nightcap</span><span class="chip o">classic</span></td>
+<td><span class="chip b">whiskey_bourbon</span><span class="chip b">amaro_aperitif</span><br>strong · 25.8% · alcoholic<br>diff 1 · coupe · stirred</td>
+<td class="ing">45 ml Bourbon or rye whiskey; 30 ml Campari; 30 ml Sweet (red) vermouth</td></tr><tr data-search="brandy crusta sour spirit_forward fruity all_year date_night classic brandy_cognac">
+<td><img src="../images/thumb/brandy_crusta.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/brandy_crusta.png" width="48" height="48" alt=""></td>
+<td><b>Brandy Crusta</b><br><span class="id">brandy_crusta</span><br><span class="sw" style="background:#D49A4A"></span> amber<br><small>CC-BY-SA-3.0 · Ralf Roletschek</small></td>
+<td><span class="chip f">sour</span><span class="chip f">spirit_forward</span><span class="chip f">fruity</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">date_night</span><span class="chip o">classic</span></td>
+<td><span class="chip b">brandy_cognac</span><br>strong · 24.1% · alcoholic<br>diff 2 · wine · shaken</td>
+<td class="ing">52.5 ml Brandy; 7.5 ml Maraschino liqueur; 1 barspoon Orange curaçao; 15 ml Lemon juice; 1 barspoon Simple syrup; 2 dash Angostura bitters; pinch: Sugar for the rim</td></tr><tr data-search="casino sour herbal spring aperitif classic gin">
+<td><img src="../images/thumb/casino.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/casino.png" width="48" height="48" alt=""></td>
+<td><b>Casino</b><br><span class="id">casino</span><br><span class="sw" style="background:#EDE7C4"></span> pale yellow<br><small>CC-BY-SA-2.0 · Adrian Scottow from London, England</small></td>
+<td><span class="chip f">sour</span><span class="chip f">herbal</span></td><td><span class="chip s">spring</span></td><td><span class="chip o">aperitif</span><span class="chip o">classic</span></td>
+<td><span class="chip b">gin</span><br>strong · 25.5% · alcoholic<br>diff 2 · coupe · shaken</td>
+<td class="ing">40 ml Old Tom gin; 10 ml Maraschino liqueur; 10 ml Lemon juice; 2 dash Orange bitters</td></tr><tr data-search="clover club sour fruity spring summer date_night party classic gin">
+<td><img src="../images/thumb/clover_club.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/clover_club.png" width="48" height="48" alt=""></td>
+<td><b>Clover Club</b><br><span class="id">clover_club</span><br><span class="sw" style="background:#E88A9E"></span> pink<br><small>CC-BY-SA-3.0 · Ralf Roletschek</small></td>
+<td><span class="chip f">sour</span><span class="chip f">fruity</span></td><td><span class="chip s">spring</span><span class="chip s">summer</span></td><td><span class="chip o">date_night</span><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">gin</span><br>medium · 16.0% · alcoholic<br>diff 3 · coupe · shaken</td>
+<td class="ing">45 ml Gin; 15 ml Raspberry syrup; 15 ml Lemon juice; 15 ml Egg white</td></tr><tr data-search="daiquiri sour fruity summer party classic rum_white">
+<td><img src="../images/thumb/daiquiri.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/daiquiri.png" width="48" height="48" alt=""></td>
+<td><b>Daiquiri</b><br><span class="id">daiquiri</span><br><span class="sw" style="background:#EDE6B9"></span> pale yellow<br><small>CC-BY-2.0 · Mike Fleming from London, England</small></td>
+<td><span class="chip f">sour</span><span class="chip f">fruity</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">rum_white</span><br>strong · 20.2% · alcoholic<br>diff 2 · coupe · shaken</td>
+<td class="ing">60 ml White rum; 20 ml Lime juice; 15 ml Simple syrup</td></tr><tr data-search="dry martini spirit_forward herbal all_year aperitif date_night classic gin">
+<td><img src="../images/thumb/dry_martini.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/dry_martini.png" width="48" height="48" alt=""></td>
+<td><b>Dry Martini</b><br><span class="id">dry_martini</span><br><span class="sw" style="background:#E9EEF0"></span> clear<br><small>Public-Domain · Dry_Martini.jpg: Original uploader was Hayford Peirce at en.</small></td>
+<td><span class="chip f">spirit_forward</span><span class="chip f">herbal</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">aperitif</span><span class="chip o">date_night</span><span class="chip o">classic</span></td>
+<td><span class="chip b">gin</span><br>strong · 30.6% · alcoholic<br>diff 1 · martini · stirred</td>
+<td class="ing">60 ml Gin; 10 ml Dry vermouth</td></tr><tr data-search="gin fizz sour bubbly spring summer brunch aperitif classic gin">
+<td><img src="../images/thumb/gin_fizz.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/gin_fizz.png" width="48" height="48" alt=""></td>
+<td><b>Gin Fizz</b><br><span class="id">gin_fizz</span><br><span class="sw" style="background:#EEEBDD"></span> cloudy white<br><small>CC-BY-SA-2.0 · mkorcuska</small></td>
+<td><span class="chip f">sour</span><span class="chip f">bubbly</span></td><td><span class="chip s">spring</span><span class="chip s">summer</span></td><td><span class="chip o">brunch</span><span class="chip o">aperitif</span><span class="chip o">classic</span></td>
+<td><span class="chip b">gin</span><br>light · 9.9% · alcoholic<br>diff 2 · highball · shaken</td>
+<td class="ing">45 ml Gin; 30 ml Lemon juice; 10 ml Simple syrup; top: Soda water</td></tr><tr data-search="hanky panky spirit_forward bitter herbal fall winter nightcap classic gin">
+<td><img src="../images/thumb/hanky_panky.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/hanky_panky.png" width="48" height="48" alt=""></td>
+<td><b>Hanky Panky</b><br><span class="id">hanky_panky</span><br><span class="sw" style="background:#8A4B22"></span> dark amber<br><small>CC-BY-SA-2.0 · Tim Sackton from Somerville, MA</small></td>
+<td><span class="chip f">spirit_forward</span><span class="chip f">bitter</span><span class="chip f">herbal</span></td><td><span class="chip s">fall</span><span class="chip s">winter</span></td><td><span class="chip o">nightcap</span><span class="chip o">classic</span></td>
+<td><span class="chip b">gin</span><br>strong · 24.0% · alcoholic<br>diff 1 · coupe · stirred</td>
+<td class="ing">45 ml Gin; 45 ml Sweet (red) vermouth; 7.5 ml Fernet-Branca</td></tr><tr data-search="john collins sour bubbly summer party brunch classic gin">
+<td><img src="../images/thumb/john_collins.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/john_collins.png" width="48" height="48" alt=""></td>
+<td><b>John Collins</b><br><span class="id">john_collins</span><br><span class="sw" style="background:#F1EBC8"></span> pale yellow<br><small>CC-BY-SA-2.0 · Michael Styne from Averill Park, NY, USA</small></td>
+<td><span class="chip f">sour</span><span class="chip f">bubbly</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span><span class="chip o">brunch</span><span class="chip o">classic</span></td>
+<td><span class="chip b">gin</span><br>medium · 10.9% · alcoholic<br>diff 1 · collins · built</td>
+<td class="ing">45 ml Gin; 30 ml Lemon juice; 15 ml Simple syrup; top: Soda water</td></tr><tr data-search="last word sour herbal sweet all_year date_night classic gin liqueur">
+<td><img src="../images/thumb/last_word.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/last_word.png" width="48" height="48" alt=""></td>
+<td><b>Last Word</b><br><span class="id">last_word</span><br><span class="sw" style="background:#CFD98A"></span> pale green<br><small>CC-BY-SA-2.0 · Don LaVange</small></td>
+<td><span class="chip f">sour</span><span class="chip f">herbal</span><span class="chip f">sweet</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">date_night</span><span class="chip o">classic</span></td>
+<td><span class="chip b">gin</span><span class="chip b">liqueur</span><br>strong · 25.4% · alcoholic<br>diff 2 · coupe · shaken</td>
+<td class="ing">22.5 ml Gin; 22.5 ml Green Chartreuse; 22.5 ml Maraschino liqueur; 22.5 ml Lime juice</td></tr><tr data-search="manhattan spirit_forward sweet fall winter nightcap date_night classic whiskey_rye">
+<td><img src="../images/thumb/manhattan.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/manhattan.png" width="48" height="48" alt=""></td>
+<td><b>Manhattan</b><br><span class="id">manhattan</span><br><span class="sw" style="background:#8B3A1A"></span> deep amber<br><small>Public-Domain · Hayford Peirce at English Wikipedia</small></td>
+<td><span class="chip f">spirit_forward</span><span class="chip f">sweet</span></td><td><span class="chip s">fall</span><span class="chip s">winter</span></td><td><span class="chip o">nightcap</span><span class="chip o">date_night</span><span class="chip o">classic</span></td>
+<td><span class="chip b">whiskey_rye</span><br>strong · 30.7% · alcoholic<br>diff 1 · coupe · stirred</td>
+<td class="ing">50 ml Rye whiskey; 20 ml Sweet (red) vermouth; 1 dash Angostura bitters</td></tr><tr data-search="martinez spirit_forward sweet herbal fall winter nightcap classic gin">
+<td><img src="../images/thumb/martinez.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/martinez.png" width="48" height="48" alt=""></td>
+<td><b>Martinez</b><br><span class="id">martinez</span><br><span class="sw" style="background:#9C4A26"></span> amber red<br><small>CC-BY-SA-3.0 · Will Shenton</small></td>
+<td><span class="chip f">spirit_forward</span><span class="chip f">sweet</span><span class="chip f">herbal</span></td><td><span class="chip s">fall</span><span class="chip s">winter</span></td><td><span class="chip o">nightcap</span><span class="chip o">classic</span></td>
+<td><span class="chip b">gin</span><br>strong · 23.5% · alcoholic<br>diff 1 · coupe · stirred</td>
+<td class="ing">45 ml London dry or Old Tom gin; 45 ml Sweet (red) vermouth; 1 barspoon Maraschino liqueur; 2 dash Orange bitters</td></tr><tr data-search="mary pickford fruity sweet summer party classic rum_white">
+<td><img src="../images/thumb/mary_pickford.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/mary_pickford.png" width="48" height="48" alt=""></td>
+<td><b>Mary Pickford</b><br><span class="id">mary_pickford</span><br><span class="sw" style="background:#F2A7A0"></span> pink<br><small>CC-BY-SA-3.0 · Will Shenton</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sweet</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">rum_white</span><br>medium · 15.9% · alcoholic<br>diff 2 · coupe · shaken</td>
+<td class="ing">45 ml White rum; 45 ml Pineapple juice; 7.5 ml Maraschino liqueur; 5 ml Grenadine</td></tr><tr data-search="monkey gland fruity sweet herbal spring brunch classic gin">
+<td><img src="../images/thumb/monkey_gland.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/monkey_gland.png" width="48" height="48" alt=""></td>
+<td><b>Monkey Gland</b><br><span class="id">monkey_gland</span><br><span class="sw" style="background:#F0A04B"></span> orange<br><small>CC-BY-SA-2.0 · Adrian Scottow from London, England</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sweet</span><span class="chip f">herbal</span></td><td><span class="chip s">spring</span></td><td><span class="chip o">brunch</span><span class="chip o">classic</span></td>
+<td><span class="chip b">gin</span><br>medium · 16.0% · alcoholic<br>diff 2 · coupe · shaken</td>
+<td class="ing">45 ml Gin; 45 ml Orange juice; 1 barspoon Absinthe; 10 ml Grenadine</td></tr><tr data-search="negroni bitter spirit_forward herbal all_year aperitif classic gin amaro_aperitif">
+<td><img src="../images/thumb/negroni.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/negroni.png" width="48" height="48" alt=""></td>
+<td><b>Negroni</b><br><span class="id">negroni</span><br><span class="sw" style="background:#A4161A"></span> red<br><small>CC-BY-2.0 · Geoff Peters from Vancouver, BC, Canada</small></td>
+<td><span class="chip f">bitter</span><span class="chip f">spirit_forward</span><span class="chip f">herbal</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">aperitif</span><span class="chip o">classic</span></td>
+<td><span class="chip b">gin</span><span class="chip b">amaro_aperitif</span><br>strong · 22.5% · alcoholic<br>diff 1 · rocks · stirred</td>
+<td class="ing">30 ml Gin; 30 ml Campari; 30 ml Sweet (red) vermouth</td></tr><tr data-search="old fashioned spirit_forward bitter sweet fall winter nightcap classic whiskey_bourbon">
+<td><img src="../images/thumb/old_fashioned.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/old_fashioned.png" width="48" height="48" alt=""></td>
+<td><b>Old Fashioned</b><br><span class="id">old_fashioned</span><br><span class="sw" style="background:#B5651D"></span> amber<br><small>CC-BY-SA-4.0 · Erich Wagner (www.eventografie.de)</small></td>
+<td><span class="chip f">spirit_forward</span><span class="chip f">bitter</span><span class="chip f">sweet</span></td><td><span class="chip s">fall</span><span class="chip s">winter</span></td><td><span class="chip o">nightcap</span><span class="chip o">classic</span></td>
+<td><span class="chip b">whiskey_bourbon</span><br>strong · 31.0% · alcoholic<br>diff 1 · rocks · stirred</td>
+<td class="ing">45 ml Bourbon or rye whiskey; 1 cube Sugar cube; 3 dash Angostura bitters; 10 ml Splash of water</td></tr><tr data-search="paradise fruity sweet spring summer brunch party classic gin">
+<td><img src="../images/thumb/paradise.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/paradise.png" width="48" height="48" alt=""></td>
+<td><b>Paradise</b><br><span class="id">paradise</span><br><span class="sw" style="background:#F3A343"></span> orange<br><small>CC-BY-2.0 · Stuart Webster from Southampton, England</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sweet</span></td><td><span class="chip s">spring</span><span class="chip s">summer</span></td><td><span class="chip o">brunch</span><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">gin</span><br>strong · 20.7% · alcoholic<br>diff 2 · coupe · shaken</td>
+<td class="ing">30 ml Gin; 20 ml Apricot brandy (liqueur); 15 ml Orange juice</td></tr><tr data-search="planter&#x27;s punch fruity sweet sour summer party classic rum_dark">
+<td><img src="../images/thumb/planters_punch.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/planters_punch.png" width="48" height="48" alt=""></td>
+<td><b>Planter&#x27;s Punch</b><br><span class="id">planters_punch</span><br><span class="sw" style="background:#C8742E"></span> amber<br><small>CC-BY-SA-3.0-DE · Achim Schleuning (E-Mail: comander02_de@yahoo.de)</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sweet</span><span class="chip f">sour</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">rum_dark</span><br>medium · 16.0% · alcoholic<br>diff 2 · highball · shaken</td>
+<td class="ing">45 ml Jamaican rum; 15 ml Lime juice; 30 ml Cane syrup; top: Soda water to lengthen (optional) (opt)</td></tr><tr data-search="porto flip creamy sweet winter holiday after_dinner nightcap classic brandy_cognac wine">
+<td><img src="../images/thumb/porto_flip.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/porto_flip.png" width="48" height="48" alt=""></td>
+<td><b>Porto Flip</b><br><span class="id">porto_flip</span><br><span class="sw" style="background:#7E2A2E"></span> ruby<br><small>CC-BY-2.0 · Stuart Webster</small></td>
+<td><span class="chip f">creamy</span><span class="chip f">sweet</span></td><td><span class="chip s">winter</span><span class="chip s">holiday</span></td><td><span class="chip o">after_dinner</span><span class="chip o">nightcap</span><span class="chip o">classic</span></td>
+<td><span class="chip b">brandy_cognac</span><span class="chip b">wine</span><br>medium · 17.1% · alcoholic<br>diff 3 · nick_and_nora · shaken</td>
+<td class="ing">15 ml Brandy; 45 ml Tawny or ruby port; 10 ml Egg yolk</td></tr><tr data-search="ramos fizz creamy sour bubbly spring brunch classic gin">
+<td><img src="../images/thumb/ramos_fizz.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/ramos_fizz.png" width="48" height="48" alt=""></td>
+<td><b>Ramos Fizz</b><br><span class="id">ramos_fizz</span><br><span class="sw" style="background:#F4F0E2"></span> cream<br><small>CC-BY-SA-3.0 · Infrogmation of New Orleans</small></td>
+<td><span class="chip f">creamy</span><span class="chip f">sour</span><span class="chip f">bubbly</span></td><td><span class="chip s">spring</span></td><td><span class="chip o">brunch</span><span class="chip o">classic</span></td>
+<td><span class="chip b">gin</span><br>light · 5.6% · alcoholic<br>diff 3 · collins · shaken</td>
+<td class="ing">45 ml Gin; 15 ml Lime juice; 15 ml Lemon juice; 30 ml Simple syrup; 60 ml Cream; 30 ml Egg white; 3 dash Orange flower water; 2 dash Vanilla extract (2 drops); top: Soda water</td></tr><tr data-search="remember the maine spirit_forward herbal sweet fall winter nightcap classic whiskey_rye">
+<td><img src="../images/thumb/remember_the_maine.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/remember_the_maine.png" width="48" height="48" alt=""></td>
+<td><b>Remember the Maine</b><br><span class="id">remember_the_maine</span><br><span class="sw" style="background:#7C2418"></span> deep red<br><small>CC-BY-SA-2.0 · Adrian Scottow</small></td>
+<td><span class="chip f">spirit_forward</span><span class="chip f">herbal</span><span class="chip f">sweet</span></td><td><span class="chip s">fall</span><span class="chip s">winter</span></td><td><span class="chip o">nightcap</span><span class="chip o">classic</span></td>
+<td><span class="chip b">whiskey_rye</span><br>strong · 30.7% · alcoholic<br>diff 1 · coupe · stirred</td>
+<td class="ing">60 ml Rye whiskey; 22.5 ml Sweet (red) vermouth; 15 ml Cherry liqueur (Cherry Heering); 7.5 ml Absinthe</td></tr><tr data-search="rusty nail spirit_forward sweet herbal winter nightcap after_dinner classic whiskey_scotch">
+<td><img src="../images/thumb/rusty_nail.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/rusty_nail.png" width="48" height="48" alt=""></td>
+<td><b>Rusty Nail</b><br><span class="id">rusty_nail</span><br><span class="sw" style="background:#B8732E"></span> amber<br><small>CC-BY-SA-4.0 · Craberoid</small></td>
+<td><span class="chip f">spirit_forward</span><span class="chip f">sweet</span><span class="chip f">herbal</span></td><td><span class="chip s">winter</span></td><td><span class="chip o">nightcap</span><span class="chip o">after_dinner</span><span class="chip o">classic</span></td>
+<td><span class="chip b">whiskey_scotch</span><br>strong · 36.4% · alcoholic<br>diff 1 · rocks · built</td>
+<td class="ing">45 ml Scotch whisky; 25 ml Drambuie</td></tr><tr data-search="sazerac spirit_forward herbal fall winter nightcap classic brandy_cognac">
+<td><img src="../images/thumb/sazerac.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/sazerac.png" width="48" height="48" alt=""></td>
+<td><b>Sazerac</b><br><span class="id">sazerac</span><br><span class="sw" style="background:#A9542A"></span> amber<br><small>CC-BY-SA-3.0 · Infrogmation of New Orleans</small></td>
+<td><span class="chip f">spirit_forward</span><span class="chip f">herbal</span></td><td><span class="chip s">fall</span><span class="chip s">winter</span></td><td><span class="chip o">nightcap</span><span class="chip o">classic</span></td>
+<td><span class="chip b">brandy_cognac</span><br>strong · 33.5% · alcoholic<br>diff 3 · rocks · stirred</td>
+<td class="ing">50 ml Cognac (or rye whiskey); 10 ml Absinthe; 1 cube Sugar cube; 2 dash Peychaud&#x27;s bitters</td></tr><tr data-search="sidecar sour fruity spirit_forward fall winter date_night classic brandy_cognac">
+<td><img src="../images/thumb/sidecar.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/sidecar.png" width="48" height="48" alt=""></td>
+<td><b>Sidecar</b><br><span class="id">sidecar</span><br><span class="sw" style="background:#D99A45"></span> amber<br><small>CC-BY-2.0 · Evan Swigart from Chicago, USA</small></td>
+<td><span class="chip f">sour</span><span class="chip f">fruity</span><span class="chip f">spirit_forward</span></td><td><span class="chip s">fall</span><span class="chip s">winter</span></td><td><span class="chip o">date_night</span><span class="chip o">classic</span></td>
+<td><span class="chip b">brandy_cognac</span><br>strong · 24.9% · alcoholic<br>diff 2 · coupe · shaken</td>
+<td class="ing">50 ml Cognac or brandy; 20 ml Triple sec; 20 ml Lemon juice; pinch: Sugar for the rim (optional) (opt)</td></tr><tr data-search="stinger spirit_forward herbal sweet winter after_dinner nightcap classic brandy_cognac">
+<td><img src="../images/thumb/stinger.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/stinger.png" width="48" height="48" alt=""></td>
+<td><b>Stinger</b><br><span class="id">stinger</span><br><span class="sw" style="background:#C88A45"></span> amber<br><small>CC-BY-SA-3.0 · Will Shenton</small></td>
+<td><span class="chip f">spirit_forward</span><span class="chip f">herbal</span><span class="chip f">sweet</span></td><td><span class="chip s">winter</span></td><td><span class="chip o">after_dinner</span><span class="chip o">nightcap</span><span class="chip o">classic</span></td>
+<td><span class="chip b">brandy_cognac</span><br>strong · 29.8% · alcoholic<br>diff 1 · coupe · stirred</td>
+<td class="ing">50 ml Cognac or brandy; 20 ml White crème de menthe</td></tr><tr data-search="tuxedo spirit_forward herbal all_year aperitif classic gin">
+<td><img src="../images/thumb/tuxedo.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/tuxedo.png" width="48" height="48" alt=""></td>
+<td><b>Tuxedo</b><br><span class="id">tuxedo</span><br><span class="sw" style="background:#EDEFE6"></span> clear<br><small>CC-BY-4.0 · BanjoZebra</small></td>
+<td><span class="chip f">spirit_forward</span><span class="chip f">herbal</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">aperitif</span><span class="chip o">classic</span></td>
+<td><span class="chip b">gin</span><br>strong · 24.3% · alcoholic<br>diff 1 · coupe · stirred</td>
+<td class="ing">30 ml Old Tom gin; 30 ml Dry vermouth; 0.5 barspoon Maraschino liqueur; 0.25 barspoon Absinthe; 3 dash Orange bitters</td></tr><tr data-search="vieux carré spirit_forward sweet herbal fall winter nightcap classic whiskey_rye brandy_cognac">
+<td><img src="../images/thumb/vieux_carre.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/vieux_carre.png" width="48" height="48" alt=""></td>
+<td><b>Vieux Carré</b><br><span class="id">vieux_carre</span><br><span class="sw" style="background:#8E3B1F"></span> deep amber<br><small>CC-BY-SA-2.0 · Adrian Scottow</small></td>
+<td><span class="chip f">spirit_forward</span><span class="chip f">sweet</span><span class="chip f">herbal</span></td><td><span class="chip s">fall</span><span class="chip s">winter</span></td><td><span class="chip o">nightcap</span><span class="chip o">classic</span></td>
+<td><span class="chip b">whiskey_rye</span><span class="chip b">brandy_cognac</span><br>strong · 28.3% · alcoholic<br>diff 1 · coupe · stirred</td>
+<td class="ing">30 ml Rye whiskey; 30 ml Cognac or brandy; 30 ml Sweet (red) vermouth; 1 barspoon Bénédictine; 2 dash Peychaud&#x27;s bitters</td></tr><tr data-search="whiskey sour sour sweet fall all_year date_night classic whiskey_bourbon">
+<td><img src="../images/thumb/whiskey_sour.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/whiskey_sour.png" width="48" height="48" alt=""></td>
+<td><b>Whiskey Sour</b><br><span class="id">whiskey_sour</span><br><span class="sw" style="background:#D9A441"></span> amber<br><small>CC-BY-SA-3.0 · Ralf Roletschek</small></td>
+<td><span class="chip f">sour</span><span class="chip f">sweet</span></td><td><span class="chip s">fall</span><span class="chip s">all_year</span></td><td><span class="chip o">date_night</span><span class="chip o">classic</span></td>
+<td><span class="chip b">whiskey_bourbon</span><br>medium · 18.0% · alcoholic<br>diff 2 · rocks · shaken</td>
+<td class="ing">45 ml Bourbon; 25 ml Lemon juice; 20 ml Simple syrup; 20 ml Egg white (opt); 3 dash Angostura bitters (opt)</td></tr><tr data-search="white lady sour fruity spring aperitif date_night classic gin liqueur">
+<td><img src="../images/thumb/white_lady.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/white_lady.png" width="48" height="48" alt=""></td>
+<td><b>White Lady</b><br><span class="id">white_lady</span><br><span class="sw" style="background:#F0EDDC"></span> cloudy white<br><small>CC-BY-SA-3.0 · Momoji3</small></td>
+<td><span class="chip f">sour</span><span class="chip f">fruity</span></td><td><span class="chip s">spring</span></td><td><span class="chip o">aperitif</span><span class="chip o">date_night</span><span class="chip o">classic</span></td>
+<td><span class="chip b">gin</span><span class="chip b">liqueur</span><br>strong · 24.9% · alcoholic<br>diff 2 · coupe · shaken</td>
+<td class="ing">40 ml Gin; 30 ml Triple sec; 20 ml Lemon juice</td></tr><tr data-search="bellini fruity bubbly sweet summer spring brunch classic wine_sparkling">
+<td><img src="../images/thumb/bellini.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/bellini.png" width="48" height="48" alt=""></td>
+<td><b>Bellini</b><br><span class="id">bellini</span><br><span class="sw" style="background:#F6C29A"></span> peach<br><small>CC-BY-SA-3.0 · John Phelan</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">bubbly</span><span class="chip f">sweet</span></td><td><span class="chip s">summer</span><span class="chip s">spring</span></td><td><span class="chip o">brunch</span><span class="chip o">classic</span></td>
+<td><span class="chip b">wine_sparkling</span><br>light · 8.0% · low_abv<br>diff 2 · flute · built</td>
+<td class="ing">50 ml White peach purée; top: Prosecco</td></tr><tr data-search="black russian coffee sweet spirit_forward fall winter after_dinner nightcap classic vodka">
+<td><img src="../images/thumb/black_russian.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/black_russian.png" width="48" height="48" alt=""></td>
+<td><b>Black Russian</b><br><span class="id">black_russian</span><br><span class="sw" style="background:#2E1A10"></span> dark brown<br><small>CC-BY-SA-3.0 · Will Shenton</small></td>
+<td><span class="chip f">coffee</span><span class="chip f">sweet</span><span class="chip f">spirit_forward</span></td><td><span class="chip s">fall</span><span class="chip s">winter</span></td><td><span class="chip o">after_dinner</span><span class="chip o">nightcap</span><span class="chip o">classic</span></td>
+<td><span class="chip b">vodka</span><br>strong · 31.2% · alcoholic<br>diff 1 · rocks · built</td>
+<td class="ing">50 ml Vodka; 20 ml Coffee liqueur</td></tr><tr data-search="bloody mary spicy sour all_year brunch classic vodka">
+<td><img src="../images/thumb/bloody_mary.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/bloody_mary.png" width="48" height="48" alt=""></td>
+<td><b>Bloody Mary</b><br><span class="id">bloody_mary</span><br><span class="sw" style="background:#B3261E"></span> tomato red<br><small>CC-BY-2.0 · Evan Swigart from Chicago, USA</small></td>
+<td><span class="chip f">spicy</span><span class="chip f">sour</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">brunch</span><span class="chip o">classic</span></td>
+<td><span class="chip b">vodka</span><br>medium · 10.7% · alcoholic<br>diff 2 · highball · built</td>
+<td class="ing">45 ml Vodka; 90 ml Tomato juice; 15 ml Lemon juice; 2 dash Worcestershire sauce; 2 dash Hot sauce (Tabasco); pinch: Celery salt; pinch: Black pepper</td></tr><tr data-search="caipirinha sour fruity summer party classic cachaca">
+<td><img src="../images/thumb/caipirinha.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/caipirinha.png" width="48" height="48" alt=""></td>
+<td><b>Caipirinha</b><br><span class="id">caipirinha</span><br><span class="sw" style="background:#E3EBC0"></span> pale green<br><small>CC-BY-SA-3.0 · Ralf Roletschek</small></td>
+<td><span class="chip f">sour</span><span class="chip f">fruity</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">cachaca</span><br>strong · 26.1% · alcoholic<br>diff 2 · rocks · muddled_built</td>
+<td class="ing">60 ml Cachaça; 1 piece 1 lime, cut into small wedges; 4 tsp White cane sugar</td></tr><tr data-search="cardinale bitter spirit_forward herbal all_year aperitif classic gin">
+<td><img src="../icons/thumb/cardinale.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/cardinale.png" width="48" height="48" alt=""></td>
+<td><b>Cardinale</b><br><span class="id">cardinale</span><br><span class="sw" style="background:#C9474A"></span> pink red<br><small>generated icon</small></td>
+<td><span class="chip f">bitter</span><span class="chip f">spirit_forward</span><span class="chip f">herbal</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">aperitif</span><span class="chip o">classic</span></td>
+<td><span class="chip b">gin</span><br>strong · 26.1% · alcoholic<br>diff 1 · coupe · stirred</td>
+<td class="ing">40 ml Gin; 20 ml Dry vermouth; 10 ml Campari</td></tr><tr data-search="champagne cocktail bubbly bitter sweet holiday all_year party date_night classic wine_sparkling">
+<td><img src="../icons/thumb/champagne_cocktail.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/champagne_cocktail.png" width="48" height="48" alt=""></td>
+<td><b>Champagne Cocktail</b><br><span class="id">champagne_cocktail</span><br><span class="sw" style="background:#E9CF83"></span> pale gold<br><small>generated icon</small></td>
+<td><span class="chip f">bubbly</span><span class="chip f">bitter</span><span class="chip f">sweet</span></td><td><span class="chip s">holiday</span><span class="chip s">all_year</span></td><td><span class="chip o">party</span><span class="chip o">date_night</span><span class="chip o">classic</span></td>
+<td><span class="chip b">wine_sparkling</span><br>medium · 15.3% · alcoholic<br>diff 1 · flute · built</td>
+<td class="ing">1 cube Sugar cube; 2 dash Angostura bitters; 10 ml Cognac or brandy; 1 dash Grand Marnier (opt); top: Chilled Champagne</td></tr><tr data-search="corpse reviver #2 sour herbal fruity all_year brunch aperitif classic gin liqueur">
+<td><img src="../images/thumb/corpse_reviver_2.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/corpse_reviver_2.png" width="48" height="48" alt=""></td>
+<td><b>Corpse Reviver #2</b><br><span class="id">corpse_reviver_2</span><br><span class="sw" style="background:#EFE9C2"></span> pale yellow<br><small>CC-BY-2.0 · charlene mcbride</small></td>
+<td><span class="chip f">sour</span><span class="chip f">herbal</span><span class="chip f">fruity</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">brunch</span><span class="chip o">aperitif</span><span class="chip o">classic</span></td>
+<td><span class="chip b">gin</span><span class="chip b">liqueur</span><br>medium · 19.6% · alcoholic<br>diff 2 · coupe · shaken</td>
+<td class="ing">30 ml Gin; 30 ml Cointreau; 30 ml Lillet Blanc; 30 ml Lemon juice; 1 dash Absinthe</td></tr><tr data-search="cosmopolitan fruity sour all_year party date_night classic vodka">
+<td><img src="../images/thumb/cosmopolitan.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/cosmopolitan.png" width="48" height="48" alt=""></td>
+<td><b>Cosmopolitan</b><br><span class="id">cosmopolitan</span><br><span class="sw" style="background:#E5577A"></span> pink<br><small>CC-BY-2.0 · TheCulinaryGeek from Chicago, USA</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sour</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">party</span><span class="chip o">date_night</span><span class="chip o">classic</span></td>
+<td><span class="chip b">vodka</span><br>medium · 17.6% · alcoholic<br>diff 2 · martini · shaken</td>
+<td class="ing">40 ml Citrus vodka; 15 ml Cointreau; 15 ml Lime juice; 30 ml Cranberry juice</td></tr><tr data-search="cuba libre sweet bubbly summer party classic rum_white">
+<td><img src="../images/thumb/cuba_libre.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/cuba_libre.png" width="48" height="48" alt=""></td>
+<td><b>Cuba Libre</b><br><span class="id">cuba_libre</span><br><span class="sw" style="background:#4A2A16"></span> cola brown<br><small>CC-BY-SA-2.0 · Martin Belam (currybet)</small></td>
+<td><span class="chip f">sweet</span><span class="chip f">bubbly</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">rum_white</span><br>medium · 10.1% · alcoholic<br>diff 1 · highball · built</td>
+<td class="ing">50 ml White rum; 10 ml Lime juice; top: Cola</td></tr><tr data-search="french 75 bubbly sour holiday spring brunch party classic gin wine_sparkling">
+<td><img src="../images/thumb/french_75.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/french_75.png" width="48" height="48" alt=""></td>
+<td><b>French 75</b><br><span class="id">french_75</span><br><span class="sw" style="background:#F0E3A8"></span> pale gold<br><small>CC-BY-SA-2.0 · https://www.flickr.com/people/garyjwood/</small></td>
+<td><span class="chip f">bubbly</span><span class="chip f">sour</span></td><td><span class="chip s">holiday</span><span class="chip s">spring</span></td><td><span class="chip o">brunch</span><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">gin</span><span class="chip b">wine_sparkling</span><br>medium · 12.8% · alcoholic<br>diff 2 · flute · shaken</td>
+<td class="ing">30 ml Gin; 15 ml Lemon juice; 15 ml Simple syrup; top: Champagne</td></tr><tr data-search="french connection sweet spirit_forward winter after_dinner nightcap classic brandy_cognac liqueur">
+<td><img src="../images/thumb/french_connection.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/french_connection.png" width="48" height="48" alt=""></td>
+<td><b>French Connection</b><br><span class="id">french_connection</span><br><span class="sw" style="background:#B06A2C"></span> amber<br><small>CC-BY-SA-4.0 · Arnaud 25</small></td>
+<td><span class="chip f">sweet</span><span class="chip f">spirit_forward</span></td><td><span class="chip s">winter</span></td><td><span class="chip o">after_dinner</span><span class="chip o">nightcap</span><span class="chip o">classic</span></td>
+<td><span class="chip b">brandy_cognac</span><span class="chip b">liqueur</span><br>strong · 29.1% · alcoholic<br>diff 1 · rocks · built</td>
+<td class="ing">35 ml Cognac or brandy; 35 ml Amaretto</td></tr><tr data-search="garibaldi bitter fruity spring summer aperitif brunch classic amaro_aperitif">
+<td><img src="../images/thumb/garibaldi.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/garibaldi.png" width="48" height="48" alt=""></td>
+<td><b>Garibaldi</b><br><span class="id">garibaldi</span><br><span class="sw" style="background:#E5642F"></span> orange red<br><small>CC-BY-4.0 · User:BanjoZebra</small></td>
+<td><span class="chip f">bitter</span><span class="chip f">fruity</span></td><td><span class="chip s">spring</span><span class="chip s">summer</span></td><td><span class="chip o">aperitif</span><span class="chip o">brunch</span><span class="chip o">classic</span></td>
+<td><span class="chip b">amaro_aperitif</span><br>light · 6.2% · low_abv<br>diff 1 · highball · built</td>
+<td class="ing">45 ml Campari; 120 ml Fresh orange juice (whisked or blended until fluffy)</td></tr><tr data-search="grasshopper creamy sweet herbal holiday spring after_dinner classic liqueur">
+<td><img src="../images/thumb/grasshopper.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/grasshopper.png" width="48" height="48" alt=""></td>
+<td><b>Grasshopper</b><br><span class="id">grasshopper</span><br><span class="sw" style="background:#A8D8A0"></span> mint green<br><small>CC-BY-SA-3.0 · TexasDex</small></td>
+<td><span class="chip f">creamy</span><span class="chip f">sweet</span><span class="chip f">herbal</span></td><td><span class="chip s">holiday</span><span class="chip s">spring</span></td><td><span class="chip o">after_dinner</span><span class="chip o">classic</span></td>
+<td><span class="chip b">liqueur</span><br>medium · 13.3% · alcoholic<br>diff 2 · coupe · shaken</td>
+<td class="ing">20 ml Green crème de menthe; 20 ml White crème de cacao; 20 ml Cream</td></tr><tr data-search="hemingway special sour fruity summer party classic rum_white">
+<td><img src="../images/thumb/hemingway_special.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/hemingway_special.png" width="48" height="48" alt=""></td>
+<td><b>Hemingway Special</b><br><span class="id">hemingway_special</span><br><span class="sw" style="background:#F1D9C2"></span> pale pink<br><small>CC-BY-SA-3.0-DE · Achim Schleuning (E-Mail: comander02_de@yahoo.de)</small></td>
+<td><span class="chip f">sour</span><span class="chip f">fruity</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">rum_white</span><br>medium · 17.7% · alcoholic<br>diff 2 · coupe · shaken</td>
+<td class="ing">60 ml White rum; 40 ml Grapefruit juice; 15 ml Maraschino liqueur; 15 ml Lime juice</td></tr><tr data-search="horse&#x27;s neck bubbly spicy all_year aperitif classic brandy_cognac">
+<td><img src="../images/thumb/horses_neck.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/horses_neck.png" width="48" height="48" alt=""></td>
+<td><b>Horse&#x27;s Neck</b><br><span class="id">horses_neck</span><br><span class="sw" style="background:#E2B66A"></span> pale amber<br><small>CC-BY-SA-3.0 · Plume.janvier</small></td>
+<td><span class="chip f">bubbly</span><span class="chip f">spicy</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">aperitif</span><span class="chip o">classic</span></td>
+<td><span class="chip b">brandy_cognac</span><br>light · 9.1% · alcoholic<br>diff 1 · highball · built</td>
+<td class="ing">40 ml Cognac or brandy; top: Ginger ale; 1 dash Angostura bitters (opt)</td></tr><tr data-search="irish coffee coffee creamy sweet winter holiday after_dinner nightcap classic whiskey_irish">
+<td><img src="../images/thumb/irish_coffee.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/irish_coffee.png" width="48" height="48" alt=""></td>
+<td><b>Irish Coffee</b><br><span class="id">irish_coffee</span><br><span class="sw" style="background:#4E3423"></span> brown<br><small>CC-BY-2.0 · David Jackmanson</small></td>
+<td><span class="chip f">coffee</span><span class="chip f">creamy</span><span class="chip f">sweet</span></td><td><span class="chip s">winter</span><span class="chip s">holiday</span></td><td><span class="chip o">after_dinner</span><span class="chip o">nightcap</span><span class="chip o">classic</span></td>
+<td><span class="chip b">whiskey_irish</span><br>light · 8.9% · alcoholic<br>diff 2 · irish_coffee_mug · hot</td>
+<td class="ing">50 ml Irish whiskey; 120 ml Hot strong coffee; 1 tsp Brown sugar; 50 ml Lightly whipped cream</td></tr><tr data-search="kir fruity spring summer aperitif classic wine">
+<td><img src="../icons/thumb/kir.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/kir.png" width="48" height="48" alt=""></td>
+<td><b>Kir</b><br><span class="id">kir</span><br><span class="sw" style="background:#D98A9A"></span> rosé<br><small>generated icon</small></td>
+<td><span class="chip f">fruity</span></td><td><span class="chip s">spring</span><span class="chip s">summer</span></td><td><span class="chip o">aperitif</span><span class="chip o">classic</span></td>
+<td><span class="chip b">wine</span><br>medium · 12.8% · alcoholic<br>diff 1 · wine · built</td>
+<td class="ing">10 ml Crème de cassis; top: Chilled dry white wine</td></tr><tr data-search="lemon drop martini sour sweet fruity spring party classic vodka liqueur">
+<td><img src="../images/thumb/lemon_drop_martini.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/lemon_drop_martini.png" width="48" height="48" alt=""></td>
+<td><b>Lemon Drop Martini</b><br><span class="id">lemon_drop_martini</span><br><span class="sw" style="background:#F3EBA5"></span> pale yellow<br><small>CC-BY-2.0 · Schezar from New York City, USA</small></td>
+<td><span class="chip f">sour</span><span class="chip f">sweet</span><span class="chip f">fruity</span></td><td><span class="chip s">spring</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">vodka</span><span class="chip b">liqueur</span><br>strong · 24.6% · alcoholic<br>diff 2 · martini · shaken</td>
+<td class="ing">30 ml Vodka; 20 ml Triple sec; 15 ml Lemon juice; pinch: Sugar for the rim (optional) (opt)</td></tr><tr data-search="long island iced tea sweet sour spirit_forward bubbly summer party classic vodka tequila">
+<td><img src="../images/thumb/long_island_iced_tea.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/long_island_iced_tea.png" width="48" height="48" alt=""></td>
+<td><b>Long Island Iced Tea</b><br><span class="id">long_island_iced_tea</span><br><span class="sw" style="background:#A4652E"></span> iced-tea brown<br><small>CC-BY-2.0 · Alisdair McDiarmid from Glasgow, United Kingdom</small></td>
+<td><span class="chip f">sweet</span><span class="chip f">sour</span><span class="chip f">spirit_forward</span><span class="chip f">bubbly</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">vodka</span><span class="chip b">tequila</span><br>medium · 16.0% · alcoholic<br>diff 2 · collins · built</td>
+<td class="ing">15 ml Vodka; 15 ml Blanco tequila; 15 ml White rum; 15 ml Gin; 15 ml Triple sec; 25 ml Lemon juice; 30 ml Simple syrup; top: Cola</td></tr><tr data-search="mai tai fruity sweet sour summer party classic rum_white rum_dark">
+<td><img src="../images/thumb/mai_tai.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/mai_tai.png" width="48" height="48" alt=""></td>
+<td><b>Mai Tai</b><br><span class="id">mai_tai</span><br><span class="sw" style="background:#C77B30"></span> amber<br><small>CC-BY-SA-2.0 · Johnny Silvercloud</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sweet</span><span class="chip f">sour</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">rum_white</span><span class="chip b">rum_dark</span><br>strong · 20.7% · alcoholic<br>diff 2 · double_rocks · shaken</td>
+<td class="ing">30 ml Aged Jamaican rum; 30 ml Martinique rhum agricole (or another aged rum); 15 ml Orange curaçao; 15 ml Orgeat (almond syrup); 30 ml Lime juice; 7.5 ml Simple syrup</td></tr><tr data-search="margarita sour fruity summer spring party classic tequila">
+<td><img src="../images/thumb/margarita.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/margarita.png" width="48" height="48" alt=""></td>
+<td><b>Margarita</b><br><span class="id">margarita</span><br><span class="sw" style="background:#D9E8A6"></span> pale green<br><small>CC-BY-SA-3.0 · Ralf Roletschek</small></td>
+<td><span class="chip f">sour</span><span class="chip f">fruity</span></td><td><span class="chip s">summer</span><span class="chip s">spring</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">tequila</span><br>strong · 26.4% · alcoholic<br>diff 2 · coupe · shaken</td>
+<td class="ing">50 ml Blanco tequila; 20 ml Triple sec (e.g. Cointreau); 15 ml Lime juice; pinch: Salt for the rim (opt)</td></tr><tr data-search="mimosa fruity bubbly spring summer holiday brunch party classic wine_sparkling">
+<td><img src="../images/thumb/mimosa.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/mimosa.png" width="48" height="48" alt=""></td>
+<td><b>Mimosa</b><br><span class="id">mimosa</span><br><span class="sw" style="background:#F6A21E"></span> orange<br><small>CC-BY-2.0 · vxla</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">bubbly</span></td><td><span class="chip s">spring</span><span class="chip s">summer</span><span class="chip s">holiday</span></td><td><span class="chip o">brunch</span><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">wine_sparkling</span><br>light · 6.0% · low_abv<br>diff 1 · flute · built</td>
+<td class="ing">75 ml Fresh orange juice, chilled; 75 ml Prosecco or Champagne, chilled</td></tr><tr data-search="mint julep spirit_forward herbal sweet spring summer party classic whiskey_bourbon">
+<td><img src="../images/thumb/mint_julep.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/mint_julep.png" width="48" height="48" alt=""></td>
+<td><b>Mint Julep</b><br><span class="id">mint_julep</span><br><span class="sw" style="background:#C98A3E"></span> amber<br><small>CC-BY-SA-4.0 · Erich Wagner (www.eventografie.de)</small></td>
+<td><span class="chip f">spirit_forward</span><span class="chip f">herbal</span><span class="chip f">sweet</span></td><td><span class="chip s">spring</span><span class="chip s">summer</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">whiskey_bourbon</span><br>strong · 31.3% · alcoholic<br>diff 2 · double_rocks · muddled_built</td>
+<td class="ing">60 ml Bourbon; 4 piece Mint sprigs (leaves only); 1 tsp Powdered sugar; 10 ml 2 tsp water</td></tr><tr data-search="mojito sour herbal bubbly summer party classic rum_white">
+<td><img src="../images/thumb/mojito.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/mojito.png" width="48" height="48" alt=""></td>
+<td><b>Mojito</b><br><span class="id">mojito</span><br><span class="sw" style="background:#DDEFC9"></span> pale green<br><small>CC-BY-SA-4.0 · Raimonsocial</small></td>
+<td><span class="chip f">sour</span><span class="chip f">herbal</span><span class="chip f">bubbly</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">rum_white</span><br>medium · 11.6% · alcoholic<br>diff 2 · highball · muddled_built</td>
+<td class="ing">45 ml White rum; 20 ml Lime juice; 6 piece Mint sprigs; 2 tsp White cane sugar; top: Soda water</td></tr><tr data-search="moscow mule spicy bubbly sour summer all_year party classic vodka">
+<td><img src="../images/thumb/moscow_mule.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/moscow_mule.png" width="48" height="48" alt=""></td>
+<td><b>Moscow Mule</b><br><span class="id">moscow_mule</span><br><span class="sw" style="background:#EEDFAE"></span> pale gold<br><small>CC-BY-SA-2.0 · edseloh</small></td>
+<td><span class="chip f">spicy</span><span class="chip f">bubbly</span><span class="chip f">sour</span></td><td><span class="chip s">summer</span><span class="chip s">all_year</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">vodka</span><br>light · 9.4% · alcoholic<br>diff 1 · copper_mug · built</td>
+<td class="ing">45 ml Vodka; 10 ml Lime juice; top: Ginger beer</td></tr><tr data-search="piña colada creamy fruity sweet summer party classic rum_white">
+<td><img src="../images/thumb/pina_colada.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/pina_colada.png" width="48" height="48" alt=""></td>
+<td><b>Piña Colada</b><br><span class="id">pina_colada</span><br><span class="sw" style="background:#F3E9C6"></span> cream<br><small>Public-Domain · User Barmix on de.wikipedia</small></td>
+<td><span class="chip f">creamy</span><span class="chip f">fruity</span><span class="chip f">sweet</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">rum_white</span><br>medium · 11.8% · alcoholic<br>diff 2 · hurricane · blended</td>
+<td class="ing">50 ml White rum; 30 ml Cream of coconut; 50 ml Pineapple juice</td></tr><tr data-search="pisco sour sour fruity all_year aperitif party classic pisco">
+<td><img src="../images/thumb/pisco_sour.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/pisco_sour.png" width="48" height="48" alt=""></td>
+<td><b>Pisco Sour</b><br><span class="id">pisco_sour</span><br><span class="sw" style="background:#F2EBD0"></span> pale cream<br><small>CC-BY-SA-4.0 · Dtarazona</small></td>
+<td><span class="chip f">sour</span><span class="chip f">fruity</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">aperitif</span><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">pisco</span><br>medium · 14.1% · alcoholic<br>diff 3 · coupe · shaken</td>
+<td class="ing">60 ml Pisco; 30 ml Lemon juice; 20 ml Simple syrup; 30 ml 1 egg white; 3 dash Amargo or Angostura bitters</td></tr><tr data-search="rabo de galo spirit_forward bitter herbal all_year aperitif nightcap classic cachaca">
+<td><img src="../icons/thumb/rabo_de_galo.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/rabo_de_galo.png" width="48" height="48" alt=""></td>
+<td><b>Rabo de Galo</b><br><span class="id">rabo_de_galo</span><br><span class="sw" style="background:#8F3A22"></span> red amber<br><small>generated icon</small></td>
+<td><span class="chip f">spirit_forward</span><span class="chip f">bitter</span><span class="chip f">herbal</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">aperitif</span><span class="chip o">nightcap</span><span class="chip o">classic</span></td>
+<td><span class="chip b">cachaca</span><br>strong · 26.0% · alcoholic<br>diff 1 · rocks · stirred</td>
+<td class="ing">60 ml Cachaça; 20 ml Sweet (red) vermouth; 15 ml Cynar; 2 dash Angostura bitters (opt)</td></tr><tr data-search="sea breeze fruity sour summer party classic vodka">
+<td><img src="../images/thumb/sea_breeze.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/sea_breeze.png" width="48" height="48" alt=""></td>
+<td><b>Sea Breeze</b><br><span class="id">sea_breeze</span><br><span class="sw" style="background:#EE8C9C"></span> pink<br><small>CC-BY-2.0 · Wendy from Minneapolis, MN</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sour</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">vodka</span><br>light · 7.7% · alcoholic<br>diff 1 · highball · built</td>
+<td class="ing">40 ml Vodka; 120 ml Cranberry juice; 30 ml Grapefruit juice</td></tr><tr data-search="sex on the beach fruity sweet summer party classic vodka">
+<td><img src="../images/thumb/sex_on_the_beach.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/sex_on_the_beach.png" width="48" height="48" alt=""></td>
+<td><b>Sex on the Beach</b><br><span class="id">sex_on_the_beach</span><br><span class="sw" style="background:#F07A4A"></span> sunset orange<br><small>CC-BY-2.0 · Sandor Diego Weijn</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sweet</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">vodka</span><br>medium · 13.0% · alcoholic<br>diff 1 · highball · built</td>
+<td class="ing">40 ml Vodka; 20 ml Peach schnapps; 40 ml Orange juice; 40 ml Cranberry juice</td></tr><tr data-search="singapore sling fruity sweet herbal summer party classic gin liqueur">
+<td><img src="../images/thumb/singapore_sling.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/singapore_sling.png" width="48" height="48" alt=""></td>
+<td><b>Singapore Sling</b><br><span class="id">singapore_sling</span><br><span class="sw" style="background:#EF8A86"></span> pink<br><small>CC-BY-SA-4.0 · Achim Schleuning (E-Mail: comander02_de@yahoo.de)</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sweet</span><span class="chip f">herbal</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">gin</span><span class="chip b">liqueur</span><br>light · 8.5% · alcoholic<br>diff 3 · collins · shaken</td>
+<td class="ing">30 ml Gin; 15 ml Cherry liqueur (Cherry Heering); 7.5 ml Cointreau; 7.5 ml Bénédictine; 120 ml Pineapple juice; 15 ml Lime juice; 10 ml Grenadine; 1 dash Angostura bitters</td></tr><tr data-search="tequila sunrise fruity sweet summer brunch party classic tequila">
+<td><img src="../images/thumb/tequila_sunrise.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/tequila_sunrise.png" width="48" height="48" alt=""></td>
+<td><b>Tequila Sunrise</b><br><span class="id">tequila_sunrise</span><br><span class="sw" style="background:#F4892A"></span> layered orange<br><small>CC-BY-2.0 · TheCulinaryGeek from Chicago, USA</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sweet</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">brunch</span><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">tequila</span><br>medium · 10.9% · alcoholic<br>diff 1 · highball · built</td>
+<td class="ing">45 ml Blanco tequila; 90 ml Orange juice; 15 ml Grenadine</td></tr><tr data-search="vesper spirit_forward herbal all_year date_night aperitif classic gin">
+<td><img src="../images/thumb/vesper.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/vesper.png" width="48" height="48" alt=""></td>
+<td><b>Vesper</b><br><span class="id">vesper</span><br><span class="sw" style="background:#EEF0E4"></span> clear<br><small>CC-BY-SA-4.0 · Matthias Friedlein (www.augustine-bar.de)</small></td>
+<td><span class="chip f">spirit_forward</span><span class="chip f">herbal</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">date_night</span><span class="chip o">aperitif</span><span class="chip o">classic</span></td>
+<td><span class="chip b">gin</span><br>strong · 30.0% · alcoholic<br>diff 2 · martini · shaken</td>
+<td class="ing">45 ml Gin; 15 ml Vodka; 7.5 ml Lillet Blanc</td></tr><tr data-search="zombie fruity spirit_forward spicy summer party classic rum_dark">
+<td><img src="../images/thumb/zombie.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/zombie.png" width="48" height="48" alt=""></td>
+<td><b>Zombie</b><br><span class="id">zombie</span><br><span class="sw" style="background:#B0602A"></span> dark amber<br><small>CC-BY-SA-3.0 · Magnetic Rag</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">spirit_forward</span><span class="chip f">spicy</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">rum_dark</span><br>strong · 25.0% · alcoholic<br>diff 3 · tiki · blended</td>
+<td class="ing">45 ml Jamaican dark rum; 45 ml Gold Puerto Rican rum; 30 ml Demerara rum (151-proof in the original); 20 ml Lime juice; 15 ml Falernum; 10 ml Grapefruit juice (part of Donn&#x27;s mix); 5 ml Cinnamon syrup (part of Donn&#x27;s mix); 1 tsp Grenadine; 1 dash Angostura bitters; 1 dash Absinthe or Pernod (6 drops)</td></tr><tr data-search="bee&#x27;s knees sour sweet spring summer brunch date_night classic gin">
+<td><img src="../images/thumb/bees_knees.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/bees_knees.png" width="48" height="48" alt=""></td>
+<td><b>Bee&#x27;s Knees</b><br><span class="id">bees_knees</span><br><span class="sw" style="background:#F0D78A"></span> pale gold<br><small>CC-BY-SA-3.0 · Will Shenton</small></td>
+<td><span class="chip f">sour</span><span class="chip f">sweet</span></td><td><span class="chip s">spring</span><span class="chip s">summer</span></td><td><span class="chip o">brunch</span><span class="chip o">date_night</span><span class="chip o">classic</span></td>
+<td><span class="chip b">gin</span><br>medium · 15.6% · alcoholic<br>diff 2 · coupe · shaken</td>
+<td class="ing">52.5 ml Gin; 10 ml Honey syrup (2 tsp); 22.5 ml Lemon juice; 22.5 ml Orange juice</td></tr><tr data-search="bramble fruity sour summer fall party classic gin">
+<td><img src="../images/thumb/bramble.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/bramble.png" width="48" height="48" alt=""></td>
+<td><b>Bramble</b><br><span class="id">bramble</span><br><span class="sw" style="background:#6E2347"></span> blackberry<br><small>CC-BY-SA-4.0 · Erich Wagner (www.eventografie.de)</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sour</span></td><td><span class="chip s">summer</span><span class="chip s">fall</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">gin</span><br>medium · 18.0% · alcoholic<br>diff 2 · rocks · shaken</td>
+<td class="ing">50 ml Gin; 25 ml Lemon juice; 12.5 ml Simple syrup; 15 ml Crème de mûre (blackberry liqueur)</td></tr><tr data-search="canchánchara sour sweet summer party classic rum_white">
+<td><img src="../images/thumb/canchanchara.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/canchanchara.png" width="48" height="48" alt=""></td>
+<td><b>Canchánchara</b><br><span class="id">canchanchara</span><br><span class="sw" style="background:#E8D9A0"></span> pale gold<br><small>CC-BY-2.0 · Miriam Gómez Blanes</small></td>
+<td><span class="chip f">sour</span><span class="chip f">sweet</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">rum_white</span><br>medium · 15.6% · alcoholic<br>diff 1 · rocks · built</td>
+<td class="ing">60 ml Cuban aguardiente (or white rum); 15 ml Lime juice; 15 ml Raw honey; 50 ml Water</td></tr><tr data-search="chartreuse swizzle herbal fruity sour summer party classic liqueur">
+<td><img src="../images/thumb/chartreuse_swizzle.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/chartreuse_swizzle.png" width="48" height="48" alt=""></td>
+<td><b>Chartreuse Swizzle</b><br><span class="id">chartreuse_swizzle</span><br><span class="sw" style="background:#C9DB8A"></span> pale green<br><small>CC-BY-SA-4.0 · Tim069</small></td>
+<td><span class="chip f">herbal</span><span class="chip f">fruity</span><span class="chip f">sour</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">liqueur</span><br>strong · 21.3% · alcoholic<br>diff 1 · collins · built</td>
+<td class="ing">45 ml Green Chartreuse; 30 ml Pineapple juice; 22.5 ml Lime juice; 15 ml Falernum</td></tr><tr data-search="dark &#x27;n&#x27; stormy spicy bubbly all_year party classic rum_dark">
+<td><img src="../images/thumb/dark_n_stormy.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/dark_n_stormy.png" width="48" height="48" alt=""></td>
+<td><b>Dark &#x27;n&#x27; Stormy</b><br><span class="id">dark_n_stormy</span><br><span class="sw" style="background:#6B3A1C"></span> layered amber<br><small>CC-BY-SA-3.0 · Will Shenton</small></td>
+<td><span class="chip f">spicy</span><span class="chip f">bubbly</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">rum_dark</span><br>medium · 13.6% · alcoholic<br>diff 2 · highball · built</td>
+<td class="ing">100 ml Ginger beer; 60 ml Dark rum (Gosling&#x27;s Black Seal is traditional)</td></tr><tr data-search="don&#x27;s special daiquiri fruity sour sweet summer party classic rum_dark">
+<td><img src="../icons/thumb/dons_special_daiquiri.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/dons_special_daiquiri.png" width="48" height="48" alt=""></td>
+<td><b>Don&#x27;s Special Daiquiri</b><br><span class="id">dons_special_daiquiri</span><br><span class="sw" style="background:#E7B54E"></span> golden<br><small>generated icon</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sour</span><span class="chip f">sweet</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">rum_dark</span><br>medium · 16.0% · alcoholic<br>diff 2 · coupe · shaken</td>
+<td class="ing">30 ml Gold Jamaican rum; 15 ml Cuban-style white rum; 15 ml Passion fruit syrup; 15 ml Lime juice; 15 ml Honey syrup</td></tr><tr data-search="espresso martini coffee sweet bitter all_year after_dinner party classic vodka">
+<td><img src="../images/thumb/espresso_martini.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/espresso_martini.png" width="48" height="48" alt=""></td>
+<td><b>Espresso Martini</b><br><span class="id">espresso_martini</span><br><span class="sw" style="background:#3B2416"></span> dark brown<br><small>CC-BY-SA-2.0 · Ewan Munro from London, UK</small></td>
+<td><span class="chip f">coffee</span><span class="chip f">sweet</span><span class="chip f">bitter</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">after_dinner</span><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">vodka</span><br>medium · 17.3% · alcoholic<br>diff 2 · martini · shaken</td>
+<td class="ing">50 ml Vodka; 30 ml Coffee liqueur; 30 ml Fresh espresso, cooled slightly; 10 ml Simple syrup (to taste)</td></tr><tr data-search="fernandito bitter herbal bubbly all_year party classic amaro_aperitif">
+<td><img src="../images/thumb/fernandito.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/fernandito.png" width="48" height="48" alt=""></td>
+<td><b>Fernandito</b><br><span class="id">fernandito</span><br><span class="sw" style="background:#3A2014"></span> cola brown<br><small>CC-BY-SA-3.0 · Will Shenton</small></td>
+<td><span class="chip f">bitter</span><span class="chip f">herbal</span><span class="chip f">bubbly</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">amaro_aperitif</span><br>light · 8.9% · low_abv<br>diff 1 · highball · built</td>
+<td class="ing">50 ml Fernet-Branca; top: Cola</td></tr><tr data-search="french martini fruity sweet all_year party date_night classic vodka">
+<td><img src="../images/thumb/french_martini.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/french_martini.png" width="48" height="48" alt=""></td>
+<td><b>French Martini</b><br><span class="id">french_martini</span><br><span class="sw" style="background:#E79AA8"></span> pink<br><small>CC-BY-SA-3.0 · Brown-Forman Corporation</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sweet</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">party</span><span class="chip o">date_night</span><span class="chip o">classic</span></td>
+<td><span class="chip b">vodka</span><br>strong · 21.8% · alcoholic<br>diff 2 · martini · shaken</td>
+<td class="ing">45 ml Vodka; 15 ml Raspberry liqueur (Chambord); 15 ml Pineapple juice</td></tr><tr data-search="gin basil smash herbal sour summer party classic gin">
+<td><img src="../images/thumb/gin_basil_smash.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/gin_basil_smash.png" width="48" height="48" alt=""></td>
+<td><b>Gin Basil Smash</b><br><span class="id">gin_basil_smash</span><br><span class="sw" style="background:#A9CF6A"></span> basil green<br><small>CC-BY-SA-4.0 · Erich Wagner (www.eventografie.de)</small></td>
+<td><span class="chip f">herbal</span><span class="chip f">sour</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">gin</span><br>medium · 18.3% · alcoholic<br>diff 2 · rocks · shaken</td>
+<td class="ing">10 leaf Fresh basil; 60 ml Gin; 22.5 ml Lemon juice; 22.5 ml Simple syrup</td></tr><tr data-search="grand margarita sour fruity spirit_forward summer party date_night classic tequila liqueur">
+<td><img src="../icons/thumb/grand_margarita.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/grand_margarita.png" width="48" height="48" alt=""></td>
+<td><b>Grand Margarita</b><br><span class="id">grand_margarita</span><br><span class="sw" style="background:#E0B25A"></span> amber<br><small>generated icon</small></td>
+<td><span class="chip f">sour</span><span class="chip f">fruity</span><span class="chip f">spirit_forward</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span><span class="chip o">date_night</span><span class="chip o">classic</span></td>
+<td><span class="chip b">tequila</span><span class="chip b">liqueur</span><br>strong · 26.7% · alcoholic<br>diff 2 · coupe · shaken</td>
+<td class="ing">45 ml Blanco tequila; 30 ml Grand Marnier; 15 ml Lime juice</td></tr><tr data-search="iba tiki fruity sweet spicy summer party classic rum_dark">
+<td><img src="../images/thumb/iba_tiki.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/iba_tiki.png" width="48" height="48" alt=""></td>
+<td><b>IBA Tiki</b><br><span class="id">iba_tiki</span><br><span class="sw" style="background:#E6A44A"></span> golden<br><small>CC0-1.0 · Adanicklmao</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sweet</span><span class="chip f">spicy</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">rum_dark</span><br>medium · 10.0% · alcoholic<br>diff 3 · tiki · shaken</td>
+<td class="ing">1 piece Slice of fresh ginger; 30 ml Aged Cuban rum; 30 ml Smoky aged rum; 15 ml Amaretto; 5 ml Hazelnut liqueur (Frangelico); 1 dash Maraschino (5 drops); 30 ml Passion fruit purée; 90 ml Pineapple juice; 30 ml Lime juice</td></tr><tr data-search="illegal smoky sour fruity summer party classic mezcal rum_dark">
+<td><img src="../images/thumb/illegal.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/illegal.png" width="48" height="48" alt=""></td>
+<td><b>Illegal</b><br><span class="id">illegal</span><br><span class="sw" style="background:#EDE3B0"></span> pale yellow<br><small>CC-BY-4.0 · BanjoZebra</small></td>
+<td><span class="chip f">smoky</span><span class="chip f">sour</span><span class="chip f">fruity</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">mezcal</span><span class="chip b">rum_dark</span><br>medium · 19.7% · alcoholic<br>diff 2 · coupe · shaken</td>
+<td class="ing">30 ml Mezcal; 15 ml Jamaican overproof white rum; 15 ml Falernum; 1 barspoon Maraschino liqueur; 22.5 ml Lime juice; 15 ml Simple syrup; 15 ml Egg white (opt)</td></tr><tr data-search="jungle bird bitter fruity sweet summer party classic rum_dark">
+<td><img src="../images/thumb/jungle_bird.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/jungle_bird.png" width="48" height="48" alt=""></td>
+<td><b>Jungle Bird</b><br><span class="id">jungle_bird</span><br><span class="sw" style="background:#B34A2E"></span> ruby amber<br><small>CC-BY-4.0 · BanjoZebra</small></td>
+<td><span class="chip f">bitter</span><span class="chip f">fruity</span><span class="chip f">sweet</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">rum_dark</span><br>medium · 13.3% · alcoholic<br>diff 2 · rocks · shaken</td>
+<td class="ing">45 ml Blackstrap or dark Jamaican rum; 22.5 ml Campari; 45 ml Pineapple juice; 15 ml Lime juice; 15 ml Demerara syrup</td></tr><tr data-search="missionary&#x27;s downfall fruity herbal sweet summer party classic rum_white">
+<td><img src="../images/thumb/missionarys_downfall.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/missionarys_downfall.png" width="48" height="48" alt=""></td>
+<td><b>Missionary&#x27;s Downfall</b><br><span class="id">missionarys_downfall</span><br><span class="sw" style="background:#D8E7A8"></span> pale green<br><small>CC-BY-4.0 · BanjoZebra</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">herbal</span><span class="chip f">sweet</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">rum_white</span><br>medium · 12.8% · alcoholic<br>diff 2 · coupe · blended</td>
+<td class="ing">30 ml White rum; 15 ml Peach brandy (liqueur); 15 ml Lime juice; 30 ml Honey syrup; 10 leaf Fresh mint; 4 piece Fresh pineapple chunks</td></tr><tr data-search="naked and famous smoky sour herbal all_year party date_night classic mezcal liqueur">
+<td><img src="../images/thumb/naked_and_famous.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/naked_and_famous.png" width="48" height="48" alt=""></td>
+<td><b>Naked and Famous</b><br><span class="id">naked_and_famous</span><br><span class="sw" style="background:#F0955A"></span> coral<br><small>CC-BY-4.0 · Rascalisimo</small></td>
+<td><span class="chip f">smoky</span><span class="chip f">sour</span><span class="chip f">herbal</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">party</span><span class="chip o">date_night</span><span class="chip o">classic</span></td>
+<td><span class="chip b">mezcal</span><span class="chip b">liqueur</span><br>medium · 18.6% · alcoholic<br>diff 2 · coupe · shaken</td>
+<td class="ing">22.5 ml Mezcal; 22.5 ml Yellow Chartreuse; 22.5 ml Aperol; 22.5 ml Lime juice</td></tr><tr data-search="new york sour sour spirit_forward fruity fall winter date_night classic whiskey_rye">
+<td><img src="../images/thumb/new_york_sour.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/new_york_sour.png" width="48" height="48" alt=""></td>
+<td><b>New York Sour</b><br><span class="id">new_york_sour</span><br><span class="sw" style="background:#A13A32"></span> layered red<br><small>CC-BY-SA-4.0 · Corvus</small></td>
+<td><span class="chip f">sour</span><span class="chip f">spirit_forward</span><span class="chip f">fruity</span></td><td><span class="chip s">fall</span><span class="chip s">winter</span></td><td><span class="chip o">date_night</span><span class="chip o">classic</span></td>
+<td><span class="chip b">whiskey_rye</span><br>medium · 18.2% · alcoholic<br>diff 2 · rocks · shaken</td>
+<td class="ing">60 ml Rye whiskey or bourbon; 30 ml Lemon juice; 22.5 ml Simple syrup; 15 ml Egg white (opt); 15 ml Dry red wine (Shiraz or Malbec)</td></tr><tr data-search="old cuban bubbly herbal sour holiday all_year party classic rum_dark">
+<td><img src="../images/thumb/old_cuban.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/old_cuban.png" width="48" height="48" alt=""></td>
+<td><b>Old Cuban</b><br><span class="id">old_cuban</span><br><span class="sw" style="background:#E8D29A"></span> pale gold<br><small>CC-BY-SA-2.0 · Edsel Little</small></td>
+<td><span class="chip f">bubbly</span><span class="chip f">herbal</span><span class="chip f">sour</span></td><td><span class="chip s">holiday</span><span class="chip s">all_year</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">rum_dark</span><br>medium · 13.0% · alcoholic<br>diff 2 · coupe · shaken</td>
+<td class="ing">7 leaf Fresh mint; 45 ml Aged (gold) rum; 22.5 ml Lime juice; 30 ml Simple syrup; 2 dash Angostura bitters; top: Brut Champagne or prosecco</td></tr><tr data-search="paloma sour fruity bubbly summer party classic tequila">
+<td><img src="../images/thumb/paloma.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/paloma.png" width="48" height="48" alt=""></td>
+<td><b>Paloma</b><br><span class="id">paloma</span><br><span class="sw" style="background:#F5B7A4"></span> pink grapefruit<br><small>Public-Domain · Antonio Cavallo</small></td>
+<td><span class="chip f">sour</span><span class="chip f">fruity</span><span class="chip f">bubbly</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">tequila</span><br>medium · 11.7% · alcoholic<br>diff 1 · highball · built</td>
+<td class="ing">50 ml Blanco tequila; 5 ml Lime juice; pinch: Salt; top: Pink grapefruit soda</td></tr><tr data-search="paper plane bitter sour fruity all_year party classic whiskey_bourbon amaro_aperitif">
+<td><img src="../images/thumb/paper_plane.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/paper_plane.png" width="48" height="48" alt=""></td>
+<td><b>Paper Plane</b><br><span class="id">paper_plane</span><br><span class="sw" style="background:#E88A3C"></span> orange<br><small>CC-BY-4.0 · Missvain</small></td>
+<td><span class="chip f">bitter</span><span class="chip f">sour</span><span class="chip f">fruity</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">whiskey_bourbon</span><span class="chip b">amaro_aperitif</span><br>medium · 18.2% · alcoholic<br>diff 2 · coupe · shaken</td>
+<td class="ing">30 ml Bourbon; 30 ml Amaro Nonino; 30 ml Aperol; 30 ml Lemon juice</td></tr><tr data-search="penicillin smoky spicy sour fall winter nightcap classic whiskey_scotch">
+<td><img src="../images/thumb/penicillin.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/penicillin.png" width="48" height="48" alt=""></td>
+<td><b>Penicillin</b><br><span class="id">penicillin</span><br><span class="sw" style="background:#D9A852"></span> golden<br><small>CC-BY-SA-2.0 · Edsel Little</small></td>
+<td><span class="chip f">smoky</span><span class="chip f">spicy</span><span class="chip f">sour</span></td><td><span class="chip s">fall</span><span class="chip s">winter</span></td><td><span class="chip o">nightcap</span><span class="chip o">classic</span></td>
+<td><span class="chip b">whiskey_scotch</span><br>medium · 19.4% · alcoholic<br>diff 2 · rocks · shaken</td>
+<td class="ing">3 piece 2-3 thin slices of fresh ginger; 60 ml Blended Scotch whisky; 22.5 ml Lemon juice; 22.5 ml Honey syrup; 7.5 ml Peated Islay Scotch (e.g. Lagavulin)</td></tr><tr data-search="pisco punch fruity sour summer party classic pisco">
+<td><img src="../images/thumb/pisco_punch.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/pisco_punch.png" width="48" height="48" alt=""></td>
+<td><b>Pisco Punch</b><br><span class="id">pisco_punch</span><br><span class="sw" style="background:#EFE0A6"></span> pale gold<br><small>CC-BY-SA-2.0 · Ministerio de Relaciones Exteriores</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sour</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">pisco</span><br>medium · 15.5% · alcoholic<br>diff 2 · wine · shaken</td>
+<td class="ing">3 piece Whole cloves; 60 ml Pisco; 22.5 ml Pineapple juice; 15 ml Simple syrup; 15 ml Lemon juice; 30 ml Dry white wine</td></tr><tr data-search="porn star martini fruity sweet all_year party classic vodka">
+<td><img src="../images/thumb/porn_star_martini.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/porn_star_martini.png" width="48" height="48" alt=""></td>
+<td><b>Porn Star Martini</b><br><span class="id">porn_star_martini</span><br><span class="sw" style="background:#F2C04A"></span> passion fruit yellow<br><small>CC-BY-SA-4.0 · DobbAY</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sweet</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">vodka</span><br>medium · 13.6% · alcoholic<br>diff 2 · coupe · shaken</td>
+<td class="ing">50 ml Vanilla vodka; 20 ml Passion fruit liqueur; 50 ml Passion fruit purée; 10 ml Vanilla syrup (or 2 bar spoons vanilla sugar); 50 ml Champagne, served on the side</td></tr><tr data-search="russian spring punch fruity bubbly sour spring party brunch classic vodka wine_sparkling">
+<td><img src="../images/thumb/russian_spring_punch.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/russian_spring_punch.png" width="48" height="48" alt=""></td>
+<td><b>Russian Spring Punch</b><br><span class="id">russian_spring_punch</span><br><span class="sw" style="background:#C9476A"></span> berry pink<br><small>CC-BY-2.0 · charlene mcbride</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">bubbly</span><span class="chip f">sour</span></td><td><span class="chip s">spring</span></td><td><span class="chip o">party</span><span class="chip o">brunch</span><span class="chip o">classic</span></td>
+<td><span class="chip b">vodka</span><span class="chip b">wine_sparkling</span><br>medium · 12.0% · alcoholic<br>diff 2 · highball · shaken</td>
+<td class="ing">25 ml Vodka; 25 ml Lemon juice; 15 ml Crème de cassis; 10 ml Simple syrup; top: Sparkling wine (Champagne</td></tr><tr data-search="sherry cobbler fruity sweet summer brunch aperitif classic wine">
+<td><img src="../images/thumb/sherry_cobbler.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/sherry_cobbler.png" width="48" height="48" alt=""></td>
+<td><b>Sherry Cobbler</b><br><span class="id">sherry_cobbler</span><br><span class="sw" style="background:#D29A44"></span> amber<br><small>CC-BY-4.0 · BanjoZebra</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sweet</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">brunch</span><span class="chip o">aperitif</span><span class="chip o">classic</span></td>
+<td><span class="chip b">wine</span><br>medium · 12.9% · alcoholic<br>diff 2 · collins · shaken</td>
+<td class="ing">90 ml Amontillado sherry (or half palo cortado); 1 tsp Sugar; 1 piece Half an orange wheel; 1 piece Half a lemon wheel</td></tr><tr data-search="south side herbal sour summer brunch party classic gin">
+<td><img src="../images/thumb/south_side.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/south_side.png" width="48" height="48" alt=""></td>
+<td><b>South Side</b><br><span class="id">south_side</span><br><span class="sw" style="background:#E1EBC4"></span> pale green<br><small>CC-BY-2.0 · davidgiesberg</small></td>
+<td><span class="chip f">herbal</span><span class="chip f">sour</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">brunch</span><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">gin</span><br>medium · 18.3% · alcoholic<br>diff 2 · coupe · shaken</td>
+<td class="ing">60 ml Gin; 30 ml Lemon juice; 15 ml Simple syrup; 6 leaf Fresh mint; 15 ml Egg white (opt)</td></tr><tr data-search="spicy fifty spicy sweet sour all_year party classic vodka">
+<td><img src="../images/thumb/spicy_fifty.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/spicy_fifty.png" width="48" height="48" alt=""></td>
+<td><b>Spicy Fifty</b><br><span class="id">spicy_fifty</span><br><span class="sw" style="background:#F0E2A2"></span> pale yellow<br><small>CC0-1.0 · LittleT889</small></td>
+<td><span class="chip f">spicy</span><span class="chip f">sweet</span><span class="chip f">sour</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">vodka</span><br>medium · 16.7% · alcoholic<br>diff 2 · martini · shaken</td>
+<td class="ing">50 ml Vanilla vodka; 15 ml Elderflower cordial; 15 ml Lime juice; 10 ml Honey syrup; 2 piece 2 thin slices of red chili</td></tr><tr data-search="spritz bitter bubbly fruity summer spring aperitif brunch classic wine_sparkling amaro_aperitif">
+<td><img src="../images/thumb/spritz.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/spritz.png" width="48" height="48" alt=""></td>
+<td><b>Spritz</b><br><span class="id">spritz</span><br><span class="sw" style="background:#F26B1D"></span> orange<br><small>CC-BY-SA-2.0-DE · Daniel 13:47, 21. Jul. 2008 (CEST)</small></td>
+<td><span class="chip f">bitter</span><span class="chip f">bubbly</span><span class="chip f">fruity</span></td><td><span class="chip s">summer</span><span class="chip s">spring</span></td><td><span class="chip o">aperitif</span><span class="chip o">brunch</span><span class="chip o">classic</span></td>
+<td><span class="chip b">wine_sparkling</span><span class="chip b">amaro_aperitif</span><br>light · 8.8% · low_abv<br>diff 1 · wine · built</td>
+<td class="ing">90 ml Prosecco; 60 ml Aperol; top: Splash of soda water</td></tr><tr data-search="suffering bastard spicy bubbly sour all_year party classic brandy_cognac gin">
+<td><img src="../images/thumb/suffering_bastard.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/suffering_bastard.png" width="48" height="48" alt=""></td>
+<td><b>Suffering Bastard</b><br><span class="id">suffering_bastard</span><br><span class="sw" style="background:#E2B871"></span> pale amber<br><small>CC-BY-SA-3.0 · Will Shenton</small></td>
+<td><span class="chip f">spicy</span><span class="chip f">bubbly</span><span class="chip f">sour</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">brandy_cognac</span><span class="chip b">gin</span><br>medium · 11.9% · alcoholic<br>diff 2 · collins · shaken</td>
+<td class="ing">30 ml Cognac or brandy; 30 ml Gin; 15 ml Lime juice; 2 dash Angostura bitters; top: Ginger beer</td></tr><tr data-search="three dots and a dash fruity spicy sweet summer holiday party classic rum_white">
+<td><img src="../images/thumb/three_dots_and_a_dash.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/three_dots_and_a_dash.png" width="48" height="48" alt=""></td>
+<td><b>Three Dots and a Dash</b><br><span class="id">three_dots_and_a_dash</span><br><span class="sw" style="background:#D08A3A"></span> amber<br><small>CC-BY-4.0 · BanjoZebra</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">spicy</span><span class="chip f">sweet</span></td><td><span class="chip s">summer</span><span class="chip s">holiday</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">rum_white</span><br>medium · 20.0% · alcoholic<br>diff 3 · tiki · blended</td>
+<td class="ing">45 ml Rhum agricole; 15 ml Blended aged rum; 7.5 ml Falernum; 7.5 ml Allspice dram; 15 ml Lime juice; 15 ml Orange juice; 15 ml Honey syrup; 2 dash Angostura bitters</td></tr><tr data-search="tipperary spirit_forward herbal sweet fall winter nightcap classic whiskey_irish">
+<td><img src="../images/thumb/tipperary.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/tipperary.png" width="48" height="48" alt=""></td>
+<td><b>Tipperary</b><br><span class="id">tipperary</span><br><span class="sw" style="background:#A65A28"></span> amber<br><small>CC-BY-4.0 · BanjoZebra</small></td>
+<td><span class="chip f">spirit_forward</span><span class="chip f">herbal</span><span class="chip f">sweet</span></td><td><span class="chip s">fall</span><span class="chip s">winter</span></td><td><span class="chip o">nightcap</span><span class="chip o">classic</span></td>
+<td><span class="chip b">whiskey_irish</span><br>strong · 30.0% · alcoholic<br>diff 1 · coupe · stirred</td>
+<td class="ing">50 ml Irish whiskey; 25 ml Sweet (red) vermouth; 15 ml Green Chartreuse; 2 dash Angostura bitters</td></tr><tr data-search="tommy&#x27;s margarita sour sweet summer party classic tequila">
+<td><img src="../images/thumb/tommys_margarita.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/tommys_margarita.png" width="48" height="48" alt=""></td>
+<td><b>Tommy&#x27;s Margarita</b><br><span class="id">tommys_margarita</span><br><span class="sw" style="background:#E7E0A2"></span> pale gold<br><small>CC-BY-2.0 · Rick Audet</small></td>
+<td><span class="chip f">sour</span><span class="chip f">sweet</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span><span class="chip o">classic</span></td>
+<td><span class="chip b">tequila</span><br>medium · 16.0% · alcoholic<br>diff 2 · rocks · shaken</td>
+<td class="ing">60 ml 100% agave blanco tequila; 30 ml Lime juice; 30 ml Agave syrup</td></tr><tr data-search="trinidad sour bitter spicy sour fall winter nightcap classic whiskey_rye">
+<td><img src="../images/thumb/trinidad_sour.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/trinidad_sour.png" width="48" height="48" alt=""></td>
+<td><b>Trinidad Sour</b><br><span class="id">trinidad_sour</span><br><span class="sw" style="background:#7A1E1A"></span> deep red<br><small>CC-BY-SA-2.0 · Edsel Little</small></td>
+<td><span class="chip f">bitter</span><span class="chip f">spicy</span><span class="chip f">sour</span></td><td><span class="chip s">fall</span><span class="chip s">winter</span></td><td><span class="chip o">nightcap</span><span class="chip o">classic</span></td>
+<td><span class="chip b">whiskey_rye</span><br>medium · 19.1% · alcoholic<br>diff 2 · coupe · shaken</td>
+<td class="ing">45 ml Angostura bitters (yes, 45 ml); 30 ml Orgeat (almond syrup); 22.5 ml Lemon juice; 15 ml Rye whiskey</td></tr><tr data-search="ve.n.to herbal sour sweet spring aperitif classic brandy_cognac">
+<td><img src="../images/thumb/ve_n_to.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/ve_n_to.png" width="48" height="48" alt=""></td>
+<td><b>Ve.n.to</b><br><span class="id">ve_n_to</span><br><span class="sw" style="background:#F1E7BE"></span> pale straw<br><small>CC-BY-SA-4.0 · Jonsico</small></td>
+<td><span class="chip f">herbal</span><span class="chip f">sour</span><span class="chip f">sweet</span></td><td><span class="chip s">spring</span></td><td><span class="chip o">aperitif</span><span class="chip o">classic</span></td>
+<td><span class="chip b">brandy_cognac</span><br>medium · 14.8% · alcoholic<br>diff 3 · rocks · shaken</td>
+<td class="ing">45 ml Grappa; 22.5 ml Lemon juice; 15 ml Honey syrup (made with chamomile tea); 15 ml Chamomile syrup; 15 ml Egg white (opt)</td></tr><tr data-search="gimlet sour sweet summer aperitif party gin">
+<td><img src="../images/thumb/gimlet.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/gimlet.png" width="48" height="48" alt=""></td>
+<td><b>Gimlet</b><br><span class="id">gimlet</span><br><span class="sw" style="background:#E3EDC2"></span> pale green<br><small>CC-BY-2.0 · The Delicious Life</small></td>
+<td><span class="chip f">sour</span><span class="chip f">sweet</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">aperitif</span><span class="chip o">party</span></td>
+<td><span class="chip b">gin</span><br>medium · 19.7% · alcoholic<br>diff 2 · coupe · shaken</td>
+<td class="ing">60 ml Gin; 22.5 ml Lime juice; 15 ml Simple syrup</td></tr><tr data-search="tom collins sour bubbly summer party brunch gin">
+<td><img src="../images/thumb/tom_collins.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/tom_collins.png" width="48" height="48" alt=""></td>
+<td><b>Tom Collins</b><br><span class="id">tom_collins</span><br><span class="sw" style="background:#F1EBC8"></span> pale yellow<br><small>CC-BY-SA-2.0 · cyclonebill</small></td>
+<td><span class="chip f">sour</span><span class="chip f">bubbly</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span><span class="chip o">brunch</span></td>
+<td><span class="chip b">gin</span><br>light · 9.6% · alcoholic<br>diff 2 · collins · shaken</td>
+<td class="ing">45 ml Old Tom gin (or London dry); 30 ml Lemon juice; 15 ml Simple syrup; top: Soda water</td></tr><tr data-search="gin and tonic bubbly herbal bitter summer all_year aperitif party gin">
+<td><img src="../images/thumb/gin_and_tonic.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/gin_and_tonic.png" width="48" height="48" alt=""></td>
+<td><b>Gin and Tonic</b><br><span class="id">gin_and_tonic</span><br><span class="sw" style="background:#EAF2F2"></span> clear<br><small>CC-BY-SA-3.0 · NotFromUtrecht</small></td>
+<td><span class="chip f">bubbly</span><span class="chip f">herbal</span><span class="chip f">bitter</span></td><td><span class="chip s">summer</span><span class="chip s">all_year</span></td><td><span class="chip o">aperitif</span><span class="chip o">party</span></td>
+<td><span class="chip b">gin</span><br>light · 9.1% · alcoholic<br>diff 1 · highball · built</td>
+<td class="ing">50 ml Gin; top: Tonic water</td></tr><tr data-search="gibson spirit_forward herbal all_year aperitif gin">
+<td><img src="../images/thumb/gibson.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/gibson.png" width="48" height="48" alt=""></td>
+<td><b>Gibson</b><br><span class="id">gibson</span><br><span class="sw" style="background:#E9EEF0"></span> clear<br><small>CC-BY-2.0 · SteveR-</small></td>
+<td><span class="chip f">spirit_forward</span><span class="chip f">herbal</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">aperitif</span></td>
+<td><span class="chip b">gin</span><br>strong · 30.6% · alcoholic<br>diff 1 · martini · stirred</td>
+<td class="ing">60 ml Gin; 10 ml Dry vermouth</td></tr><tr data-search="dirty martini spirit_forward all_year aperitif date_night gin">
+<td><img src="../images/thumb/dirty_martini.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/dirty_martini.png" width="48" height="48" alt=""></td>
+<td><b>Dirty Martini</b><br><span class="id">dirty_martini</span><br><span class="sw" style="background:#DDE1C9"></span> cloudy<br><small>CC-BY-2.0 · Evan Swigart from Chicago, USA</small></td>
+<td><span class="chip f">spirit_forward</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">aperitif</span><span class="chip o">date_night</span></td>
+<td><span class="chip b">gin</span><br>strong · 26.8% · alcoholic<br>diff 1 · martini · stirred</td>
+<td class="ing">60 ml Gin or vodka; 10 ml Dry vermouth; 10 ml Olive brine</td></tr><tr data-search="bronx fruity herbal spring brunch gin">
+<td><img src="../images/thumb/bronx.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/bronx.png" width="48" height="48" alt=""></td>
+<td><b>Bronx</b><br><span class="id">bronx</span><br><span class="sw" style="background:#E9A659"></span> orange<br><small>CC-BY-2.0 · Stuart Webster</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">herbal</span></td><td><span class="chip s">spring</span></td><td><span class="chip o">brunch</span></td>
+<td><span class="chip b">gin</span><br>medium · 18.1% · alcoholic<br>diff 2 · coupe · shaken</td>
+<td class="ing">30 ml Gin; 15 ml Sweet (red) vermouth; 15 ml Dry vermouth; 15 ml Orange juice</td></tr><tr data-search="gin rickey sour bubbly summer aperitif gin">
+<td><img src="../images/thumb/gin_rickey.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/gin_rickey.png" width="48" height="48" alt=""></td>
+<td><b>Gin Rickey</b><br><span class="id">gin_rickey</span><br><span class="sw" style="background:#EDF2E6"></span> clear<br><small>CC-BY-2.0 · Scott Veg</small></td>
+<td><span class="chip f">sour</span><span class="chip f">bubbly</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">aperitif</span></td>
+<td><span class="chip b">gin</span><br>medium · 11.2% · alcoholic<br>diff 1 · highball · built</td>
+<td class="ing">60 ml Gin; 15 ml Lime juice; top: Soda water</td></tr><tr data-search="pegu club sour fruity summer aperitif gin">
+<td><img src="../images/thumb/pegu_club.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/pegu_club.png" width="48" height="48" alt=""></td>
+<td><b>Pegu Club</b><br><span class="id">pegu_club</span><br><span class="sw" style="background:#F1D9A2"></span> pale orange<br><small>CC-BY-SA-4.0 · Paxsimius</small></td>
+<td><span class="chip f">sour</span><span class="chip f">fruity</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">aperitif</span></td>
+<td><span class="chip b">gin</span><br>strong · 26.2% · alcoholic<br>diff 2 · coupe · shaken</td>
+<td class="ing">45 ml Gin; 22.5 ml Orange curaçao; 15 ml Lime juice; 1 dash Angostura bitters; 1 dash Orange bitters</td></tr><tr data-search="bijou herbal spirit_forward sweet fall winter nightcap gin liqueur">
+<td><img src="../images/thumb/bijou.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/bijou.png" width="48" height="48" alt=""></td>
+<td><b>Bijou</b><br><span class="id">bijou</span><br><span class="sw" style="background:#B8762E"></span> amber<br><small>CC-BY-SA-2.0 · Chris Palmer from San Diego</small></td>
+<td><span class="chip f">herbal</span><span class="chip f">spirit_forward</span><span class="chip f">sweet</span></td><td><span class="chip s">fall</span><span class="chip s">winter</span></td><td><span class="chip o">nightcap</span></td>
+<td><span class="chip b">gin</span><span class="chip b">liqueur</span><br>strong · 30.8% · alcoholic<br>diff 1 · coupe · stirred</td>
+<td class="ing">30 ml Gin; 30 ml Sweet (red) vermouth; 30 ml Green Chartreuse; 1 dash Orange bitters</td></tr><tr data-search="sloe gin fizz fruity sour bubbly fall spring brunch liqueur">
+<td><img src="../icons/thumb/sloe_gin_fizz.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/sloe_gin_fizz.png" width="48" height="48" alt=""></td>
+<td><b>Sloe Gin Fizz</b><br><span class="id">sloe_gin_fizz</span><br><span class="sw" style="background:#C2506A"></span> plum pink<br><small>generated icon</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sour</span><span class="chip f">bubbly</span></td><td><span class="chip s">fall</span><span class="chip s">spring</span></td><td><span class="chip o">brunch</span></td>
+<td><span class="chip b">liqueur</span><br>light · 6.8% · low_abv<br>diff 2 · highball · shaken</td>
+<td class="ing">45 ml Sloe gin; 22.5 ml Lemon juice; 10 ml Simple syrup; top: Soda water</td></tr><tr data-search="breakfast martini fruity sour bitter spring all_year brunch gin">
+<td><img src="../images/thumb/breakfast_martini.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/breakfast_martini.png" width="48" height="48" alt=""></td>
+<td><b>Breakfast Martini</b><br><span class="id">breakfast_martini</span><br><span class="sw" style="background:#F0B65C"></span> orange<br><small>CC-BY-2.0 · popvoid</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sour</span><span class="chip f">bitter</span></td><td><span class="chip s">spring</span><span class="chip s">all_year</span></td><td><span class="chip o">brunch</span></td>
+<td><span class="chip b">gin</span><br>strong · 24.5% · alcoholic<br>diff 2 · martini · shaken</td>
+<td class="ing">50 ml Gin; 15 ml Triple sec; 15 ml Lemon juice; 1 barspoon Orange marmalade</td></tr><tr data-search="hugo spritz bubbly herbal fruity spring summer aperitif brunch wine_sparkling">
+<td><img src="../images/thumb/hugo_spritz.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/hugo_spritz.png" width="48" height="48" alt=""></td>
+<td><b>Hugo Spritz</b><br><span class="id">hugo_spritz</span><br><span class="sw" style="background:#EFEBC0"></span> pale straw<br><small>CC-BY-SA-3.0 · Ralf Roletschek</small></td>
+<td><span class="chip f">bubbly</span><span class="chip f">herbal</span><span class="chip f">fruity</span></td><td><span class="chip s">spring</span><span class="chip s">summer</span></td><td><span class="chip o">aperitif</span><span class="chip o">brunch</span></td>
+<td><span class="chip b">wine_sparkling</span><br>light · 7.0% · low_abv<br>diff 1 · wine · built</td>
+<td class="ing">4 leaf Fresh mint; 20 ml Elderflower cordial (or liqueur); 90 ml Prosecco; top: Soda water</td></tr><tr data-search="negroni sbagliato bitter bubbly all_year aperitif amaro_aperitif">
+<td><img src="../images/thumb/negroni_sbagliato.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/negroni_sbagliato.png" width="48" height="48" alt=""></td>
+<td><b>Negroni Sbagliato</b><br><span class="id">negroni_sbagliato</span><br><span class="sw" style="background:#B42A24"></span> red<br><small>CC-BY-2.0 · Wine Dharma</small></td>
+<td><span class="chip f">bitter</span><span class="chip f">bubbly</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">aperitif</span></td>
+<td><span class="chip b">amaro_aperitif</span><br>medium · 14.8% · alcoholic<br>diff 1 · rocks · built</td>
+<td class="ing">30 ml Campari; 30 ml Sweet (red) vermouth; top: Prosecco</td></tr><tr data-search="kir royale fruity bubbly holiday party aperitif wine_sparkling">
+<td><img src="../icons/thumb/kir_royale.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/kir_royale.png" width="48" height="48" alt=""></td>
+<td><b>Kir Royale</b><br><span class="id">kir_royale</span><br><span class="sw" style="background:#B5345A"></span> ruby pink<br><small>generated icon</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">bubbly</span></td><td><span class="chip s">holiday</span></td><td><span class="chip o">party</span><span class="chip o">aperitif</span></td>
+<td><span class="chip b">wine_sparkling</span><br>medium · 12.6% · alcoholic<br>diff 1 · flute · built</td>
+<td class="ing">10 ml Crème de cassis; top: Champagne</td></tr><tr data-search="rossini fruity bubbly spring summer brunch wine_sparkling">
+<td><img src="../images/thumb/rossini.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/rossini.png" width="48" height="48" alt=""></td>
+<td><b>Rossini</b><br><span class="id">rossini</span><br><span class="sw" style="background:#E2526A"></span> strawberry<br><small>CC-BY-2.0 · Luca Conti from Senigallia, Italy</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">bubbly</span></td><td><span class="chip s">spring</span><span class="chip s">summer</span></td><td><span class="chip o">brunch</span></td>
+<td><span class="chip b">wine_sparkling</span><br>light · 8.0% · low_abv<br>diff 2 · flute · built</td>
+<td class="ing">50 ml Strawberry purée; top: Prosecco</td></tr><tr data-search="death in the afternoon herbal bubbly all_year party wine_sparkling">
+<td><img src="../icons/thumb/death_in_the_afternoon.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/death_in_the_afternoon.png" width="48" height="48" alt=""></td>
+<td><b>Death in the Afternoon</b><br><span class="id">death_in_the_afternoon</span><br><span class="sw" style="background:#D7E3C6"></span> milky green<br><small>generated icon</small></td>
+<td><span class="chip f">herbal</span><span class="chip f">bubbly</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">party</span></td>
+<td><span class="chip b">wine_sparkling</span><br>strong · 21.6% · alcoholic<br>diff 1 · flute · built</td>
+<td class="ing">30 ml Absinthe; top: Champagne</td></tr><tr data-search="bamboo herbal spirit_forward all_year aperitif wine amaro_aperitif">
+<td><img src="../icons/thumb/bamboo.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/bamboo.png" width="48" height="48" alt=""></td>
+<td><b>Bamboo</b><br><span class="id">bamboo</span><br><span class="sw" style="background:#E2C27E"></span> pale amber<br><small>generated icon</small></td>
+<td><span class="chip f">herbal</span><span class="chip f">spirit_forward</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">aperitif</span></td>
+<td><span class="chip b">wine</span><span class="chip b">amaro_aperitif</span><br>medium · 14.7% · alcoholic<br>diff 1 · coupe · stirred</td>
+<td class="ing">45 ml Dry fino or amontillado sherry; 45 ml Dry vermouth; 2 dash Angostura bitters; 2 dash Orange bitters</td></tr><tr data-search="air mail bubbly sour sweet holiday spring brunch party rum_dark wine_sparkling">
+<td><img src="../images/thumb/air_mail.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/air_mail.png" width="48" height="48" alt=""></td>
+<td><b>Air Mail</b><br><span class="id">air_mail</span><br><span class="sw" style="background:#EBD69A"></span> pale gold<br><small>CC-BY-SA-4.0 · Matthias Friedlein (www.augustine-bar.de)</small></td>
+<td><span class="chip f">bubbly</span><span class="chip f">sour</span><span class="chip f">sweet</span></td><td><span class="chip s">holiday</span><span class="chip s">spring</span></td><td><span class="chip o">brunch</span><span class="chip o">party</span></td>
+<td><span class="chip b">rum_dark</span><span class="chip b">wine_sparkling</span><br>medium · 12.8% · alcoholic<br>diff 2 · flute · shaken</td>
+<td class="ing">30 ml Aged (gold) rum; 15 ml Lime juice; 15 ml Honey syrup; top: Champagne</td></tr><tr data-search="poinsettia fruity bubbly holiday winter party wine_sparkling">
+<td><img src="../icons/thumb/poinsettia.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/poinsettia.png" width="48" height="48" alt=""></td>
+<td><b>Poinsettia</b><br><span class="id">poinsettia</span><br><span class="sw" style="background:#C2304A"></span> cranberry<br><small>generated icon</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">bubbly</span></td><td><span class="chip s">holiday</span><span class="chip s">winter</span></td><td><span class="chip o">party</span></td>
+<td><span class="chip b">wine_sparkling</span><br>medium · 12.4% · alcoholic<br>diff 1 · flute · built</td>
+<td class="ing">15 ml Triple sec; 30 ml Cranberry juice; top: Sparkling wine (Champagne</td></tr><tr data-search="mulled wine spicy fruity sweet winter holiday party nightcap wine">
+<td><img src="../icons/thumb/mulled_wine.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/mulled_wine.png" width="48" height="48" alt=""></td>
+<td><b>Mulled Wine</b><br><span class="id">mulled_wine</span><br><span class="sw" style="background:#5E1520"></span> deep red<br><small>generated icon</small></td>
+<td><span class="chip f">spicy</span><span class="chip f">fruity</span><span class="chip f">sweet</span></td><td><span class="chip s">winter</span><span class="chip s">holiday</span></td><td><span class="chip o">party</span><span class="chip o">nightcap</span></td>
+<td><span class="chip b">wine</span><br>medium · 11.8% · alcoholic<br>diff 2 · irish_coffee_mug · hot</td>
+<td class="ing">150 ml Red wine; 15 ml Honey or sugar, to taste; 1 piece 2 orange slices; 3 piece Whole cloves; 1 piece Cinnamon sticks; 1 piece Star anise (opt); 15 ml Brandy (optional) (opt)</td></tr><tr data-search="sangria fruity sweet summer party wine">
+<td><img src="../images/thumb/sangria.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/sangria.png" width="48" height="48" alt=""></td>
+<td><b>Sangria</b><br><span class="id">sangria</span><br><span class="sw" style="background:#8E1E2C"></span> red<br><small>CC-BY-2.0 · Frank K.</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sweet</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span></td>
+<td><span class="chip b">wine</span><br>medium · 13.2% · alcoholic<br>diff 2 · wine · built</td>
+<td class="ing">120 ml Red wine; 15 ml Spanish brandy; 15 ml Triple sec; 30 ml Orange juice; 10 ml Simple syrup; 1 piece Orange slices; 1 piece Lemon slices; top: Soda water (opt)</td></tr><tr data-search="limoncello spritz fruity bubbly sweet summer aperitif brunch liqueur wine_sparkling">
+<td><img src="../icons/thumb/limoncello_spritz.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/limoncello_spritz.png" width="48" height="48" alt=""></td>
+<td><b>Limoncello Spritz</b><br><span class="id">limoncello_spritz</span><br><span class="sw" style="background:#F4E37A"></span> lemon yellow<br><small>generated icon</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">bubbly</span><span class="chip f">sweet</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">aperitif</span><span class="chip o">brunch</span></td>
+<td><span class="chip b">liqueur</span><span class="chip b">wine_sparkling</span><br>medium · 14.5% · alcoholic<br>diff 1 · wine · built</td>
+<td class="ing">60 ml Limoncello; 90 ml Prosecco; top: Soda water</td></tr><tr data-search="pimm&#x27;s cup fruity herbal bubbly summer party brunch liqueur">
+<td><img src="../images/thumb/pimms_cup.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/pimms_cup.png" width="48" height="48" alt=""></td>
+<td><b>Pimm&#x27;s Cup</b><br><span class="id">pimms_cup</span><br><span class="sw" style="background:#B86A3A"></span> amber<br><small>Public-Domain · Charles Clavadetscher</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">herbal</span><span class="chip f">bubbly</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span><span class="chip o">brunch</span></td>
+<td><span class="chip b">liqueur</span><br>light · 5.7% · low_abv<br>diff 1 · highball · built</td>
+<td class="ing">50 ml Pimm&#x27;s No. 1; top: Lemonade (UK-style) or lemon-lime soda; 2 piece Cucumber slices; 2 piece Strawberry halves (opt); 1 piece Orange slice (opt); 3 leaf Fresh mint (opt)</td></tr><tr data-search="vodka martini spirit_forward all_year aperitif vodka">
+<td><img src="../images/thumb/vodka_martini.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/vodka_martini.png" width="48" height="48" alt=""></td>
+<td><b>Vodka Martini</b><br><span class="id">vodka_martini</span><br><span class="sw" style="background:#EDF0F2"></span> clear<br><small>CC-BY-SA-3.0 · Sarah Afshar</small></td>
+<td><span class="chip f">spirit_forward</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">aperitif</span></td>
+<td><span class="chip b">vodka</span><br>strong · 30.6% · alcoholic<br>diff 1 · martini · stirred</td>
+<td class="ing">60 ml Vodka; 10 ml Dry vermouth</td></tr><tr data-search="screwdriver fruity sweet all_year brunch vodka">
+<td><img src="../images/thumb/screwdriver.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/screwdriver.png" width="48" height="48" alt=""></td>
+<td><b>Screwdriver</b><br><span class="id">screwdriver</span><br><span class="sw" style="background:#F6A21E"></span> orange<br><small>CC-BY-SA-3.0 · John Phelan</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sweet</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">brunch</span></td>
+<td><span class="chip b">vodka</span><br>medium · 12.1% · alcoholic<br>diff 1 · highball · built</td>
+<td class="ing">50 ml Vodka; 100 ml Orange juice</td></tr><tr data-search="harvey wallbanger fruity sweet herbal all_year brunch party vodka">
+<td><img src="../icons/thumb/harvey_wallbanger.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/harvey_wallbanger.png" width="48" height="48" alt=""></td>
+<td><b>Harvey Wallbanger</b><br><span class="id">harvey_wallbanger</span><br><span class="sw" style="background:#F2A52C"></span> orange<br><small>generated icon</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sweet</span><span class="chip f">herbal</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">brunch</span><span class="chip o">party</span></td>
+<td><span class="chip b">vodka</span><br>medium · 13.6% · alcoholic<br>diff 2 · highball · built</td>
+<td class="ing">45 ml Vodka; 90 ml Orange juice; 15 ml Galliano</td></tr><tr data-search="greyhound fruity sour bitter summer brunch vodka">
+<td><img src="../images/thumb/greyhound.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/greyhound.png" width="48" height="48" alt=""></td>
+<td><b>Greyhound</b><br><span class="id">greyhound</span><br><span class="sw" style="background:#F3D2BE"></span> pale pink<br><small>CC-BY-2.0 · Scott Veg</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sour</span><span class="chip f">bitter</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">brunch</span></td>
+<td><span class="chip b">vodka</span><br>light · 9.9% · alcoholic<br>diff 1 · highball · built</td>
+<td class="ing">45 ml Vodka; 120 ml Grapefruit juice</td></tr><tr data-search="salty dog fruity sour summer brunch vodka">
+<td><img src="../images/thumb/salty_dog.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/salty_dog.png" width="48" height="48" alt=""></td>
+<td><b>Salty Dog</b><br><span class="id">salty_dog</span><br><span class="sw" style="background:#F3D2BE"></span> pale pink<br><small>CC-BY-SA-3.0 · Momoji3</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sour</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">brunch</span></td>
+<td><span class="chip b">vodka</span><br>light · 9.9% · alcoholic<br>diff 1 · highball · built</td>
+<td class="ing">pinch: Salt for the rim; 45 ml Vodka or gin; 120 ml Grapefruit juice</td></tr><tr data-search="cape codder fruity sour all_year party vodka">
+<td><img src="../images/thumb/cape_codder.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/cape_codder.png" width="48" height="48" alt=""></td>
+<td><b>Cape Codder</b><br><span class="id">cape_codder</span><br><span class="sw" style="background:#C8314E"></span> cranberry<br><small>CC-BY-SA-3.0 · John Phelan</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sour</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">party</span></td>
+<td><span class="chip b">vodka</span><br>light · 9.9% · alcoholic<br>diff 1 · highball · built</td>
+<td class="ing">45 ml Vodka; 120 ml Cranberry juice</td></tr><tr data-search="bay breeze fruity sweet summer party vodka">
+<td><img src="../icons/thumb/bay_breeze.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/bay_breeze.png" width="48" height="48" alt=""></td>
+<td><b>Bay Breeze</b><br><span class="id">bay_breeze</span><br><span class="sw" style="background:#F08C9C"></span> pink<br><small>generated icon</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sweet</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span></td>
+<td><span class="chip b">vodka</span><br>light · 9.9% · alcoholic<br>diff 1 · highball · built</td>
+<td class="ing">45 ml Vodka; 90 ml Cranberry juice; 30 ml Pineapple juice</td></tr><tr data-search="madras fruity sweet summer brunch party vodka">
+<td><img src="../icons/thumb/madras.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/madras.png" width="48" height="48" alt=""></td>
+<td><b>Madras</b><br><span class="id">madras</span><br><span class="sw" style="background:#E86A58"></span> coral<br><small>generated icon</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sweet</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">brunch</span><span class="chip o">party</span></td>
+<td><span class="chip b">vodka</span><br>light · 9.9% · alcoholic<br>diff 1 · highball · built</td>
+<td class="ing">45 ml Vodka; 90 ml Cranberry juice; 30 ml Orange juice</td></tr><tr data-search="white russian creamy coffee sweet winter after_dinner nightcap vodka">
+<td><img src="../images/thumb/white_russian.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/white_russian.png" width="48" height="48" alt=""></td>
+<td><b>White Russian</b><br><span class="id">white_russian</span><br><span class="sw" style="background:#CDB28E"></span> latte<br><small>CC-BY-SA-3.0 · Ralf Roletschek</small></td>
+<td><span class="chip f">creamy</span><span class="chip f">coffee</span><span class="chip f">sweet</span></td><td><span class="chip s">winter</span></td><td><span class="chip o">after_dinner</span><span class="chip o">nightcap</span></td>
+<td><span class="chip b">vodka</span><br>strong · 21.8% · alcoholic<br>diff 2 · rocks · built</td>
+<td class="ing">50 ml Vodka; 20 ml Coffee liqueur; 30 ml Cream</td></tr><tr data-search="godmother sweet spirit_forward winter after_dinner vodka">
+<td><img src="../icons/thumb/godmother.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/godmother.png" width="48" height="48" alt=""></td>
+<td><b>Godmother</b><br><span class="id">godmother</span><br><span class="sw" style="background:#D8B07A"></span> pale amber<br><small>generated icon</small></td>
+<td><span class="chip f">sweet</span><span class="chip f">spirit_forward</span></td><td><span class="chip s">winter</span></td><td><span class="chip o">after_dinner</span></td>
+<td><span class="chip b">vodka</span><br>strong · 31.9% · alcoholic<br>diff 1 · rocks · built</td>
+<td class="ing">45 ml Vodka; 20 ml Amaretto</td></tr><tr data-search="kamikaze sour fruity all_year party vodka liqueur">
+<td><img src="../images/thumb/kamikaze.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/kamikaze.png" width="48" height="48" alt=""></td>
+<td><b>Kamikaze</b><br><span class="id">kamikaze</span><br><span class="sw" style="background:#EEEAB8"></span> pale yellow<br><small>CC-BY-SA-3.0 · Momoji3</small></td>
+<td><span class="chip f">sour</span><span class="chip f">fruity</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">party</span></td>
+<td><span class="chip b">vodka</span><span class="chip b">liqueur</span><br>strong · 21.3% · alcoholic<br>diff 2 · coupe · shaken</td>
+<td class="ing">30 ml Vodka; 30 ml Triple sec; 30 ml Lime juice</td></tr><tr data-search="appletini sweet sour fruity all_year party vodka">
+<td><img src="../images/thumb/appletini.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/appletini.png" width="48" height="48" alt=""></td>
+<td><b>Appletini</b><br><span class="id">appletini</span><br><span class="sw" style="background:#B6D84A"></span> apple green<br><small>CC-BY-2.0 · Jessica Merz from Novato, USA</small></td>
+<td><span class="chip f">sweet</span><span class="chip f">sour</span><span class="chip f">fruity</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">party</span></td>
+<td><span class="chip b">vodka</span><br>strong · 22.0% · alcoholic<br>diff 2 · martini · shaken</td>
+<td class="ing">45 ml Vodka; 30 ml Sour apple schnapps; 10 ml Lemon juice</td></tr><tr data-search="caesar spicy sour all_year brunch vodka">
+<td><img src="../images/thumb/caesar.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/caesar.png" width="48" height="48" alt=""></td>
+<td><b>Caesar</b><br><span class="id">caesar</span><br><span class="sw" style="background:#B8382A"></span> tomato red<br><small>CC-BY-SA-3.0 · AirIntake at English Wikipedia</small></td>
+<td><span class="chip f">spicy</span><span class="chip f">sour</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">brunch</span></td>
+<td><span class="chip b">vodka</span><br>light · 9.2% · alcoholic<br>diff 1 · highball · built</td>
+<td class="ing">pinch: Celery salt for the rim; 45 ml Vodka; 120 ml Clamato (tomato-clam juice); 2 dash Worcestershire sauce; 2 dash Hot sauce (Tabasco); 10 ml Lime juice</td></tr><tr data-search="mudslide creamy coffee sweet winter after_dinner vodka liqueur">
+<td><img src="../images/thumb/mudslide.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/mudslide.png" width="48" height="48" alt=""></td>
+<td><b>Mudslide</b><br><span class="id">mudslide</span><br><span class="sw" style="background:#8A6244"></span> mocha<br><small>CC-BY-SA-4.0 · Bruce The Deus</small></td>
+<td><span class="chip f">creamy</span><span class="chip f">coffee</span><span class="chip f">sweet</span></td><td><span class="chip s">winter</span></td><td><span class="chip o">after_dinner</span></td>
+<td><span class="chip b">vodka</span><span class="chip b">liqueur</span><br>medium · 15.4% · alcoholic<br>diff 2 · rocks · shaken</td>
+<td class="ing">30 ml Vodka; 30 ml Coffee liqueur; 30 ml Irish cream liqueur; 30 ml Cream</td></tr><tr data-search="blue lagoon fruity sweet bubbly summer party vodka">
+<td><img src="../images/thumb/blue_lagoon.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/blue_lagoon.png" width="48" height="48" alt=""></td>
+<td><b>Blue Lagoon</b><br><span class="id">blue_lagoon</span><br><span class="sw" style="background:#2A9BD6"></span> blue<br><small>CC-BY-SA-3.0 · John Phelan</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sweet</span><span class="chip f">bubbly</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span></td>
+<td><span class="chip b">vodka</span><br>medium · 10.6% · alcoholic<br>diff 1 · highball · built</td>
+<td class="ing">40 ml Vodka; 20 ml Blue curaçao; top: Lemonade or lemon-lime soda</td></tr><tr data-search="chocolate martini creamy sweet winter holiday after_dinner date_night vodka">
+<td><img src="../icons/thumb/chocolate_martini.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/chocolate_martini.png" width="48" height="48" alt=""></td>
+<td><b>Chocolate Martini</b><br><span class="id">chocolate_martini</span><br><span class="sw" style="background:#6B4128"></span> chocolate<br><small>generated icon</small></td>
+<td><span class="chip f">creamy</span><span class="chip f">sweet</span></td><td><span class="chip s">winter</span><span class="chip s">holiday</span></td><td><span class="chip o">after_dinner</span><span class="chip o">date_night</span></td>
+<td><span class="chip b">vodka</span><br>strong · 22.7% · alcoholic<br>diff 2 · martini · shaken</td>
+<td class="ing">45 ml Vodka; 30 ml Dark crème de cacao; 15 ml Cream</td></tr><tr data-search="painkiller creamy fruity sweet summer party rum_dark">
+<td><img src="../icons/thumb/painkiller.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/painkiller.png" width="48" height="48" alt=""></td>
+<td><b>Painkiller</b><br><span class="id">painkiller</span><br><span class="sw" style="background:#EBCB8E"></span> cream<br><small>generated icon</small></td>
+<td><span class="chip f">creamy</span><span class="chip f">fruity</span><span class="chip f">sweet</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span></td>
+<td><span class="chip b">rum_dark</span><br>light · 8.0% · alcoholic<br>diff 2 · double_rocks · shaken</td>
+<td class="ing">60 ml Navy-style dark rum; 120 ml Pineapple juice; 30 ml Orange juice; 30 ml Cream of coconut</td></tr><tr data-search="hurricane fruity sweet summer party rum_white rum_dark">
+<td><img src="../images/thumb/hurricane.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/hurricane.png" width="48" height="48" alt=""></td>
+<td><b>Hurricane</b><br><span class="id">hurricane</span><br><span class="sw" style="background:#E2502F"></span> red orange<br><small>CC-BY-SA-3.0 · NOLAskip</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sweet</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span></td>
+<td><span class="chip b">rum_white</span><span class="chip b">rum_dark</span><br>medium · 16.9% · alcoholic<br>diff 2 · hurricane · shaken</td>
+<td class="ing">45 ml White rum; 45 ml Dark rum; 30 ml Passion fruit syrup; 30 ml Orange juice; 15 ml Lime juice; 1 tsp Grenadine</td></tr><tr data-search="el presidente spirit_forward fruity sweet all_year aperitif date_night rum_white">
+<td><img src="../icons/thumb/el_presidente.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/el_presidente.png" width="48" height="48" alt=""></td>
+<td><b>El Presidente</b><br><span class="id">el_presidente</span><br><span class="sw" style="background:#D88445"></span> amber orange<br><small>generated icon</small></td>
+<td><span class="chip f">spirit_forward</span><span class="chip f">fruity</span><span class="chip f">sweet</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">aperitif</span><span class="chip o">date_night</span></td>
+<td><span class="chip b">rum_white</span><br>strong · 25.9% · alcoholic<br>diff 1 · coupe · stirred</td>
+<td class="ing">45 ml White rum; 22.5 ml Blanc or dry vermouth; 7.5 ml Orange curaçao; 1 barspoon Grenadine</td></tr><tr data-search="blue hawaii fruity sweet sour summer party rum_white vodka">
+<td><img src="../images/thumb/blue_hawaii.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/blue_hawaii.png" width="48" height="48" alt=""></td>
+<td><b>Blue Hawaii</b><br><span class="id">blue_hawaii</span><br><span class="sw" style="background:#2BB3C9"></span> turquoise<br><small>Public-Domain · Monoukotori at English Wikipedia</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sweet</span><span class="chip f">sour</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span></td>
+<td><span class="chip b">rum_white</span><span class="chip b">vodka</span><br>medium · 10.1% · alcoholic<br>diff 2 · hurricane · shaken</td>
+<td class="ing">22.5 ml White rum; 22.5 ml Vodka; 15 ml Blue curaçao; 90 ml Pineapple juice; 15 ml Lemon juice; 7.5 ml Simple syrup</td></tr><tr data-search="hot buttered rum sweet spicy creamy winter holiday nightcap rum_dark">
+<td><img src="../images/thumb/hot_buttered_rum.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/hot_buttered_rum.png" width="48" height="48" alt=""></td>
+<td><b>Hot Buttered Rum</b><br><span class="id">hot_buttered_rum</span><br><span class="sw" style="background:#A8692E"></span> caramel<br><small>CC-BY-2.0 · urban.houstonian</small></td>
+<td><span class="chip f">sweet</span><span class="chip f">spicy</span><span class="chip f">creamy</span></td><td><span class="chip s">winter</span><span class="chip s">holiday</span></td><td><span class="chip o">nightcap</span></td>
+<td><span class="chip b">rum_dark</span><br>medium · 11.7% · alcoholic<br>diff 2 · irish_coffee_mug · hot</td>
+<td class="ing">60 ml Dark rum; 3 tsp Soft butter (1 tablespoon); 2 tsp Brown sugar; pinch: Pinch each of nutmeg and cinnamon; 120 ml Hot water</td></tr><tr data-search="strawberry daiquiri fruity sweet sour summer party rum_white">
+<td><img src="../images/thumb/strawberry_daiquiri.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/strawberry_daiquiri.png" width="48" height="48" alt=""></td>
+<td><b>Strawberry Daiquiri</b><br><span class="id">strawberry_daiquiri</span><br><span class="sw" style="background:#E2394E"></span> strawberry<br><small>CC-BY-2.0 · TheCulinaryGeek from Chicago, USA</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sweet</span><span class="chip f">sour</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span></td>
+<td><span class="chip b">rum_white</span><br>medium · 19.4% · alcoholic<br>diff 2 · coupe · blended</td>
+<td class="ing">60 ml White rum; 20 ml Lime juice; 15 ml Simple syrup; 4 piece Ripe strawberries, hulled</td></tr><tr data-search="queen&#x27;s park swizzle herbal sour sweet summer party rum_dark">
+<td><img src="../images/thumb/queens_park_swizzle.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/queens_park_swizzle.png" width="48" height="48" alt=""></td>
+<td><b>Queen&#x27;s Park Swizzle</b><br><span class="id">queens_park_swizzle</span><br><span class="sw" style="background:#B9762E"></span> layered amber<br><small>CC-BY-2.0 · Krista</small></td>
+<td><span class="chip f">herbal</span><span class="chip f">sour</span><span class="chip f">sweet</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span></td>
+<td><span class="chip b">rum_dark</span><br>strong · 22.0% · alcoholic<br>diff 2 · collins · muddled_built</td>
+<td class="ing">8 leaf Fresh mint; 60 ml Demerara or other aged rum; 22.5 ml Lime juice; 15 ml Simple syrup; 4 dash Angostura bitters</td></tr><tr data-search="ti&#x27; punch spirit_forward sour summer aperitif rum_white">
+<td><img src="../icons/thumb/ti_punch.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/ti_punch.png" width="48" height="48" alt=""></td>
+<td><b>Ti&#x27; Punch</b><br><span class="id">ti_punch</span><br><span class="sw" style="background:#EEE6BE"></span> pale straw<br><small>generated icon</small></td>
+<td><span class="chip f">spirit_forward</span><span class="chip f">sour</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">aperitif</span></td>
+<td><span class="chip b">rum_white</span><br>strong · 46.2% · alcoholic<br>diff 1 · rocks · built</td>
+<td class="ing">1 piece A coin-sized slice of lime with peel; 5 ml Cane syrup; 60 ml Rhum agricole</td></tr><tr data-search="batanga sweet bubbly summer party tequila">
+<td><img src="../icons/thumb/batanga.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/batanga.png" width="48" height="48" alt=""></td>
+<td><b>Batanga</b><br><span class="id">batanga</span><br><span class="sw" style="background:#4A2A16"></span> cola brown<br><small>generated icon</small></td>
+<td><span class="chip f">sweet</span><span class="chip f">bubbly</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span></td>
+<td><span class="chip b">tequila</span><br>medium · 10.1% · alcoholic<br>diff 1 · highball · built</td>
+<td class="ing">pinch: Salt for the rim; 50 ml Blanco tequila; 10 ml Lime juice; top: Cola</td></tr><tr data-search="el diablo spicy fruity bubbly summer fall party tequila">
+<td><img src="../images/thumb/el_diablo.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/el_diablo.png" width="48" height="48" alt=""></td>
+<td><b>El Diablo</b><br><span class="id">el_diablo</span><br><span class="sw" style="background:#8C2A4A"></span> purple red<br><small>CC-BY-SA-2.0 · Edsel L</small></td>
+<td><span class="chip f">spicy</span><span class="chip f">fruity</span><span class="chip f">bubbly</span></td><td><span class="chip s">summer</span><span class="chip s">fall</span></td><td><span class="chip o">party</span></td>
+<td><span class="chip b">tequila</span><br>medium · 11.6% · alcoholic<br>diff 1 · highball · built</td>
+<td class="ing">45 ml Reposado tequila; 15 ml Lime juice; top: Ginger beer; 15 ml Crème de cassis</td></tr><tr data-search="ranch water sour bubbly summer party tequila">
+<td><img src="../icons/thumb/ranch_water.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/ranch_water.png" width="48" height="48" alt=""></td>
+<td><b>Ranch Water</b><br><span class="id">ranch_water</span><br><span class="sw" style="background:#EEF3E8"></span> clear<br><small>generated icon</small></td>
+<td><span class="chip f">sour</span><span class="chip f">bubbly</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span></td>
+<td><span class="chip b">tequila</span><br>light · 8.8% · alcoholic<br>diff 1 · highball · built</td>
+<td class="ing">45 ml Blanco tequila; 20 ml Lime juice; top: Sparkling mineral water (Topo Chico)</td></tr><tr data-search="oaxaca old fashioned smoky spirit_forward sweet fall winter nightcap tequila">
+<td><img src="../icons/thumb/oaxaca_old_fashioned.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/oaxaca_old_fashioned.png" width="48" height="48" alt=""></td>
+<td><b>Oaxaca Old Fashioned</b><br><span class="id">oaxaca_old_fashioned</span><br><span class="sw" style="background:#C08A3E"></span> amber<br><small>generated icon</small></td>
+<td><span class="chip f">smoky</span><span class="chip f">spirit_forward</span><span class="chip f">sweet</span></td><td><span class="chip s">fall</span><span class="chip s">winter</span></td><td><span class="chip o">nightcap</span></td>
+<td><span class="chip b">tequila</span><br>strong · 31.3% · alcoholic<br>diff 1 · rocks · stirred</td>
+<td class="ing">45 ml Reposado tequila; 15 ml Mezcal; 5 ml Agave syrup; 2 dash Angostura bitters</td></tr><tr data-search="spicy margarita spicy sour fruity summer party tequila">
+<td><img src="../images/thumb/spicy_margarita.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/spicy_margarita.png" width="48" height="48" alt=""></td>
+<td><b>Spicy Margarita</b><br><span class="id">spicy_margarita</span><br><span class="sw" style="background:#D6E6A0"></span> pale green<br><small>CC-BY-4.0 · Missvain</small></td>
+<td><span class="chip f">spicy</span><span class="chip f">sour</span><span class="chip f">fruity</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span></td>
+<td><span class="chip b">tequila</span><br>strong · 20.8% · alcoholic<br>diff 2 · rocks · shaken</td>
+<td class="ing">2 piece 2 slices of jalapeño; 50 ml Blanco tequila; 15 ml Triple sec; 25 ml Lime juice; 10 ml Agave syrup; pinch: Salt for the rim (optional) (opt)</td></tr><tr data-search="rob roy spirit_forward sweet fall winter nightcap whiskey_scotch">
+<td><img src="../images/thumb/rob_roy.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/rob_roy.png" width="48" height="48" alt=""></td>
+<td><b>Rob Roy</b><br><span class="id">rob_roy</span><br><span class="sw" style="background:#8B3E1C"></span> deep amber<br><small>CC-BY-2.0 · TheCulinaryGeek</small></td>
+<td><span class="chip f">spirit_forward</span><span class="chip f">sweet</span></td><td><span class="chip s">fall</span><span class="chip s">winter</span></td><td><span class="chip o">nightcap</span></td>
+<td><span class="chip b">whiskey_scotch</span><br>strong · 26.8% · alcoholic<br>diff 1 · coupe · stirred</td>
+<td class="ing">50 ml Scotch whisky; 25 ml Sweet (red) vermouth; 1 dash Angostura bitters</td></tr><tr data-search="blood and sand fruity sweet smoky fall winter date_night whiskey_scotch liqueur">
+<td><img src="../images/thumb/blood_and_sand.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/blood_and_sand.png" width="48" height="48" alt=""></td>
+<td><b>Blood and Sand</b><br><span class="id">blood_and_sand</span><br><span class="sw" style="background:#B4492A"></span> blood orange<br><small>CC-BY-SA-2.0 · Edsel Little</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sweet</span><span class="chip f">smoky</span></td><td><span class="chip s">fall</span><span class="chip s">winter</span></td><td><span class="chip o">date_night</span></td>
+<td><span class="chip b">whiskey_scotch</span><span class="chip b">liqueur</span><br>medium · 16.0% · alcoholic<br>diff 2 · coupe · shaken</td>
+<td class="ing">22.5 ml Scotch whisky; 22.5 ml Cherry liqueur (Cherry Heering); 22.5 ml Sweet (red) vermouth; 22.5 ml Orange juice</td></tr><tr data-search="whiskey smash herbal sour sweet summer party whiskey_bourbon">
+<td><img src="../icons/thumb/whiskey_smash.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/whiskey_smash.png" width="48" height="48" alt=""></td>
+<td><b>Whiskey Smash</b><br><span class="id">whiskey_smash</span><br><span class="sw" style="background:#D29A44"></span> amber<br><small>generated icon</small></td>
+<td><span class="chip f">herbal</span><span class="chip f">sour</span><span class="chip f">sweet</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span></td>
+<td><span class="chip b">whiskey_bourbon</span><br>strong · 27.0% · alcoholic<br>diff 2 · rocks · shaken</td>
+<td class="ing">3 piece 3 lemon wedges; 8 leaf Fresh mint; 60 ml Bourbon; 20 ml Simple syrup</td></tr><tr data-search="gold rush sour sweet fall all_year date_night whiskey_bourbon">
+<td><img src="../icons/thumb/gold_rush.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/gold_rush.png" width="48" height="48" alt=""></td>
+<td><b>Gold Rush</b><br><span class="id">gold_rush</span><br><span class="sw" style="background:#D9A852"></span> golden<br><small>generated icon</small></td>
+<td><span class="chip f">sour</span><span class="chip f">sweet</span></td><td><span class="chip s">fall</span><span class="chip s">all_year</span></td><td><span class="chip o">date_night</span></td>
+<td><span class="chip b">whiskey_bourbon</span><br>strong · 20.6% · alcoholic<br>diff 2 · rocks · shaken</td>
+<td class="ing">60 ml Bourbon; 22.5 ml Honey syrup; 22.5 ml Lemon juice</td></tr><tr data-search="brown derby fruity sour sweet all_year brunch whiskey_bourbon">
+<td><img src="../icons/thumb/brown_derby.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/brown_derby.png" width="48" height="48" alt=""></td>
+<td><b>Brown Derby</b><br><span class="id">brown_derby</span><br><span class="sw" style="background:#E2B16A"></span> pale amber<br><small>generated icon</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sour</span><span class="chip f">sweet</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">brunch</span></td>
+<td><span class="chip b">whiskey_bourbon</span><br>medium · 18.0% · alcoholic<br>diff 2 · coupe · shaken</td>
+<td class="ing">45 ml Bourbon; 30 ml Grapefruit juice; 15 ml Honey syrup</td></tr><tr data-search="ward eight sour fruity all_year party whiskey_rye">
+<td><img src="../icons/thumb/ward_eight.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/ward_eight.png" width="48" height="48" alt=""></td>
+<td><b>Ward Eight</b><br><span class="id">ward_eight</span><br><span class="sw" style="background:#D2604A"></span> coral red<br><small>generated icon</small></td>
+<td><span class="chip f">sour</span><span class="chip f">fruity</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">party</span></td>
+<td><span class="chip b">whiskey_rye</span><br>strong · 21.6% · alcoholic<br>diff 2 · coupe · shaken</td>
+<td class="ing">60 ml Rye whiskey; 15 ml Lemon juice; 15 ml Orange juice; 10 ml Grenadine</td></tr><tr data-search="hot toddy sweet spicy sour winter holiday nightcap whiskey_bourbon">
+<td><img src="../images/thumb/hot_toddy.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/hot_toddy.png" width="48" height="48" alt=""></td>
+<td><b>Hot Toddy</b><br><span class="id">hot_toddy</span><br><span class="sw" style="background:#C98A3E"></span> golden amber<br><small>CC-BY-SA-2.0 · Patrick Truby</small></td>
+<td><span class="chip f">sweet</span><span class="chip f">spicy</span><span class="chip f">sour</span></td><td><span class="chip s">winter</span><span class="chip s">holiday</span></td><td><span class="chip o">nightcap</span></td>
+<td><span class="chip b">whiskey_bourbon</span><br>medium · 10.7% · alcoholic<br>diff 2 · irish_coffee_mug · hot</td>
+<td class="ing">45 ml Whiskey (bourbon, Scotch or Irish); 15 ml Honey; 10 ml Lemon juice; 120 ml Hot water; 1 piece Cinnamon sticks (opt); 3 piece Whole cloves (opt)</td></tr><tr data-search="whisky highball bubbly spirit_forward all_year aperitif whiskey_scotch">
+<td><img src="../images/thumb/whisky_highball.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/whisky_highball.png" width="48" height="48" alt=""></td>
+<td><b>Whisky Highball</b><br><span class="id">whisky_highball</span><br><span class="sw" style="background:#EAD9A6"></span> pale straw<br><small>CC-BY-SA-3.0 · Ttsuchitori</small></td>
+<td><span class="chip f">bubbly</span><span class="chip f">spirit_forward</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">aperitif</span></td>
+<td><span class="chip b">whiskey_scotch</span><br>light · 9.9% · alcoholic<br>diff 1 · highball · built</td>
+<td class="ing">45 ml Japanese or Scotch whisky; top: Very cold soda water</td></tr><tr data-search="old pal bitter spirit_forward fall aperitif whiskey_rye amaro_aperitif">
+<td><img src="../images/thumb/old_pal.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/old_pal.png" width="48" height="48" alt=""></td>
+<td><b>Old Pal</b><br><span class="id">old_pal</span><br><span class="sw" style="background:#A7432A"></span> red amber<br><small>CC-BY-SA-2.0 · Patrick Truby</small></td>
+<td><span class="chip f">bitter</span><span class="chip f">spirit_forward</span></td><td><span class="chip s">fall</span></td><td><span class="chip o">aperitif</span></td>
+<td><span class="chip b">whiskey_rye</span><span class="chip b">amaro_aperitif</span><br>strong · 24.2% · alcoholic<br>diff 1 · coupe · stirred</td>
+<td class="ing">30 ml Rye whiskey; 30 ml Dry vermouth; 30 ml Campari</td></tr><tr data-search="black manhattan spirit_forward bitter herbal fall winter nightcap whiskey_rye">
+<td><img src="../images/thumb/black_manhattan.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/black_manhattan.png" width="48" height="48" alt=""></td>
+<td><b>Black Manhattan</b><br><span class="id">black_manhattan</span><br><span class="sw" style="background:#3C1A10"></span> near black<br><small>CC-BY-SA-2.0 · Kenn Wilson from Portland, Oregon, US</small></td>
+<td><span class="chip f">spirit_forward</span><span class="chip f">bitter</span><span class="chip f">herbal</span></td><td><span class="chip s">fall</span><span class="chip s">winter</span></td><td><span class="chip o">nightcap</span></td>
+<td><span class="chip b">whiskey_rye</span><br>strong · 33.0% · alcoholic<br>diff 1 · coupe · stirred</td>
+<td class="ing">60 ml Rye whiskey or bourbon; 30 ml Averna; 1 dash Angostura bitters; 1 dash Orange bitters</td></tr><tr data-search="kentucky mule spicy bubbly all_year fall party whiskey_bourbon">
+<td><img src="../icons/thumb/kentucky_mule.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/kentucky_mule.png" width="48" height="48" alt=""></td>
+<td><b>Kentucky Mule</b><br><span class="id">kentucky_mule</span><br><span class="sw" style="background:#D8A65A"></span> amber<br><small>generated icon</small></td>
+<td><span class="chip f">spicy</span><span class="chip f">bubbly</span></td><td><span class="chip s">all_year</span><span class="chip s">fall</span></td><td><span class="chip o">party</span></td>
+<td><span class="chip b">whiskey_bourbon</span><br>medium · 10.5% · alcoholic<br>diff 1 · copper_mug · built</td>
+<td class="ing">45 ml Bourbon; 10 ml Lime juice; top: Ginger beer</td></tr><tr data-search="godfather sweet spirit_forward winter after_dinner nightcap whiskey_scotch">
+<td><img src="../images/thumb/godfather.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/godfather.png" width="48" height="48" alt=""></td>
+<td><b>Godfather</b><br><span class="id">godfather</span><br><span class="sw" style="background:#A6602A"></span> amber<br><small>CC-BY-2.0 · Stuart Webster from Southampton, England</small></td>
+<td><span class="chip f">sweet</span><span class="chip f">spirit_forward</span></td><td><span class="chip s">winter</span></td><td><span class="chip o">after_dinner</span><span class="chip o">nightcap</span></td>
+<td><span class="chip b">whiskey_scotch</span><br>strong · 31.9% · alcoholic<br>diff 1 · rocks · built</td>
+<td class="ing">45 ml Scotch whisky; 20 ml Amaretto</td></tr><tr data-search="jack rose fruity sour fall date_night brandy_cognac">
+<td><img src="../images/thumb/jack_rose.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/jack_rose.png" width="48" height="48" alt=""></td>
+<td><b>Jack Rose</b><br><span class="id">jack_rose</span><br><span class="sw" style="background:#E06A7A"></span> rose pink<br><small>CC0-1.0 · Antonio Cavallo</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sour</span></td><td><span class="chip s">fall</span></td><td><span class="chip o">date_night</span></td>
+<td><span class="chip b">brandy_cognac</span><br>medium · 19.7% · alcoholic<br>diff 2 · coupe · shaken</td>
+<td class="ing">60 ml Applejack or calvados; 22.5 ml Lemon juice; 15 ml Grenadine</td></tr><tr data-search="eggnog creamy sweet spicy holiday winter party after_dinner brandy_cognac">
+<td><img src="../icons/thumb/eggnog.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/eggnog.png" width="48" height="48" alt=""></td>
+<td><b>Eggnog</b><br><span class="id">eggnog</span><br><span class="sw" style="background:#F1E2B6"></span> eggnog<br><small>generated icon</small></td>
+<td><span class="chip f">creamy</span><span class="chip f">sweet</span><span class="chip f">spicy</span></td><td><span class="chip s">holiday</span><span class="chip s">winter</span></td><td><span class="chip o">party</span><span class="chip o">after_dinner</span></td>
+<td><span class="chip b">brandy_cognac</span><br>light · 7.4% · alcoholic<br>diff 3 · rocks · shaken</td>
+<td class="ing">45 ml Brandy, bourbon or dark rum; 60 ml Milk; 30 ml Cream; 1 piece Egg (whole); 15 ml Simple syrup</td></tr><tr data-search="chilcano spicy bubbly sour summer aperitif party pisco">
+<td><img src="../images/thumb/chilcano.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/chilcano.png" width="48" height="48" alt=""></td>
+<td><b>Chilcano</b><br><span class="id">chilcano</span><br><span class="sw" style="background:#EFE2B2"></span> pale gold<br><small>CC-BY-4.0 · Missvain</small></td>
+<td><span class="chip f">spicy</span><span class="chip f">bubbly</span><span class="chip f">sour</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">aperitif</span><span class="chip o">party</span></td>
+<td><span class="chip b">pisco</span><br>medium · 11.5% · alcoholic<br>diff 1 · highball · built</td>
+<td class="ing">60 ml Pisco; 15 ml Lime juice; top: Ginger ale; 3 dash Angostura bitters</td></tr><tr data-search="amaretto sour sweet sour fall all_year date_night liqueur">
+<td><img src="../images/thumb/amaretto_sour.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/amaretto_sour.png" width="48" height="48" alt=""></td>
+<td><b>Amaretto Sour</b><br><span class="id">amaretto_sour</span><br><span class="sw" style="background:#E0A54A"></span> amber<br><small>CC-BY-SA-2.0 · Edsel L</small></td>
+<td><span class="chip f">sweet</span><span class="chip f">sour</span></td><td><span class="chip s">fall</span><span class="chip s">all_year</span></td><td><span class="chip o">date_night</span></td>
+<td><span class="chip b">liqueur</span><br>medium · 10.8% · alcoholic<br>diff 2 · rocks · shaken</td>
+<td class="ing">45 ml Amaretto; 25 ml Lemon juice; 10 ml Simple syrup; 20 ml Egg white (opt)</td></tr><tr data-search="b-52 coffee creamy sweet all_year party after_dinner liqueur">
+<td><img src="../images/thumb/b_52.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/b_52.png" width="48" height="48" alt=""></td>
+<td><b>B-52</b><br><span class="id">b_52</span><br><span class="sw" style="background:#6A3E22"></span> layered brown<br><small>Public-Domain · Christian</small></td>
+<td><span class="chip f">coffee</span><span class="chip f">creamy</span><span class="chip f">sweet</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">party</span><span class="chip o">after_dinner</span></td>
+<td><span class="chip b">liqueur</span><br>strong · 25.7% · alcoholic<br>diff 3 · shot · layered</td>
+<td class="ing">20 ml Coffee liqueur; 20 ml Irish cream liqueur; 20 ml Grand Marnier</td></tr><tr data-search="midori sour sweet sour fruity summer party vodka">
+<td><img src="../images/thumb/midori_sour.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/midori_sour.png" width="48" height="48" alt=""></td>
+<td><b>Midori Sour</b><br><span class="id">midori_sour</span><br><span class="sw" style="background:#8FD14F"></span> melon green<br><small>CC-BY-2.0 · Shoshanah</small></td>
+<td><span class="chip f">sweet</span><span class="chip f">sour</span><span class="chip f">fruity</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span></td>
+<td><span class="chip b">vodka</span><br>medium · 14.4% · alcoholic<br>diff 2 · rocks · shaken</td>
+<td class="ing">30 ml Melon liqueur (Midori); 30 ml Vodka; 30 ml Lemon juice; 10 ml Simple syrup</td></tr><tr data-search="fuzzy navel fruity sweet summer brunch party liqueur">
+<td><img src="../images/thumb/fuzzy_navel.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/fuzzy_navel.png" width="48" height="48" alt=""></td>
+<td><b>Fuzzy Navel</b><br><span class="id">fuzzy_navel</span><br><span class="sw" style="background:#F6A54A"></span> peach orange<br><small>Public-Domain · 逃亡者 (ja:利用者:逃亡者)</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sweet</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">brunch</span><span class="chip o">party</span></td>
+<td><span class="chip b">liqueur</span><br>light · 5.0% · low_abv<br>diff 1 · highball · built</td>
+<td class="ing">45 ml Peach schnapps; 120 ml Orange juice</td></tr><tr data-search="golden dream creamy sweet fruity all_year after_dinner liqueur">
+<td><img src="../icons/thumb/golden_dream.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/golden_dream.png" width="48" height="48" alt=""></td>
+<td><b>Golden Dream</b><br><span class="id">golden_dream</span><br><span class="sw" style="background:#F2D06A"></span> golden yellow<br><small>generated icon</small></td>
+<td><span class="chip f">creamy</span><span class="chip f">sweet</span><span class="chip f">fruity</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">after_dinner</span></td>
+<td><span class="chip b">liqueur</span><br>medium · 16.0% · alcoholic<br>diff 2 · coupe · shaken</td>
+<td class="ing">20 ml Galliano; 20 ml Triple sec; 20 ml Orange juice; 10 ml Cream</td></tr><tr data-search="dirty shirley sweet fruity bubbly summer party vodka">
+<td><img src="../icons/thumb/dirty_shirley.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/dirty_shirley.png" width="48" height="48" alt=""></td>
+<td><b>Dirty Shirley</b><br><span class="id">dirty_shirley</span><br><span class="sw" style="background:#F28BA8"></span> pink<br><small>generated icon</small></td>
+<td><span class="chip f">sweet</span><span class="chip f">fruity</span><span class="chip f">bubbly</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span></td>
+<td><span class="chip b">vodka</span><br>light · 7.8% · alcoholic<br>diff 1 · highball · built</td>
+<td class="ing">45 ml Vodka; top: Lemon-lime soda (7UP; 15 ml Grenadine</td></tr><tr data-search="shirley temple sweet fruity bubbly all_year holiday party brunch none">
+<td><img src="../images/thumb/shirley_temple.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/shirley_temple.png" width="48" height="48" alt=""></td>
+<td><b>Shirley Temple</b><br><span class="id">shirley_temple</span><br><span class="sw" style="background:#F28BA8"></span> pink<br><small>CC-BY-SA-2.0 · Ryan Forsythe (fweez)</small></td>
+<td><span class="chip f">sweet</span><span class="chip f">fruity</span><span class="chip f">bubbly</span></td><td><span class="chip s">all_year</span><span class="chip s">holiday</span></td><td><span class="chip o">party</span><span class="chip o">brunch</span></td>
+<td><span class="chip b">none</span><br>light · 0.0% · mocktail<br>diff 1 · highball · built</td>
+<td class="ing">150 ml Ginger ale; 15 ml Grenadine; 5 ml Lime juice (opt)</td></tr><tr data-search="roy rogers sweet bubbly all_year party none">
+<td><img src="../images/thumb/roy_rogers.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/roy_rogers.png" width="48" height="48" alt=""></td>
+<td><b>Roy Rogers</b><br><span class="id">roy_rogers</span><br><span class="sw" style="background:#3E2214"></span> cola brown<br><small>CC-BY-SA-3.0 · Johnl4th</small></td>
+<td><span class="chip f">sweet</span><span class="chip f">bubbly</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">party</span></td>
+<td><span class="chip b">none</span><br>light · 0.0% · mocktail<br>diff 1 · highball · built</td>
+<td class="ing">150 ml Cola; 15 ml Grenadine</td></tr><tr data-search="virgin mojito herbal sour bubbly summer party brunch none">
+<td><img src="../icons/thumb/virgin_mojito.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/virgin_mojito.png" width="48" height="48" alt=""></td>
+<td><b>Virgin Mojito</b><br><span class="id">virgin_mojito</span><br><span class="sw" style="background:#DDEFC9"></span> pale green<br><small>generated icon</small></td>
+<td><span class="chip f">herbal</span><span class="chip f">sour</span><span class="chip f">bubbly</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span><span class="chip o">brunch</span></td>
+<td><span class="chip b">none</span><br>light · 0.0% · mocktail<br>diff 2 · highball · muddled_built</td>
+<td class="ing">8 leaf Fresh mint; 20 ml Lime juice; 15 ml Simple syrup; top: Soda water</td></tr><tr data-search="virgin piña colada creamy fruity sweet summer party none">
+<td><img src="../images/thumb/virgin_pina_colada.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/virgin_pina_colada.png" width="48" height="48" alt=""></td>
+<td><b>Virgin Piña Colada</b><br><span class="id">virgin_pina_colada</span><br><span class="sw" style="background:#F3E9C6"></span> cream<br><small>CC0-1.0 · Andy Li</small></td>
+<td><span class="chip f">creamy</span><span class="chip f">fruity</span><span class="chip f">sweet</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span></td>
+<td><span class="chip b">none</span><br>light · 0.0% · mocktail<br>diff 2 · hurricane · blended</td>
+<td class="ing">90 ml Pineapple juice; 45 ml Cream of coconut; 10 ml Lime juice</td></tr><tr data-search="virgin mary spicy sour all_year brunch none">
+<td><img src="../icons/thumb/virgin_mary.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/virgin_mary.png" width="48" height="48" alt=""></td>
+<td><b>Virgin Mary</b><br><span class="id">virgin_mary</span><br><span class="sw" style="background:#B3261E"></span> tomato red<br><small>generated icon</small></td>
+<td><span class="chip f">spicy</span><span class="chip f">sour</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">brunch</span></td>
+<td><span class="chip b">none</span><br>light · 0.0% · mocktail<br>diff 1 · highball · built</td>
+<td class="ing">120 ml Tomato juice; 15 ml Lemon juice; 2 dash Worcestershire sauce; 2 dash Hot sauce (Tabasco); pinch: Celery salt; pinch: Black pepper</td></tr><tr data-search="arnold palmer sour sweet summer brunch none">
+<td><img src="../images/thumb/arnold_palmer.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/arnold_palmer.png" width="48" height="48" alt=""></td>
+<td><b>Arnold Palmer</b><br><span class="id">arnold_palmer</span><br><span class="sw" style="background:#C98A3E"></span> iced-tea amber<br><small>CC-BY-2.0 · irina slutsky from san francisco, USA</small></td>
+<td><span class="chip f">sour</span><span class="chip f">sweet</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">brunch</span></td>
+<td><span class="chip b">none</span><br>light · 0.0% · mocktail<br>diff 1 · highball · built</td>
+<td class="ing">120 ml Unsweetened iced tea; 120 ml Lemonade</td></tr><tr data-search="fresh lemonade sour sweet summer brunch party none">
+<td><img src="../icons/thumb/fresh_lemonade.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/fresh_lemonade.png" width="48" height="48" alt=""></td>
+<td><b>Fresh Lemonade</b><br><span class="id">fresh_lemonade</span><br><span class="sw" style="background:#F4EDB0"></span> pale lemon<br><small>generated icon</small></td>
+<td><span class="chip f">sour</span><span class="chip f">sweet</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">brunch</span><span class="chip o">party</span></td>
+<td><span class="chip b">none</span><br>light · 0.0% · mocktail<br>diff 1 · highball · built</td>
+<td class="ing">30 ml Lemon juice; 30 ml Simple syrup; 150 ml Cold water (or soda water for a sparkling version)</td></tr><tr data-search="cinderella fruity sweet bubbly summer party brunch none">
+<td><img src="../icons/thumb/cinderella.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/cinderella.png" width="48" height="48" alt=""></td>
+<td><b>Cinderella</b><br><span class="id">cinderella</span><br><span class="sw" style="background:#F49A4A"></span> sunset orange<br><small>generated icon</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sweet</span><span class="chip f">bubbly</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span><span class="chip o">brunch</span></td>
+<td><span class="chip b">none</span><br>light · 0.0% · mocktail<br>diff 2 · highball · shaken</td>
+<td class="ing">60 ml Orange juice; 60 ml Pineapple juice; 30 ml Lemon juice; 10 ml Grenadine; top: Soda water</td></tr><tr data-search="virgin mule spicy bubbly sour summer party none">
+<td><img src="../icons/thumb/virgin_mule.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/virgin_mule.png" width="48" height="48" alt=""></td>
+<td><b>Virgin Mule</b><br><span class="id">virgin_mule</span><br><span class="sw" style="background:#EEDFAE"></span> pale gold<br><small>generated icon</small></td>
+<td><span class="chip f">spicy</span><span class="chip f">bubbly</span><span class="chip f">sour</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span></td>
+<td><span class="chip b">none</span><br>light · 0.0% · mocktail<br>diff 1 · copper_mug · built</td>
+<td class="ing">20 ml Lime juice; 10 ml Simple syrup (opt); top: Ginger beer</td></tr><tr data-search="pussyfoot fruity creamy sweet all_year brunch none">
+<td><img src="../icons/thumb/pussyfoot.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/pussyfoot.png" width="48" height="48" alt=""></td>
+<td><b>Pussyfoot</b><br><span class="id">pussyfoot</span><br><span class="sw" style="background:#F2B061"></span> apricot<br><small>generated icon</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">creamy</span><span class="chip f">sweet</span></td><td><span class="chip s">all_year</span></td><td><span class="chip o">brunch</span></td>
+<td><span class="chip b">none</span><br>light · 0.0% · mocktail<br>diff 3 · coupe · shaken</td>
+<td class="ing">60 ml Orange juice; 15 ml Lemon juice; 15 ml Lime juice; 10 ml Grenadine; 15 ml Egg yolk</td></tr><tr data-search="lime rickey sour bubbly summer party none">
+<td><img src="../icons/thumb/lime_rickey.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/lime_rickey.png" width="48" height="48" alt=""></td>
+<td><b>Lime Rickey</b><br><span class="id">lime_rickey</span><br><span class="sw" style="background:#E8F2D8"></span> pale green<br><small>generated icon</small></td>
+<td><span class="chip f">sour</span><span class="chip f">bubbly</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span></td>
+<td><span class="chip b">none</span><br>light · 0.0% · mocktail<br>diff 1 · highball · built</td>
+<td class="ing">30 ml Lime juice; 20 ml Simple syrup; top: Soda water</td></tr><tr data-search="cranberry spritzer fruity bubbly sour holiday winter party none">
+<td><img src="../icons/thumb/cranberry_spritzer.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/cranberry_spritzer.png" width="48" height="48" alt=""></td>
+<td><b>Cranberry Spritzer</b><br><span class="id">cranberry_spritzer</span><br><span class="sw" style="background:#C8314E"></span> cranberry<br><small>generated icon</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">bubbly</span><span class="chip f">sour</span></td><td><span class="chip s">holiday</span><span class="chip s">winter</span></td><td><span class="chip o">party</span></td>
+<td><span class="chip b">none</span><br>light · 0.0% · mocktail<br>diff 1 · wine · built</td>
+<td class="ing">90 ml Cranberry juice; 10 ml Lime juice; top: Soda water</td></tr><tr data-search="virgin margarita sour fruity summer party none">
+<td><img src="../icons/thumb/virgin_margarita.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/virgin_margarita.png" width="48" height="48" alt=""></td>
+<td><b>Virgin Margarita</b><br><span class="id">virgin_margarita</span><br><span class="sw" style="background:#E2EBB0"></span> pale green<br><small>generated icon</small></td>
+<td><span class="chip f">sour</span><span class="chip f">fruity</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span></td>
+<td><span class="chip b">none</span><br>light · 0.0% · mocktail<br>diff 2 · coupe · shaken</td>
+<td class="ing">pinch: Salt for the rim (opt); 30 ml Lime juice; 30 ml Orange juice; 15 ml Agave syrup; 30 ml Cold water</td></tr><tr data-search="strawberry lemonade fruity sour sweet bubbly summer spring brunch party none">
+<td><img src="../images/thumb/strawberry_lemonade.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/strawberry_lemonade.png" width="48" height="48" alt=""></td>
+<td><b>Strawberry Lemonade</b><br><span class="id">strawberry_lemonade</span><br><span class="sw" style="background:#F07A8A"></span> strawberry pink<br><small>CC-BY-SA-4.0 · E4024</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sour</span><span class="chip f">sweet</span><span class="chip f">bubbly</span></td><td><span class="chip s">summer</span><span class="chip s">spring</span></td><td><span class="chip o">brunch</span><span class="chip o">party</span></td>
+<td><span class="chip b">none</span><br>light · 0.0% · mocktail<br>diff 2 · highball · muddled_built</td>
+<td class="ing">3 piece Strawberries; 30 ml Lemon juice; 25 ml Simple syrup; top: Soda or cold still water</td></tr><tr data-search="virgin sunrise fruity sweet summer brunch none">
+<td><img src="../icons/thumb/virgin_sunrise.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/virgin_sunrise.png" width="48" height="48" alt=""></td>
+<td><b>Virgin Sunrise</b><br><span class="id">virgin_sunrise</span><br><span class="sw" style="background:#F4892A"></span> layered orange<br><small>generated icon</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sweet</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">brunch</span></td>
+<td><span class="chip b">none</span><br>light · 0.0% · mocktail<br>diff 1 · highball · built</td>
+<td class="ing">150 ml Orange juice; 15 ml Grenadine</td></tr><tr data-search="virgin bellini fruity bubbly sweet summer brunch none">
+<td><img src="../icons/thumb/virgin_bellini.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/virgin_bellini.png" width="48" height="48" alt=""></td>
+<td><b>Virgin Bellini</b><br><span class="id">virgin_bellini</span><br><span class="sw" style="background:#F6C29A"></span> peach<br><small>generated icon</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">bubbly</span><span class="chip f">sweet</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">brunch</span></td>
+<td><span class="chip b">none</span><br>light · 0.0% · mocktail<br>diff 2 · flute · built</td>
+<td class="ing">50 ml White peach purée; 5 ml Lemon juice; top: Very cold soda water (or sparkling apple juice)</td></tr><tr data-search="cucumber cooler herbal sour bubbly summer brunch party none">
+<td><img src="../icons/thumb/cucumber_cooler.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/cucumber_cooler.png" width="48" height="48" alt=""></td>
+<td><b>Cucumber Cooler</b><br><span class="id">cucumber_cooler</span><br><span class="sw" style="background:#E2F0D2"></span> pale green<br><small>generated icon</small></td>
+<td><span class="chip f">herbal</span><span class="chip f">sour</span><span class="chip f">bubbly</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">brunch</span><span class="chip o">party</span></td>
+<td><span class="chip b">none</span><br>light · 0.0% · mocktail<br>diff 2 · highball · muddled_built</td>
+<td class="ing">3 piece Cucumber slices; 6 leaf Fresh mint; 20 ml Lime juice; 15 ml Simple syrup; top: Soda water</td></tr><tr data-search="watermelon cooler fruity sweet bubbly summer party none">
+<td><img src="../icons/thumb/watermelon_cooler.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/watermelon_cooler.png" width="48" height="48" alt=""></td>
+<td><b>Watermelon Cooler</b><br><span class="id">watermelon_cooler</span><br><span class="sw" style="background:#F06A72"></span> watermelon<br><small>generated icon</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sweet</span><span class="chip f">bubbly</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span></td>
+<td><span class="chip b">none</span><br>light · 0.0% · mocktail<br>diff 2 · highball · shaken</td>
+<td class="ing">6 piece Watermelon cubes (about 1 cup); 15 ml Lime juice; 10 ml Simple syrup; top: Soda water</td></tr><tr data-search="mulled cider spicy sweet fruity fall winter holiday party nightcap none">
+<td><img src="../icons/thumb/mulled_cider.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/mulled_cider.png" width="48" height="48" alt=""></td>
+<td><b>Mulled Cider</b><br><span class="id">mulled_cider</span><br><span class="sw" style="background:#B8712A"></span> cider amber<br><small>generated icon</small></td>
+<td><span class="chip f">spicy</span><span class="chip f">sweet</span><span class="chip f">fruity</span></td><td><span class="chip s">fall</span><span class="chip s">winter</span><span class="chip s">holiday</span></td><td><span class="chip o">party</span><span class="chip o">nightcap</span></td>
+<td><span class="chip b">none</span><br>light · 0.0% · mocktail<br>diff 2 · irish_coffee_mug · hot</td>
+<td class="ing">200 ml Apple cider (unfiltered; 1 piece Cinnamon sticks; 3 piece Whole cloves; 1 piece Star anise (opt); 1 piece Orange slice; 10 ml Maple syrup (opt)</td></tr><tr data-search="lemon, lime and bitters bitter sour bubbly summer party none">
+<td><img src="../images/thumb/lemon_lime_bitters.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/lemon_lime_bitters.png" width="48" height="48" alt=""></td>
+<td><b>Lemon, Lime and Bitters</b><br><span class="id">lemon_lime_bitters</span><br><span class="sw" style="background:#EBC2B2"></span> blush<br><small>CC-BY-SA-2.0 · Alpha</small></td>
+<td><span class="chip f">bitter</span><span class="chip f">sour</span><span class="chip f">bubbly</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span></td>
+<td><span class="chip b">none</span><br>light · 0.7% · mocktail<br>diff 1 · highball · built</td>
+<td class="ing">15 ml Lime juice; 4 dash Angostura bitters; top: Lemon-lime soda (7UP</td></tr><tr data-search="virgin paloma fruity sour bubbly summer party none">
+<td><img src="../icons/thumb/virgin_paloma.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/virgin_paloma.png" width="48" height="48" alt=""></td>
+<td><b>Virgin Paloma</b><br><span class="id">virgin_paloma</span><br><span class="sw" style="background:#F5B7A4"></span> pink grapefruit<br><small>generated icon</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sour</span><span class="chip f">bubbly</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span></td>
+<td><span class="chip b">none</span><br>light · 0.0% · mocktail<br>diff 1 · highball · built</td>
+<td class="ing">15 ml Lime juice; pinch: Salt; top: Grapefruit soda</td></tr><tr data-search="espresso tonic coffee bitter bubbly summer all_year brunch none">
+<td><img src="../icons/thumb/espresso_tonic.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/espresso_tonic.png" width="48" height="48" alt=""></td>
+<td><b>Espresso Tonic</b><br><span class="id">espresso_tonic</span><br><span class="sw" style="background:#6B4128"></span> layered coffee<br><small>generated icon</small></td>
+<td><span class="chip f">coffee</span><span class="chip f">bitter</span><span class="chip f">bubbly</span></td><td><span class="chip s">summer</span><span class="chip s">all_year</span></td><td><span class="chip o">brunch</span></td>
+<td><span class="chip b">none</span><br>light · 0.0% · mocktail<br>diff 2 · highball · built</td>
+<td class="ing">120 ml Tonic water; 30 ml Fresh espresso</td></tr><tr data-search="passion fruit spritz fruity sour bubbly summer party brunch none">
+<td><img src="../icons/thumb/passion_fruit_spritz.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/passion_fruit_spritz.png" width="48" height="48" alt=""></td>
+<td><b>Passion Fruit Spritz</b><br><span class="id">passion_fruit_spritz</span><br><span class="sw" style="background:#F2C04A"></span> passion fruit yellow<br><small>generated icon</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sour</span><span class="chip f">bubbly</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span><span class="chip o">brunch</span></td>
+<td><span class="chip b">none</span><br>light · 0.0% · mocktail<br>diff 1 · wine · built</td>
+<td class="ing">30 ml Passion fruit purée; 15 ml Passion fruit syrup; 10 ml Lime juice; top: Soda water</td></tr><tr data-search="safe sex on the beach fruity sweet summer party none">
+<td><img src="../icons/thumb/safe_sex_on_the_beach.png" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/safe_sex_on_the_beach.png" width="48" height="48" alt=""></td>
+<td><b>Safe Sex on the Beach</b><br><span class="id">safe_sex_on_the_beach</span><br><span class="sw" style="background:#F07A4A"></span> sunset orange<br><small>generated icon</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sweet</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span></td>
+<td><span class="chip b">none</span><br>light · 0.0% · mocktail<br>diff 2 · highball · built</td>
+<td class="ing">60 ml Cranberry juice; 60 ml Orange juice; 30 ml Peach nectar or purée</td></tr><tr data-search="virgin strawberry daiquiri fruity sweet sour summer party none">
+<td><img src="../images/thumb/virgin_strawberry_daiquiri.jpg" width="96" height="96" alt=""><br><img class="ic" src="../icons/thumb/virgin_strawberry_daiquiri.png" width="48" height="48" alt=""></td>
+<td><b>Virgin Strawberry Daiquiri</b><br><span class="id">virgin_strawberry_daiquiri</span><br><span class="sw" style="background:#E2394E"></span> strawberry<br><small>CC-BY-SA-2.0 · Saaleha Bamjee from Johannesburg, South africa</small></td>
+<td><span class="chip f">fruity</span><span class="chip f">sweet</span><span class="chip f">sour</span></td><td><span class="chip s">summer</span></td><td><span class="chip o">party</span></td>
+<td><span class="chip b">none</span><br>light · 0.0% · mocktail<br>diff 2 · coupe · blended</td>
+<td class="ing">6 piece Ripe strawberries, hulled; 20 ml Lime juice; 20 ml Simple syrup</td></tr>
+</tbody></table></div>
+<script>
+document.getElementById('q').addEventListener('input', e => {
+  const q = e.target.value.toLowerCase().trim();
+  for (const tr of document.querySelectorAll('#rows tr')) tr.style.display = !q || tr.dataset.search.includes(q) ? '' : 'none';
+});
+</script></body></html>

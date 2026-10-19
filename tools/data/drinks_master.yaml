@@ -1,0 +1,2319 @@
+# Aaron's Drink Butler: curated master list (the source of truth for data/recipes.json).
+#
+# Specs (ingredients and amounts) are facts, checked against the IBA site for IBA drinks
+# and against Wikidata / TheCocktailDB for everything (see tools/data/reports/crosscheck.md).
+# Steps are generated in our own words from the structured spec by adb/steps.py, unless a
+# drink gives its own `steps:` (also our own words). Text license: CC BY 4.0.
+#
+# Per-drink fields:
+#   id, name, aka[]         id is a stable slug (favorites and pantry are keyed by it)
+#   iba                     unforgettable | contemporary_classic | new_era (omit if not IBA)
+#   iba_slug                IBA page slug when it differs from id with - for _
+#   glass, method, ice      see data/SCHEMA.md for allowed values
+#   garnish, garnish_icon   garnish text (null for none) and the icon used to draw it
+#   ing                     list of "<amount> [unit] <ingredient_id> [flags] [| display]"
+#                             amount: number, or - for none; unit defaults to ml
+#                             units: ml dash barspoon tsp cube piece leaf top pinch
+#                             "top" means top up; its amount is an approximate ml for ABV
+#                             flags: opt (optional), muddle, rim, rinse, float, sink, foam,
+#                                    side (served alongside, not mixed in)
+#   prep / finish           extra first / last step added to the generated steps
+#   steps                   full replacement for the generated steps
+#   wiki                    English Wikipedia title (used to find Wikidata item and photo)
+#   qid                     Wikidata item, if the wiki title doesn't resolve it
+#   doubt                   a note on a spec we are unsure about (listed in the report)
+
+# ============================================================ IBA: The Unforgettables
+- id: alexander
+  name: Alexander
+  aka: [Brandy Alexander]
+  iba: unforgettable
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: Grated nutmeg
+  garnish_icon: nutmeg
+  ing: ["30 cognac", "30 creme_de_cacao | Dark crème de cacao", "30 heavy_cream"]
+  wiki: Brandy Alexander
+
+- id: americano
+  name: Americano
+  iba: unforgettable
+  glass: rocks
+  method: built
+  ice: cubes
+  garnish: Half an orange slice and a lemon peel
+  garnish_icon: orange_slice
+  ing: ["30 campari", "30 sweet_vermouth", "60 top soda_water | Splash of soda water"]
+  wiki: Americano (cocktail)
+
+- id: angel_face
+  name: Angel Face
+  iba: unforgettable
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: null
+  garnish_icon: none
+  ing: ["30 gin", "30 apricot_brandy", "30 calvados"]
+  wiki: Angel face (cocktail)
+
+- id: aviation
+  name: Aviation
+  iba: unforgettable
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: Cocktail cherry (optional)
+  garnish_icon: cherry
+  ing: ["45 gin", "15 maraschino_liqueur", "15 lemon_juice", "1 barspoon creme_de_violette"]
+  wiki: Aviation (cocktail)
+
+- id: between_the_sheets
+  name: Between the Sheets
+  iba: unforgettable
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: null
+  garnish_icon: none
+  ing: ["30 rum_white", "30 cognac", "30 triple_sec", "20 lemon_juice"]
+  wiki: Between the sheets (cocktail)
+
+- id: boulevardier
+  name: Boulevardier
+  iba: unforgettable
+  glass: coupe
+  method: stirred
+  ice: none
+  garnish: Orange twist
+  garnish_icon: orange_twist
+  ing: ["45 bourbon_whiskey | Bourbon or rye whiskey", "30 campari", "30 sweet_vermouth"]
+  wiki: Boulevardier (cocktail)
+
+- id: brandy_crusta
+  name: Brandy Crusta
+  iba: unforgettable
+  glass: wine
+  method: shaken
+  ice: none
+  garnish: Sugar rim and a long strip of lemon peel
+  garnish_icon: sugar_rim
+  ing: ["52.5 cognac | Brandy", "7.5 maraschino_liqueur", "1 barspoon orange_curacao", "15 lemon_juice",
+        "1 barspoon simple_syrup", "2 dash angostura_bitters", "- pinch sugar rim | Sugar for the rim"]
+  steps:
+    - Rub the rim of a small wine glass with a lemon or orange slice and dip it in sugar.
+    - Cut a long, wide strip of lemon peel and curl it around the inside of the glass.
+    - Shake the brandy, maraschino, curaçao, lemon juice, syrup and bitters with ice.
+    - Strain into the prepared glass.
+  wiki: Brandy crusta
+
+- id: casino
+  name: Casino
+  iba: unforgettable
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: Lemon twist and a cherry
+  garnish_icon: cherry
+  ing: ["40 old_tom_gin", "10 maraschino_liqueur", "10 lemon_juice", "2 dash orange_bitters"]
+  wiki: Casino (cocktail)
+
+- id: clover_club
+  name: Clover Club
+  iba: unforgettable
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: Fresh raspberries
+  garnish_icon: berries
+  ing: ["45 gin", "15 raspberry_syrup", "15 lemon_juice", "15 egg_white"]
+  wiki: Clover Club cocktail
+  doubt: IBA lists only "a few drops" of egg white; we use about half a white (15 ml) for a proper foam.
+
+- id: daiquiri
+  name: Daiquiri
+  iba: unforgettable
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: Lime wheel (optional)
+  garnish_icon: lime_wheel
+  ing: ["60 rum_white", "20 lime_juice", "15 simple_syrup"]
+  steps:
+    - Add rum, lime juice and syrup to a shaker with ice.
+    - Shake hard for about 12 seconds.
+    - Double-strain into a chilled coupe.
+    - Garnish with a lime wheel if you like.
+  wiki: Daiquiri
+  doubt: IBA sweetens with 2 bar spoons of superfine sugar; we use 15 ml simple syrup, the common modern equivalent.
+
+- id: dry_martini
+  name: Dry Martini
+  aka: [Martini, Gin Martini]
+  iba: unforgettable
+  glass: martini
+  method: stirred
+  ice: none
+  garnish: Lemon twist or an olive
+  garnish_icon: olive
+  ing: ["60 gin", "10 dry_vermouth"]
+  wiki: Martini (cocktail)
+
+- id: gin_fizz
+  name: Gin Fizz
+  iba: unforgettable
+  glass: highball
+  method: shaken
+  ice: none
+  garnish: Lemon slice
+  garnish_icon: lemon_wheel
+  ing: ["45 gin", "30 lemon_juice", "10 simple_syrup", "60 top soda_water"]
+  wiki: Gin fizz
+
+- id: hanky_panky
+  name: Hanky Panky
+  iba: unforgettable
+  glass: coupe
+  method: stirred
+  ice: none
+  garnish: Orange twist
+  garnish_icon: orange_twist
+  ing: ["45 gin", "45 sweet_vermouth", "7.5 fernet_branca"]
+  wiki: Hanky panky (cocktail)
+
+- id: john_collins
+  name: John Collins
+  iba: unforgettable
+  glass: collins
+  method: built
+  ice: cubes
+  garnish: Lemon slice and a cherry
+  garnish_icon: lemon_wheel
+  ing: ["45 gin", "30 lemon_juice", "15 simple_syrup", "60 top soda_water"]
+  wiki: John Collins (cocktail)
+
+- id: last_word
+  name: Last Word
+  iba: unforgettable
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: null
+  garnish_icon: none
+  ing: ["22.5 gin", "22.5 green_chartreuse", "22.5 maraschino_liqueur", "22.5 lime_juice"]
+  wiki: Last Word (cocktail)
+
+- id: manhattan
+  name: Manhattan
+  iba: unforgettable
+  glass: coupe
+  method: stirred
+  ice: none
+  garnish: Cocktail cherry
+  garnish_icon: cherry
+  ing: ["50 rye_whiskey", "20 sweet_vermouth", "1 dash angostura_bitters"]
+  wiki: Manhattan (cocktail)
+
+- id: martinez
+  name: Martinez
+  iba: unforgettable
+  glass: coupe
+  method: stirred
+  ice: none
+  garnish: Lemon twist
+  garnish_icon: lemon_twist
+  ing: ["45 gin | London dry or Old Tom gin", "45 sweet_vermouth", "1 barspoon maraschino_liqueur", "2 dash orange_bitters"]
+  wiki: Martinez (cocktail)
+
+- id: mary_pickford
+  name: Mary Pickford
+  iba: unforgettable
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: Cocktail cherry (optional)
+  garnish_icon: cherry
+  ing: ["45 rum_white", "45 pineapple_juice", "7.5 maraschino_liqueur", "5 grenadine"]
+  wiki: Mary Pickford (cocktail)
+
+- id: monkey_gland
+  name: Monkey Gland
+  iba: unforgettable
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: Orange twist (optional)
+  garnish_icon: orange_twist
+  ing: ["45 gin", "45 orange_juice", "1 barspoon absinthe", "10 grenadine"]
+  wiki: Monkey gland (cocktail)
+  doubt: IBA lists a tablespoon each of absinthe and grenadine; we use a bar spoon of absinthe and 10 ml grenadine (closer to the original Savoy-era spec). Check to taste.
+
+- id: negroni
+  name: Negroni
+  iba: unforgettable
+  glass: rocks
+  method: stirred
+  ice: cubes
+  garnish: Orange slice
+  garnish_icon: orange_slice
+  ing: ["30 gin", "30 campari", "30 sweet_vermouth"]
+  steps:
+    - Fill a rocks glass with ice.
+    - Add gin, Campari and sweet vermouth.
+    - Stir until well chilled.
+    - Garnish with an orange slice or peel.
+  wiki: Negroni
+
+- id: old_fashioned
+  name: Old Fashioned
+  iba: unforgettable
+  glass: rocks
+  method: stirred
+  ice: large_cube
+  garnish: Orange peel (cherry optional)
+  garnish_icon: orange_twist
+  ing: ["45 bourbon_whiskey | Bourbon or rye whiskey", "1 cube sugar_cube", "3 dash angostura_bitters", "10 water | Splash of water"]
+  steps:
+    - Put the sugar cube in a rocks glass and soak it with the bitters and water.
+    - Muddle until the sugar dissolves.
+    - Add a large ice cube and the whiskey, then stir for about 20 seconds.
+    - Express an orange peel over the glass and drop it in.
+  wiki: Old fashioned (cocktail)
+
+- id: paradise
+  name: Paradise
+  iba: unforgettable
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: Orange twist (optional)
+  garnish_icon: orange_twist
+  ing: ["30 gin", "20 apricot_brandy", "15 orange_juice"]
+  wiki: Paradise (cocktail)
+
+- id: planters_punch
+  name: Planter's Punch
+  iba: unforgettable
+  glass: highball
+  method: shaken
+  ice: cubes
+  garnish: Orange twist
+  garnish_icon: orange_twist
+  ing: ["45 rum_dark | Jamaican rum", "15 lime_juice", "30 simple_syrup | Cane syrup", "60 top soda_water opt | Soda water to lengthen (optional)"]
+  wiki: Planter's punch
+  doubt: IBA uses 30 ml sugar-cane juice with no lengthener, which is very sweet and short; we suggest optional soda. Many bars add Angostura and grenadine.
+
+- id: porto_flip
+  name: Porto Flip
+  iba: unforgettable
+  glass: nick_and_nora
+  method: shaken
+  ice: none
+  garnish: Grated nutmeg
+  garnish_icon: nutmeg
+  ing: ["15 cognac | Brandy", "45 port | Tawny or ruby port", "10 egg_yolk"]
+  wiki: Flip (cocktail)
+
+- id: ramos_fizz
+  name: Ramos Fizz
+  aka: [Ramos Gin Fizz, New Orleans Fizz]
+  iba: unforgettable
+  glass: collins
+  method: shaken
+  ice: none
+  garnish: null
+  garnish_icon: none
+  ing: ["45 gin", "15 lime_juice", "15 lemon_juice", "30 simple_syrup", "60 heavy_cream", "30 egg_white",
+        "3 dash orange_flower_water", "2 dash vanilla_extract | Vanilla extract (2 drops)", "60 top soda_water"]
+  steps:
+    - Shake everything except the soda without ice for 15 seconds.
+    - Add ice and shake very hard for at least 30 seconds more.
+    - Strain into a chilled Collins glass with no ice.
+    - Let it settle for a minute, then pour soda slowly down the side so the foam rises above the rim.
+
+- id: remember_the_maine
+  name: Remember the Maine
+  iba: unforgettable
+  glass: coupe
+  method: stirred
+  ice: none
+  garnish: Lemon twist
+  garnish_icon: lemon_twist
+  ing: ["60 rye_whiskey", "22.5 sweet_vermouth", "15 cherry_liqueur", "7.5 absinthe"]
+  wiki: Remember the Maine (cocktail)
+
+- id: rusty_nail
+  name: Rusty Nail
+  iba: unforgettable
+  glass: rocks
+  method: built
+  ice: large_cube
+  garnish: Lemon twist
+  garnish_icon: lemon_twist
+  ing: ["45 scotch_whisky", "25 drambuie"]
+  wiki: Rusty nail (cocktail)
+
+- id: sazerac
+  name: Sazerac
+  iba: unforgettable
+  glass: rocks
+  method: stirred
+  ice: none
+  garnish: Lemon peel
+  garnish_icon: lemon_twist
+  ing: ["50 cognac | Cognac (or rye whiskey)", "10 absinthe rinse", "1 cube sugar_cube", "2 dash peychauds_bitters"]
+  steps:
+    - Chill a rocks glass with ice water.
+    - In a mixing glass, soak the sugar cube with the bitters and a few drops of water and crush it.
+    - Add the cognac and ice and stir for about 20 seconds.
+    - Empty the chilled glass, coat the inside with absinthe and pour out the excess.
+    - Strain the drink into the glass (no ice) and twist a lemon peel over the top.
+  wiki: Sazerac
+
+- id: sidecar
+  name: Sidecar
+  iba: unforgettable
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: Sugared rim (optional)
+  garnish_icon: sugar_rim
+  ing: ["50 cognac", "20 triple_sec", "20 lemon_juice", "- pinch sugar rim opt | Sugar for the rim (optional)"]
+  wiki: Sidecar (cocktail)
+
+- id: stinger
+  name: Stinger
+  iba: unforgettable
+  glass: coupe
+  method: stirred
+  ice: none
+  garnish: Mint leaf (optional)
+  garnish_icon: mint
+  ing: ["50 cognac", "20 creme_de_menthe | White crème de menthe"]
+  wiki: Stinger (cocktail)
+
+- id: tuxedo
+  name: Tuxedo
+  iba: unforgettable
+  glass: coupe
+  method: stirred
+  ice: none
+  garnish: Cherry and a lemon twist
+  garnish_icon: cherry
+  ing: ["30 old_tom_gin", "30 dry_vermouth", "0.5 barspoon maraschino_liqueur", "0.25 barspoon absinthe", "3 dash orange_bitters"]
+  wiki: Tuxedo (cocktail)
+
+- id: vieux_carre
+  name: Vieux Carré
+  aka: [Vieux Carre]
+  iba: unforgettable
+  glass: coupe
+  method: stirred
+  ice: none
+  garnish: Orange twist and a cherry
+  garnish_icon: cherry
+  ing: ["30 rye_whiskey", "30 cognac", "30 sweet_vermouth", "1 barspoon benedictine", "2 dash peychauds_bitters"]
+  wiki: Vieux Carré (cocktail)
+
+- id: whiskey_sour
+  name: Whiskey Sour
+  aka: [Whisky Sour]
+  iba: unforgettable
+  glass: rocks
+  method: shaken
+  ice: cubes
+  garnish: Cherry and orange slice
+  garnish_icon: cherry
+  ing: ["45 bourbon_whiskey", "25 lemon_juice", "20 simple_syrup", "20 egg_white opt", "3 dash angostura_bitters opt foam"]
+  steps:
+    - If using egg white, shake all ingredients without ice first for 10 seconds.
+    - Add ice and shake again until cold.
+    - Strain into a rocks glass over fresh ice (or a coupe without ice).
+    - Dot the foam with bitters and garnish with a cherry or orange slice.
+  wiki: Whiskey sour
+
+- id: white_lady
+  name: White Lady
+  iba: unforgettable
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: null
+  garnish_icon: none
+  ing: ["40 gin", "30 triple_sec", "20 lemon_juice"]
+  wiki: White lady (cocktail)
+
+# ============================================================ IBA: Contemporary Classics
+- id: bellini
+  name: Bellini
+  iba: contemporary_classic
+  glass: flute
+  method: built
+  ice: none
+  garnish: null
+  garnish_icon: none
+  ing: ["50 peach_puree", "100 top sparkling_wine | Prosecco"]
+  wiki: Bellini (cocktail)
+
+- id: black_russian
+  name: Black Russian
+  iba: contemporary_classic
+  glass: rocks
+  method: built
+  ice: cubes
+  garnish: null
+  garnish_icon: none
+  ing: ["50 vodka", "20 coffee_liqueur"]
+  wiki: Black Russian
+
+- id: bloody_mary
+  name: Bloody Mary
+  iba: contemporary_classic
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Celery stalk and a lemon wedge
+  garnish_icon: celery
+  ing: ["45 vodka", "90 tomato_juice", "15 lemon_juice", "2 dash worcestershire_sauce", "2 dash hot_sauce",
+        "- pinch celery_salt", "- pinch black_pepper"]
+  steps:
+    - Fill a highball glass with ice.
+    - Add the vodka, tomato juice, lemon juice, Worcestershire, hot sauce, celery salt and pepper.
+    - Stir well (or pour back and forth between two glasses to mix without thinning it), then taste and adjust the spice.
+    - Garnish with a celery stalk and a lemon wedge.
+  wiki: Bloody Mary (cocktail)
+
+- id: caipirinha
+  name: Caipirinha
+  iba: contemporary_classic
+  glass: rocks
+  method: muddled_built
+  ice: crushed
+  garnish: Lime wedges (in the drink)
+  garnish_icon: lime_wedge
+  ing: ["60 cachaca", "1 piece lime muddle | 1 lime, cut into small wedges", "4 tsp sugar muddle | White cane sugar"]
+  steps:
+    - Cut the lime into small wedges and put them in a rocks glass with the sugar.
+    - Muddle firmly to release the juice and dissolve the sugar.
+    - Fill the glass with crushed ice and pour in the cachaça.
+    - Stir well, then top up with more ice if needed.
+  wiki: Caipirinha
+
+- id: cardinale
+  name: Cardinale
+  iba: contemporary_classic
+  glass: coupe
+  method: stirred
+  ice: none
+  garnish: Lemon twist
+  garnish_icon: lemon_twist
+  ing: ["40 gin", "20 dry_vermouth", "10 campari"]
+
+- id: champagne_cocktail
+  name: Champagne Cocktail
+  iba: contemporary_classic
+  glass: flute
+  method: built
+  ice: none
+  garnish: Orange twist and a cherry
+  garnish_icon: orange_twist
+  ing: ["1 cube sugar_cube", "2 dash angostura_bitters", "10 cognac", "1 dash grand_marnier opt", "90 top sparkling_wine | Chilled Champagne"]
+  steps:
+    - Put the sugar cube in a chilled flute and soak it with the bitters.
+    - Add the cognac (and Grand Marnier, if using).
+    - Slowly top with cold Champagne.
+    - Garnish with an orange twist and a cherry.
+  wiki: Champagne cocktail
+
+- id: corpse_reviver_2
+  name: "Corpse Reviver #2"
+  aka: [Corpse Reviver No. 2]
+  iba: contemporary_classic
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: Orange twist
+  garnish_icon: orange_twist
+  ing: ["30 gin", "30 triple_sec | Cointreau", "30 lillet_blanc", "30 lemon_juice", "1 dash absinthe"]
+  wiki: Corpse reviver
+
+- id: cosmopolitan
+  name: Cosmopolitan
+  aka: [Cosmo]
+  iba: contemporary_classic
+  glass: martini
+  method: shaken
+  ice: none
+  garnish: Lemon twist
+  garnish_icon: lemon_twist
+  ing: ["40 vodka_citron", "15 triple_sec | Cointreau", "15 lime_juice", "30 cranberry_juice"]
+  wiki: Cosmopolitan (cocktail)
+
+- id: cuba_libre
+  name: Cuba Libre
+  aka: [Rum and Coke]
+  iba: contemporary_classic
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Lime wedge
+  garnish_icon: lime_wedge
+  ing: ["50 rum_white", "10 lime_juice", "120 top cola"]
+  wiki: Rum and Coke
+
+- id: french_75
+  name: French 75
+  iba: contemporary_classic
+  glass: flute
+  method: shaken
+  ice: none
+  garnish: Lemon twist (optional)
+  garnish_icon: lemon_twist
+  ing: ["30 gin", "15 lemon_juice", "15 simple_syrup", "60 top sparkling_wine | Champagne"]
+  wiki: French 75 (cocktail)
+
+- id: french_connection
+  name: French Connection
+  iba: contemporary_classic
+  glass: rocks
+  method: built
+  ice: cubes
+  garnish: null
+  garnish_icon: none
+  ing: ["35 cognac", "35 amaretto"]
+
+- id: garibaldi
+  name: Garibaldi
+  iba: contemporary_classic
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Orange wedge
+  garnish_icon: orange_slice
+  ing: ["45 campari", "120 orange_juice | Fresh orange juice (whisked or blended until fluffy)"]
+  wiki: Garibaldi (cocktail)
+
+- id: grasshopper
+  name: Grasshopper
+  iba: contemporary_classic
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: Mint leaf (optional)
+  garnish_icon: mint
+  ing: ["20 creme_de_menthe | Green crème de menthe", "20 creme_de_cacao | White crème de cacao", "20 heavy_cream"]
+  wiki: Grasshopper (cocktail)
+
+- id: hemingway_special
+  name: Hemingway Special
+  aka: [Hemingway Daiquiri, Papa Doble]
+  iba: contemporary_classic
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: Lime wheel (optional)
+  garnish_icon: lime_wheel
+  ing: ["60 rum_white", "40 grapefruit_juice", "15 maraschino_liqueur", "15 lime_juice"]
+  wiki: Hemingway special
+
+- id: horses_neck
+  name: Horse's Neck
+  iba: contemporary_classic
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Long lemon peel spiral
+  garnish_icon: lemon_twist
+  ing: ["40 cognac", "120 top ginger_ale", "1 dash angostura_bitters opt"]
+  steps:
+    - Cut a long spiral of lemon peel and hang it inside a highball glass, hooking one end over the rim.
+    - Fill the glass with ice.
+    - Add the cognac and bitters, then top with ginger ale.
+    - Stir gently.
+  wiki: Horse's neck
+
+- id: irish_coffee
+  name: Irish Coffee
+  iba: contemporary_classic
+  glass: irish_coffee_mug
+  method: hot
+  ice: none
+  garnish: Cream float
+  garnish_icon: cream_float
+  ing: ["50 irish_whiskey", "120 coffee_hot | Hot strong coffee", "1 tsp brown_sugar", "50 heavy_cream float | Lightly whipped cream"]
+  steps:
+    - Warm a heatproof glass with hot water, then empty it.
+    - Add the sugar and hot coffee and stir until dissolved.
+    - Stir in the whiskey.
+    - Float the lightly whipped cream on top over the back of a spoon. Don't stir.
+  wiki: Irish coffee
+
+- id: kir
+  name: Kir
+  iba: contemporary_classic
+  glass: wine
+  method: built
+  ice: none
+  garnish: null
+  garnish_icon: none
+  ing: ["10 creme_de_cassis", "90 top white_wine | Chilled dry white wine"]
+  wiki: Kir (cocktail)
+
+- id: lemon_drop_martini
+  name: Lemon Drop Martini
+  aka: [Lemon Drop]
+  iba: contemporary_classic
+  glass: martini
+  method: shaken
+  ice: none
+  garnish: Sugared rim (optional)
+  garnish_icon: sugar_rim
+  ing: ["30 vodka", "20 triple_sec", "15 lemon_juice", "- pinch sugar rim opt | Sugar for the rim (optional)"]
+  wiki: Lemon drop (cocktail)
+
+- id: long_island_iced_tea
+  name: Long Island Iced Tea
+  iba: contemporary_classic
+  glass: collins
+  method: built
+  ice: cubes
+  garnish: Lemon slice (optional)
+  garnish_icon: lemon_wheel
+  ing: ["15 vodka", "15 tequila_blanco", "15 rum_white", "15 gin", "15 triple_sec", "25 lemon_juice", "30 simple_syrup", "40 top cola"]
+  wiki: Long Island iced tea
+
+- id: mai_tai
+  name: Mai Tai
+  iba: contemporary_classic
+  glass: double_rocks
+  method: shaken
+  ice: crushed
+  garnish: Mint sprig, spent lime shell and a pineapple spear
+  garnish_icon: mint
+  ing: ["30 rum_aged | Aged Jamaican rum", "30 rum_agricole | Martinique rhum agricole (or another aged rum)", "15 orange_curacao",
+        "15 orgeat", "30 lime_juice", "7.5 simple_syrup"]
+  wiki: Mai Tai
+
+- id: margarita
+  name: Margarita
+  iba: contemporary_classic
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: Salt rim, lime wheel
+  garnish_icon: lime_wheel
+  ing: ["50 tequila_blanco", "20 triple_sec | Triple sec (e.g. Cointreau)", "15 lime_juice", "- pinch salt rim opt | Salt for the rim"]
+  steps:
+    - "Optional: run a lime wedge around half the rim and dip it in salt."
+    - Shake tequila, triple sec and lime juice with ice.
+    - Strain into the glass (over fresh ice for a rocks glass, or neat into a coupe).
+    - Garnish with a lime wheel.
+  wiki: Margarita
+
+- id: mimosa
+  name: Mimosa
+  aka: [Buck's Fizz]
+  iba: contemporary_classic
+  glass: flute
+  method: built
+  ice: none
+  garnish: Orange twist (optional)
+  garnish_icon: orange_twist
+  ing: ["75 orange_juice | Fresh orange juice, chilled", "75 sparkling_wine | Prosecco or Champagne, chilled"]
+  steps:
+    - Pour the orange juice into a flute.
+    - Top slowly with the sparkling wine.
+    - Stir very gently once.
+  wiki: Mimosa (cocktail)
+
+- id: mint_julep
+  name: Mint Julep
+  iba: contemporary_classic
+  glass: double_rocks
+  method: muddled_built
+  ice: crushed
+  garnish: Mint sprig
+  garnish_icon: mint
+  ing: ["60 bourbon_whiskey", "4 piece mint muddle | Mint sprigs (leaves only)", "1 tsp sugar muddle | Powdered sugar", "10 water | 2 tsp water"]
+  steps:
+    - In a julep cup or rocks glass, gently press the mint leaves with the sugar and water.
+    - Fill with crushed ice and add the bourbon.
+    - Stir until the outside of the cup frosts, then pile on more crushed ice.
+    - Garnish with a fresh mint sprig.
+  wiki: Mint julep
+
+- id: mojito
+  name: Mojito
+  iba: contemporary_classic
+  glass: highball
+  method: muddled_built
+  ice: crushed
+  garnish: Mint sprig and a lime slice
+  garnish_icon: mint
+  ing: ["45 rum_white", "20 lime_juice", "6 piece mint muddle | Mint sprigs", "2 tsp sugar muddle | White cane sugar", "60 top soda_water"]
+  steps:
+    - Put the mint, sugar and lime juice in a highball glass and muddle gently, just to bruise the mint.
+    - Fill with crushed ice and add the rum.
+    - Top with soda water and stir from the bottom to mix.
+    - Garnish with a mint sprig and a lime slice.
+  wiki: Mojito
+
+- id: moscow_mule
+  name: Moscow Mule
+  iba: contemporary_classic
+  glass: copper_mug
+  method: built
+  ice: cubes
+  garnish: Lime slice
+  garnish_icon: lime_wheel
+  ing: ["45 vodka", "10 lime_juice", "120 top ginger_beer"]
+  wiki: Moscow mule
+
+- id: pina_colada
+  name: Piña Colada
+  aka: [Pina Colada]
+  iba: contemporary_classic
+  glass: hurricane
+  method: blended
+  ice: blended
+  garnish: Pineapple wedge and cherry
+  garnish_icon: pineapple
+  ing: ["50 rum_white", "30 coconut_cream", "50 pineapple_juice"]
+  steps:
+    - Blend rum, coconut cream and pineapple juice with a cup of crushed ice until smooth.
+    - Pour into a hurricane or large glass.
+    - Garnish with a pineapple wedge and a cherry.
+  wiki: Piña colada
+
+- id: pisco_sour
+  name: Pisco Sour
+  iba: contemporary_classic
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: A few drops of bitters on the foam
+  garnish_icon: none
+  garnish_step: false
+  ing: ["60 pisco", "30 lemon_juice", "20 simple_syrup", "30 egg_white | 1 egg white", "3 dash angostura_bitters foam | Amargo or Angostura bitters"]
+  wiki: Pisco sour
+
+- id: rabo_de_galo
+  name: Rabo de Galo
+  iba: contemporary_classic
+  glass: rocks
+  method: stirred
+  ice: cubes
+  garnish: Orange twist
+  garnish_icon: orange_twist
+  ing: ["60 cachaca", "20 sweet_vermouth", "15 cynar", "2 dash angostura_bitters opt"]
+  wiki: Rabo de Galo
+
+- id: sea_breeze
+  name: Sea Breeze
+  iba: contemporary_classic
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Orange twist and a cherry
+  garnish_icon: orange_twist
+  ing: ["40 vodka", "120 cranberry_juice", "30 grapefruit_juice"]
+  wiki: Sea breeze (cocktail)
+
+- id: sex_on_the_beach
+  name: Sex on the Beach
+  iba: contemporary_classic
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Half an orange slice
+  garnish_icon: orange_slice
+  ing: ["40 vodka", "20 peach_liqueur", "40 orange_juice", "40 cranberry_juice"]
+  wiki: Sex on the beach
+
+- id: singapore_sling
+  name: Singapore Sling
+  iba: contemporary_classic
+  glass: collins
+  method: shaken
+  ice: cubes
+  garnish: Pineapple wedge and a cherry
+  garnish_icon: pineapple
+  ing: ["30 gin", "15 cherry_liqueur", "7.5 triple_sec | Cointreau", "7.5 benedictine", "120 pineapple_juice",
+        "15 lime_juice", "10 grenadine", "1 dash angostura_bitters"]
+  wiki: Singapore sling
+
+- id: tequila_sunrise
+  name: Tequila Sunrise
+  iba: contemporary_classic
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Orange slice
+  garnish_icon: orange_slice
+  ing: ["45 tequila_blanco", "90 orange_juice", "15 grenadine sink"]
+  wiki: Tequila sunrise
+
+- id: vesper
+  name: Vesper
+  aka: [Vesper Martini]
+  iba: contemporary_classic
+  glass: martini
+  method: shaken
+  ice: none
+  garnish: Lemon twist
+  garnish_icon: lemon_twist
+  ing: ["45 gin", "15 vodka", "7.5 lillet_blanc"]
+  wiki: Vesper (cocktail)
+
+- id: zombie
+  name: Zombie
+  iba: contemporary_classic
+  glass: tiki
+  method: blended
+  ice: crushed
+  garnish: Mint sprig
+  garnish_icon: mint
+  ing: ["45 rum_dark | Jamaican dark rum", "45 rum_aged | Gold Puerto Rican rum", "30 rum_overproof | Demerara rum (151-proof in the original)",
+        "20 lime_juice", "15 falernum", "10 grapefruit_juice | Grapefruit juice (part of Donn's mix)", "5 cinnamon_syrup | Cinnamon syrup (part of Donn's mix)",
+        "1 tsp grenadine", "1 dash angostura_bitters", "1 dash absinthe | Absinthe or Pernod (6 drops)"]
+  steps:
+    - Add everything to a blender with a small scoop of crushed ice.
+    - Flash-blend for about 5 seconds, just to chill and mix.
+    - Pour unstrained into a tiki mug or tall glass and top with more crushed ice.
+    - Garnish with a mint sprig. Limit yourself to one or two; this drink is very strong.
+  wiki: Zombie (cocktail)
+  doubt: IBA lists "Demerara rum" without saying overproof; the 1934 original used 151-proof. We assume overproof, so ABV is on the high side.
+
+# ============================================================ IBA: New Era
+- id: bees_knees
+  name: Bee's Knees
+  iba: new_era
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: Lemon or orange twist (optional)
+  garnish_icon: lemon_twist
+  ing: ["52.5 gin", "10 honey_syrup | Honey syrup (2 tsp)", "22.5 lemon_juice", "22.5 orange_juice"]
+  wiki: "Bee's knees"
+
+- id: bramble
+  name: Bramble
+  iba: new_era
+  glass: rocks
+  method: shaken
+  ice: crushed
+  garnish: Blackberries and a lemon slice
+  garnish_icon: berries
+  ing: ["50 gin", "25 lemon_juice", "12.5 simple_syrup", "15 creme_de_mure sink"]
+  wiki: Bramble (cocktail)
+
+- id: canchanchara
+  name: Canchánchara
+  aka: [Canchanchara]
+  iba: new_era
+  glass: rocks
+  method: built
+  ice: cubes
+  garnish: Lime wedge
+  garnish_icon: lime_wedge
+  ing: ["60 rum_white | Cuban aguardiente (or white rum)", "15 lime_juice", "15 honey | Raw honey", "50 water"]
+  steps:
+    - Stir the honey, lime juice and water together in a rocks glass (or clay cup) until the honey dissolves.
+    - Add ice and the aguardiente or rum.
+    - Stir well and garnish with a lime wedge.
+  wiki: Canchanchara
+
+- id: chartreuse_swizzle
+  name: Chartreuse Swizzle
+  iba: new_era
+  glass: collins
+  method: built
+  ice: crushed
+  garnish: Mint sprig and grated nutmeg
+  garnish_icon: mint
+  ing: ["45 green_chartreuse", "30 pineapple_juice", "22.5 lime_juice", "15 falernum"]
+  steps:
+    - Fill a Collins glass with crushed ice and add everything.
+    - Swizzle with a swizzle stick or bar spoon, spinning it between your palms, until the glass frosts.
+    - Top with more crushed ice.
+    - Garnish with mint and a little grated nutmeg.
+
+- id: dark_n_stormy
+  name: Dark 'n' Stormy
+  aka: [Dark and Stormy]
+  iba: new_era
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Lime wedge
+  garnish_icon: lime_wedge
+  ing: ["100 ginger_beer", "60 rum_dark float | Dark rum (Gosling's Black Seal is traditional)"]
+  wiki: "Dark 'n' stormy"
+
+- id: dons_special_daiquiri
+  name: Don's Special Daiquiri
+  iba: new_era
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: Half a passion fruit
+  garnish_icon: passion_fruit
+  ing: ["30 rum_aged | Gold Jamaican rum", "15 rum_white | Cuban-style white rum", "15 passion_fruit_syrup", "15 lime_juice", "15 honey_syrup"]
+
+- id: espresso_martini
+  name: Espresso Martini
+  iba: new_era
+  glass: martini
+  method: shaken
+  ice: none
+  garnish: 3 coffee beans
+  garnish_icon: coffee_beans
+  ing: ["50 vodka", "30 coffee_liqueur", "30 espresso | Fresh espresso, cooled slightly", "10 simple_syrup | Simple syrup (to taste)"]
+  steps:
+    - Brew a shot of espresso.
+    - Shake vodka, coffee liqueur, espresso and syrup with plenty of ice, hard, for 15 seconds.
+    - Strain into a chilled coupe or martini glass.
+    - Float three coffee beans on the foam.
+  wiki: Espresso martini
+
+- id: fernandito
+  name: Fernandito
+  aka: [Fernet con Coca]
+  iba: new_era
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: null
+  garnish_icon: none
+  ing: ["50 fernet_branca", "150 top cola"]
+  wiki: Fernet con coca
+
+- id: french_martini
+  name: French Martini
+  iba: new_era
+  glass: martini
+  method: shaken
+  ice: none
+  garnish: Lemon twist
+  garnish_icon: lemon_twist
+  ing: ["45 vodka", "15 raspberry_liqueur", "15 pineapple_juice"]
+  wiki: French martini
+
+- id: gin_basil_smash
+  name: Gin Basil Smash
+  iba: new_era
+  glass: rocks
+  method: shaken
+  ice: cubes
+  garnish: Basil sprig
+  garnish_icon: basil
+  ing: ["10 leaf basil muddle", "60 gin", "22.5 lemon_juice", "22.5 simple_syrup"]
+  wiki: Gin basil smash
+
+- id: grand_margarita
+  name: Grand Margarita
+  iba: new_era
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: Lime slice
+  garnish_icon: lime_wheel
+  ing: ["45 tequila_blanco", "30 grand_marnier", "15 lime_juice"]
+
+- id: iba_tiki
+  name: IBA Tiki
+  iba: new_era
+  glass: tiki
+  method: shaken
+  ice: crushed
+  garnish: Citrus slices and dried pineapple
+  garnish_icon: pineapple
+  ing: ["1 piece fresh_ginger muddle | Slice of fresh ginger", "30 rum_aged | Aged Cuban rum", "30 rum_dark | Smoky aged rum", "15 amaretto",
+        "5 hazelnut_liqueur", "1 dash maraschino_liqueur | Maraschino (5 drops)", "30 passion_fruit_puree", "90 pineapple_juice", "30 lime_juice"]
+
+- id: illegal
+  name: Illegal
+  iba: new_era
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: null
+  garnish_icon: none
+  ing: ["30 mezcal", "15 rum_overproof | Jamaican overproof white rum", "15 falernum", "1 barspoon maraschino_liqueur",
+        "22.5 lime_juice", "15 simple_syrup", "15 egg_white opt"]
+
+- id: jungle_bird
+  name: Jungle Bird
+  iba: new_era
+  glass: rocks
+  method: shaken
+  ice: cubes
+  garnish: Pineapple wedge
+  garnish_icon: pineapple
+  ing: ["45 rum_dark | Blackstrap or dark Jamaican rum", "22.5 campari", "45 pineapple_juice", "15 lime_juice", "15 simple_syrup | Demerara syrup"]
+  wiki: Jungle Bird
+
+- id: missionarys_downfall
+  name: Missionary's Downfall
+  iba: new_era
+  glass: coupe
+  method: blended
+  ice: blended
+  garnish: Mint sprig and a pineapple slice
+  garnish_icon: mint
+  ing: ["30 rum_white", "15 peach_liqueur | Peach brandy (liqueur)", "15 lime_juice", "30 honey_syrup", "10 leaf mint", "4 piece pineapple | Fresh pineapple chunks"]
+
+- id: naked_and_famous
+  name: Naked and Famous
+  iba: new_era
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: null
+  garnish_icon: none
+  ing: ["22.5 mezcal", "22.5 yellow_chartreuse", "22.5 aperol", "22.5 lime_juice"]
+
+- id: new_york_sour
+  name: New York Sour
+  iba: new_era
+  glass: rocks
+  method: shaken
+  ice: cubes
+  garnish: Lemon or orange twist and a cherry
+  garnish_icon: cherry
+  ing: ["60 rye_whiskey | Rye whiskey or bourbon", "30 lemon_juice", "22.5 simple_syrup", "15 egg_white opt", "15 red_wine float | Dry red wine (Shiraz or Malbec)"]
+  wiki: New York sour
+
+- id: old_cuban
+  name: Old Cuban
+  iba: new_era
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: Mint sprig
+  garnish_icon: mint
+  ing: ["7 leaf mint muddle", "45 rum_aged", "22.5 lime_juice", "30 simple_syrup", "2 dash angostura_bitters", "60 top sparkling_wine | Brut Champagne or prosecco"]
+
+- id: paloma
+  name: Paloma
+  iba: new_era
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Lime slice
+  garnish_icon: lime_wheel
+  ing: ["50 tequila_blanco", "5 lime_juice", "- pinch salt", "100 top grapefruit_soda | Pink grapefruit soda"]
+  wiki: Paloma (cocktail)
+
+- id: paper_plane
+  name: Paper Plane
+  iba: new_era
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: null
+  garnish_icon: none
+  ing: ["30 bourbon_whiskey", "30 amaro_nonino", "30 aperol", "30 lemon_juice"]
+  wiki: Paper plane (cocktail)
+
+- id: penicillin
+  name: Penicillin
+  iba: new_era
+  glass: rocks
+  method: shaken
+  ice: cubes
+  garnish: Candied ginger
+  garnish_icon: ginger
+  ing: ["3 piece fresh_ginger muddle | 2-3 thin slices of fresh ginger", "60 scotch_whisky | Blended Scotch whisky", "22.5 lemon_juice", "22.5 honey_syrup",
+        "7.5 islay_scotch float | Peated Islay Scotch (e.g. Lagavulin)"]
+  wiki: Penicillin (cocktail)
+
+- id: pisco_punch
+  name: Pisco Punch
+  iba: new_era
+  glass: wine
+  method: shaken
+  ice: none
+  garnish: Pineapple wedge (optional)
+  garnish_icon: pineapple
+  ing: ["3 piece cloves muddle", "60 pisco", "22.5 pineapple_juice", "15 simple_syrup", "15 lemon_juice", "30 white_wine"]
+  wiki: Pisco punch
+
+- id: porn_star_martini
+  name: Porn Star Martini
+  aka: [Pornstar Martini, Passion Fruit Martini]
+  iba: new_era
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: Half a passion fruit
+  garnish_icon: passion_fruit
+  ing: ["50 vodka_vanilla", "20 passion_fruit_liqueur", "50 passion_fruit_puree", "10 vanilla_syrup | Vanilla syrup (or 2 bar spoons vanilla sugar)",
+        "50 sparkling_wine side | Champagne, served on the side"]
+  steps:
+    - Shake the vanilla vodka, passion fruit liqueur, passion fruit purée and vanilla syrup hard with ice.
+    - Double-strain into a chilled coupe.
+    - Float half a passion fruit on top.
+    - Serve a small glass of Champagne on the side.
+  wiki: Porn star martini
+
+- id: russian_spring_punch
+  name: Russian Spring Punch
+  iba: new_era
+  glass: highball
+  method: shaken
+  ice: cubes
+  garnish: Blackberries and a lemon slice
+  garnish_icon: berries
+  ing: ["25 vodka", "25 lemon_juice", "15 creme_de_cassis", "10 simple_syrup", "60 top sparkling_wine"]
+
+- id: sherry_cobbler
+  name: Sherry Cobbler
+  iba: new_era
+  glass: collins
+  method: shaken
+  ice: crushed
+  garnish: Fresh berries and orange and lemon wheels
+  garnish_icon: berries
+  ing: ["90 sherry | Amontillado sherry (or half palo cortado)", "1 tsp sugar", "1 piece orange muddle | Half an orange wheel", "1 piece lemon muddle | Half a lemon wheel"]
+  steps:
+    - Shake the sherry, sugar and citrus wheels hard with ice to break up the fruit.
+    - Strain into a Collins glass packed with crushed ice.
+    - Garnish with berries and small citrus wheels, and serve with a straw.
+  wiki: Sherry cobbler
+
+- id: south_side
+  name: South Side
+  aka: [Southside]
+  iba: new_era
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: Mint sprig
+  garnish_icon: mint
+  ing: ["60 gin", "30 lemon_juice", "15 simple_syrup", "6 leaf mint", "15 egg_white opt"]
+  wiki: South Side (cocktail)
+
+- id: spicy_fifty
+  name: Spicy Fifty
+  iba: new_era
+  glass: martini
+  method: shaken
+  ice: none
+  garnish: Red chili
+  garnish_icon: chili
+  ing: ["50 vodka_vanilla", "15 elderflower_syrup", "15 lime_juice", "10 honey_syrup", "2 piece chili_pepper | 2 thin slices of red chili"]
+
+- id: spritz
+  name: Spritz
+  aka: [Aperol Spritz, Spritz Veneziano]
+  iba: new_era
+  glass: wine
+  method: built
+  ice: cubes
+  garnish: Orange slice
+  garnish_icon: orange_slice
+  ing: ["90 sparkling_wine | Prosecco", "60 aperol", "30 top soda_water | Splash of soda water"]
+  wiki: Spritz (cocktail)
+
+- id: suffering_bastard
+  name: Suffering Bastard
+  iba: new_era
+  glass: collins
+  method: shaken
+  ice: cubes
+  garnish: Mint sprig and an orange slice
+  garnish_icon: mint
+  ing: ["30 cognac | Cognac or brandy", "30 gin", "15 lime_juice", "2 dash angostura_bitters", "90 top ginger_beer"]
+  wiki: Suffering bastard
+
+- id: three_dots_and_a_dash
+  name: Three Dots and a Dash
+  iba: new_era
+  glass: tiki
+  method: blended
+  ice: crushed
+  garnish: Three cherries and a pineapple chunk on a pick
+  garnish_icon: cherry
+  ing: ["45 rum_agricole", "15 rum_aged | Blended aged rum", "7.5 falernum", "7.5 allspice_dram", "15 lime_juice", "15 orange_juice",
+        "15 honey_syrup", "2 dash angostura_bitters"]
+
+- id: tipperary
+  name: Tipperary
+  iba: new_era
+  glass: coupe
+  method: stirred
+  ice: none
+  garnish: Orange twist
+  garnish_icon: orange_twist
+  ing: ["50 irish_whiskey", "25 sweet_vermouth", "15 green_chartreuse", "2 dash angostura_bitters"]
+
+- id: tommys_margarita
+  name: Tommy's Margarita
+  iba: new_era
+  glass: rocks
+  method: shaken
+  ice: cubes
+  garnish: Lime wheel
+  garnish_icon: lime_wheel
+  ing: ["60 tequila_blanco | 100% agave blanco tequila", "30 lime_juice", "30 agave_syrup"]
+  doubt: IBA lists 30 ml agave nectar; the bar's own spec is often closer to 15 ml of agave syrup cut 1:1 with water. Taste and adjust.
+
+- id: trinidad_sour
+  name: Trinidad Sour
+  iba: new_era
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: null
+  garnish_icon: none
+  ing: ["45 angostura_bitters | Angostura bitters (yes, 45 ml)", "30 orgeat", "22.5 lemon_juice", "15 rye_whiskey"]
+  wiki: Trinidad sour
+
+- id: ve_n_to
+  name: Ve.n.to
+  aka: [Vento]
+  iba: new_era
+  glass: rocks
+  method: shaken
+  ice: cubes
+  garnish: Lemon twist and white grapes
+  garnish_icon: lemon_twist
+  ing: ["45 grappa", "22.5 lemon_juice", "15 honey_syrup | Honey syrup (made with chamomile tea)", "15 chamomile_syrup", "15 egg_white opt"]
+
+# ============================================================ Classics (not on the IBA list)
+# ---- gin
+- id: gimlet
+  name: Gimlet
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: Lime wheel
+  garnish_icon: lime_wheel
+  ing: ["60 gin", "22.5 lime_juice", "15 simple_syrup"]
+  wiki: Gimlet (cocktail)
+
+- id: tom_collins
+  name: Tom Collins
+  glass: collins
+  method: shaken
+  ice: cubes
+  garnish: Lemon slice and a cherry
+  garnish_icon: lemon_wheel
+  ing: ["45 old_tom_gin | Old Tom gin (or London dry)", "30 lemon_juice", "15 simple_syrup", "60 top soda_water"]
+  wiki: Tom Collins
+
+- id: gin_and_tonic
+  name: Gin and Tonic
+  aka: [G&T, Gin Tonic]
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Lime wedge
+  garnish_icon: lime_wedge
+  ing: ["50 gin", "150 top tonic_water"]
+  wiki: Gin and tonic
+
+- id: gibson
+  name: Gibson
+  glass: martini
+  method: stirred
+  ice: none
+  garnish: Cocktail onion
+  garnish_icon: onion
+  ing: ["60 gin", "10 dry_vermouth"]
+  wiki: Gibson (cocktail)
+
+- id: dirty_martini
+  name: Dirty Martini
+  glass: martini
+  method: stirred
+  ice: none
+  garnish: Olives
+  garnish_icon: olive
+  ing: ["60 gin | Gin or vodka", "10 dry_vermouth", "10 olive_brine"]
+  wiki: Martini (cocktail)
+
+- id: bronx
+  name: Bronx
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: Orange twist
+  garnish_icon: orange_twist
+  ing: ["30 gin", "15 sweet_vermouth", "15 dry_vermouth", "15 orange_juice"]
+  wiki: Bronx (cocktail)
+
+- id: gin_rickey
+  name: Gin Rickey
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Lime wedge
+  garnish_icon: lime_wedge
+  ing: ["60 gin", "15 lime_juice", "120 top soda_water"]
+  wiki: Rickey (cocktail)
+
+- id: pegu_club
+  name: Pegu Club
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: Lime wheel
+  garnish_icon: lime_wheel
+  ing: ["45 gin", "22.5 orange_curacao", "15 lime_juice", "1 dash angostura_bitters", "1 dash orange_bitters"]
+  wiki: Pegu Club (cocktail)
+
+- id: bijou
+  name: Bijou
+  glass: coupe
+  method: stirred
+  ice: none
+  garnish: Cherry and a lemon twist
+  garnish_icon: cherry
+  ing: ["30 gin", "30 sweet_vermouth", "30 green_chartreuse", "1 dash orange_bitters"]
+  wiki: Bijou (cocktail)
+
+- id: sloe_gin_fizz
+  name: Sloe Gin Fizz
+  glass: highball
+  method: shaken
+  ice: none
+  garnish: Lemon wheel
+  garnish_icon: lemon_wheel
+  ing: ["45 sloe_gin", "22.5 lemon_juice", "10 simple_syrup", "60 top soda_water"]
+
+- id: breakfast_martini
+  name: Breakfast Martini
+  glass: martini
+  method: shaken
+  ice: none
+  garnish: Orange twist
+  garnish_icon: orange_twist
+  ing: ["50 gin", "15 triple_sec", "15 lemon_juice", "1 barspoon orange_marmalade"]
+  doubt: Modern classic (London, 1990s); spec varies. Ours follows the common 50/15/15 plus a bar spoon of marmalade.
+
+# ---- wine, sparkling and aperitif
+- id: hugo_spritz
+  name: Hugo Spritz
+  aka: [Hugo]
+  glass: wine
+  method: built
+  ice: cubes
+  garnish: Mint sprig and a lime wheel
+  garnish_icon: mint
+  ing: ["4 leaf mint", "20 elderflower_syrup | Elderflower cordial (or liqueur)", "90 sparkling_wine | Prosecco", "30 top soda_water"]
+  steps:
+    - Clap the mint leaves between your hands and drop them into a wine glass.
+    - Add the elderflower cordial and fill the glass with ice.
+    - Pour in the prosecco and top with soda water.
+    - Stir gently and garnish with a lime wheel and mint.
+  wiki: Hugo (cocktail)
+
+- id: negroni_sbagliato
+  name: Negroni Sbagliato
+  glass: rocks
+  method: built
+  ice: cubes
+  garnish: Orange slice
+  garnish_icon: orange_slice
+  ing: ["30 campari", "30 sweet_vermouth", "60 top sparkling_wine | Prosecco"]
+  wiki: Negroni
+
+- id: kir_royale
+  name: Kir Royale
+  glass: flute
+  method: built
+  ice: none
+  garnish: null
+  garnish_icon: none
+  ing: ["10 creme_de_cassis", "120 top sparkling_wine | Champagne"]
+  wiki: Kir (cocktail)
+
+- id: rossini
+  name: Rossini
+  glass: flute
+  method: built
+  ice: none
+  garnish: Strawberry (optional)
+  garnish_icon: berries
+  ing: ["50 strawberry_puree", "100 top sparkling_wine | Prosecco"]
+  wiki: Rossini (cocktail)
+
+- id: death_in_the_afternoon
+  name: Death in the Afternoon
+  glass: flute
+  method: built
+  ice: none
+  garnish: null
+  garnish_icon: none
+  ing: ["30 absinthe", "120 top sparkling_wine | Champagne"]
+  steps:
+    - Pour the absinthe into a chilled flute.
+    - Slowly top with very cold Champagne until the drink turns milky.
+  wiki: Death in the Afternoon (cocktail)
+
+- id: bamboo
+  name: Bamboo
+  glass: coupe
+  method: stirred
+  ice: none
+  garnish: Lemon twist
+  garnish_icon: lemon_twist
+  ing: ["45 sherry | Dry fino or amontillado sherry", "45 dry_vermouth", "2 dash angostura_bitters", "2 dash orange_bitters"]
+
+- id: air_mail
+  name: Air Mail
+  glass: flute
+  method: shaken
+  ice: none
+  garnish: Lime twist (optional)
+  garnish_icon: lime_wheel
+  ing: ["30 rum_aged", "15 lime_juice", "15 honey_syrup", "60 top sparkling_wine | Champagne"]
+  wiki: Airmail (cocktail)
+
+- id: poinsettia
+  name: Poinsettia
+  glass: flute
+  method: built
+  ice: none
+  garnish: A few cranberries
+  garnish_icon: berries
+  ing: ["15 triple_sec", "30 cranberry_juice", "90 top sparkling_wine"]
+
+- id: mulled_wine
+  name: Mulled Wine
+  aka: [Glühwein, Vin Chaud]
+  glass: irish_coffee_mug
+  method: hot
+  ice: none
+  garnish: Orange slice and a cinnamon stick
+  garnish_icon: cinnamon
+  ing: ["150 red_wine", "15 honey | Honey or sugar, to taste", "1 piece orange | 2 orange slices", "3 piece cloves", "1 piece cinnamon",
+        "1 piece star_anise opt", "15 cognac opt | Brandy (optional)"]
+  steps:
+    - Put the wine, honey, orange slices and spices in a small pan.
+    - Warm gently for 10 minutes without letting it boil.
+    - Stir in the brandy, if using, and taste for sweetness.
+    - Strain into a heatproof mug and garnish with an orange slice and a cinnamon stick.
+  wiki: Mulled wine
+
+- id: sangria
+  name: Sangria
+  glass: wine
+  method: built
+  ice: cubes
+  garnish: Slices of orange and lemon
+  garnish_icon: orange_slice
+  ing: ["120 red_wine", "15 cognac | Spanish brandy", "15 triple_sec", "30 orange_juice", "10 simple_syrup", "1 piece orange | Orange slices",
+        "1 piece lemon | Lemon slices", "30 top soda_water opt"]
+  steps:
+    - Combine the wine, brandy, triple sec, orange juice, syrup and fruit slices (this scales up well for a pitcher).
+    - Chill for at least an hour so the fruit flavors the wine.
+    - Pour over ice in a wine glass, with some of the fruit.
+    - Top with a splash of soda if you like it lighter.
+  wiki: Sangria
+
+- id: limoncello_spritz
+  name: Limoncello Spritz
+  glass: wine
+  method: built
+  ice: cubes
+  garnish: Lemon wheel and mint
+  garnish_icon: lemon_wheel
+  ing: ["60 limoncello", "90 sparkling_wine | Prosecco", "30 top soda_water"]
+
+- id: pimms_cup
+  name: Pimm's Cup
+  aka: [Pimm's]
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Cucumber slices, strawberry, orange and mint
+  garnish_icon: cucumber
+  ing: ["50 pimms", "150 top lemon_lime_soda | Lemonade (UK-style) or lemon-lime soda", "2 piece cucumber | Cucumber slices",
+        "2 piece strawberry opt | Strawberry halves", "1 piece orange opt | Orange slice", "3 leaf mint opt"]
+  steps:
+    - Fill a highball glass with ice and the fruit, cucumber and mint.
+    - Pour in the Pimm's.
+    - Top with lemonade and stir gently.
+
+# ---- vodka
+- id: vodka_martini
+  name: Vodka Martini
+  aka: [Kangaroo]
+  glass: martini
+  method: stirred
+  ice: none
+  garnish: Lemon twist or an olive
+  garnish_icon: lemon_twist
+  ing: ["60 vodka", "10 dry_vermouth"]
+  wiki: Vodka martini
+
+- id: screwdriver
+  name: Screwdriver
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Orange slice
+  garnish_icon: orange_slice
+  ing: ["50 vodka", "100 orange_juice"]
+  wiki: Screwdriver (cocktail)
+
+- id: harvey_wallbanger
+  name: Harvey Wallbanger
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Orange slice and a cherry
+  garnish_icon: orange_slice
+  ing: ["45 vodka", "90 orange_juice", "15 galliano float"]
+  wiki: Harvey Wallbanger
+
+- id: greyhound
+  name: Greyhound
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Grapefruit wedge (optional)
+  garnish_icon: orange_slice
+  ing: ["45 vodka", "120 grapefruit_juice"]
+  wiki: Greyhound (cocktail)
+
+- id: salty_dog
+  name: Salty Dog
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Salt rim
+  garnish_icon: salt_rim
+  ing: ["- pinch salt rim | Salt for the rim", "45 vodka | Vodka or gin", "120 grapefruit_juice"]
+  wiki: Salty dog (cocktail)
+
+- id: cape_codder
+  name: Cape Codder
+  aka: [Vodka Cranberry]
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Lime wedge
+  garnish_icon: lime_wedge
+  ing: ["45 vodka", "120 cranberry_juice"]
+  wiki: Cape Codder (cocktail)
+
+- id: bay_breeze
+  name: Bay Breeze
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Lime wedge
+  garnish_icon: lime_wedge
+  ing: ["45 vodka", "90 cranberry_juice", "30 pineapple_juice"]
+  wiki: Bay breeze (cocktail)
+
+- id: madras
+  name: Madras
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Lime wedge
+  garnish_icon: lime_wedge
+  ing: ["45 vodka", "90 cranberry_juice", "30 orange_juice"]
+  wiki: Madras (cocktail)
+
+- id: white_russian
+  name: White Russian
+  glass: rocks
+  method: built
+  ice: cubes
+  garnish: null
+  garnish_icon: none
+  ing: ["50 vodka", "20 coffee_liqueur", "30 heavy_cream float"]
+  wiki: White Russian (cocktail)
+
+- id: godmother
+  name: Godmother
+  glass: rocks
+  method: built
+  ice: cubes
+  garnish: null
+  garnish_icon: none
+  ing: ["45 vodka", "20 amaretto"]
+  wiki: Godfather (cocktail)
+
+- id: kamikaze
+  name: Kamikaze
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: Lime wedge
+  garnish_icon: lime_wedge
+  ing: ["30 vodka", "30 triple_sec", "30 lime_juice"]
+  wiki: Kamikaze (cocktail)
+
+- id: appletini
+  name: Appletini
+  aka: [Apple Martini]
+  glass: martini
+  method: shaken
+  ice: none
+  garnish: Green apple slice
+  garnish_icon: apple
+  ing: ["45 vodka", "30 apple_liqueur", "10 lemon_juice"]
+  wiki: Appletini
+
+- id: caesar
+  name: Caesar
+  aka: [Bloody Caesar]
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Celery salt rim, celery stalk and a lime wedge
+  garnish_icon: celery
+  ing: ["- pinch celery_salt rim | Celery salt for the rim", "45 vodka", "120 clamato_juice", "2 dash worcestershire_sauce", "2 dash hot_sauce", "10 lime_juice"]
+  wiki: Caesar (cocktail)
+
+- id: mudslide
+  name: Mudslide
+  glass: rocks
+  method: shaken
+  ice: cubes
+  garnish: Chocolate shavings (optional)
+  garnish_icon: none
+  ing: ["30 vodka", "30 coffee_liqueur", "30 irish_cream", "30 heavy_cream"]
+
+- id: blue_lagoon
+  name: Blue Lagoon
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Lemon wheel
+  garnish_icon: lemon_wheel
+  ing: ["40 vodka", "20 blue_curacao", "120 top lemon_lime_soda | Lemonade or lemon-lime soda"]
+  wiki: Blue Lagoon (cocktail)
+
+- id: chocolate_martini
+  name: Chocolate Martini
+  glass: martini
+  method: shaken
+  ice: none
+  garnish: Cocoa or chocolate rim (optional)
+  garnish_icon: none
+  ing: ["45 vodka", "30 creme_de_cacao | Dark crème de cacao", "15 heavy_cream"]
+
+# ---- rum
+- id: painkiller
+  name: Painkiller
+  glass: double_rocks
+  method: shaken
+  ice: crushed
+  garnish: Grated nutmeg
+  garnish_icon: nutmeg
+  ing: ["60 rum_dark | Navy-style dark rum", "120 pineapple_juice", "30 orange_juice", "30 coconut_cream"]
+  wiki: Painkiller (cocktail)
+
+- id: hurricane
+  name: Hurricane
+  glass: hurricane
+  method: shaken
+  ice: cubes
+  garnish: Orange slice and a cherry
+  garnish_icon: orange_slice
+  ing: ["45 rum_white", "45 rum_dark", "30 passion_fruit_syrup", "30 orange_juice", "15 lime_juice", "1 tsp grenadine"]
+  wiki: Hurricane (cocktail)
+
+- id: el_presidente
+  name: El Presidente
+  glass: coupe
+  method: stirred
+  ice: none
+  garnish: Orange twist
+  garnish_icon: orange_twist
+  ing: ["45 rum_white", "22.5 dry_vermouth | Blanc or dry vermouth", "7.5 orange_curacao", "1 barspoon grenadine"]
+  wiki: El Presidente (cocktail)
+
+- id: blue_hawaii
+  name: Blue Hawaii
+  glass: hurricane
+  method: shaken
+  ice: cubes
+  garnish: Pineapple wedge and a cherry
+  garnish_icon: pineapple
+  ing: ["22.5 rum_white", "22.5 vodka", "15 blue_curacao", "90 pineapple_juice", "15 lemon_juice", "7.5 simple_syrup"]
+  wiki: Blue Hawaii (cocktail)
+
+- id: hot_buttered_rum
+  name: Hot Buttered Rum
+  glass: irish_coffee_mug
+  method: hot
+  ice: none
+  garnish: Cinnamon stick
+  garnish_icon: cinnamon
+  ing: ["60 rum_dark", "3 tsp butter | Soft butter (1 tablespoon)", "2 tsp brown_sugar", "- pinch nutmeg | Pinch each of nutmeg and cinnamon", "120 hot_water"]
+  steps:
+    - Warm a mug with hot water, then empty it.
+    - Mash the butter, brown sugar and spices together in the mug.
+    - Add the rum and the hot water and stir until the butter melts.
+    - Garnish with a cinnamon stick.
+  wiki: Hot buttered rum
+
+- id: strawberry_daiquiri
+  name: Strawberry Daiquiri
+  aka: [Frozen Strawberry Daiquiri]
+  glass: coupe
+  method: blended
+  ice: blended
+  garnish: Strawberry
+  garnish_icon: berries
+  ing: ["60 rum_white", "20 lime_juice", "15 simple_syrup", "4 piece strawberry | Ripe strawberries, hulled"]
+  wiki: Daiquiri
+
+- id: queens_park_swizzle
+  name: Queen's Park Swizzle
+  glass: collins
+  method: muddled_built
+  ice: crushed
+  garnish: Mint sprig
+  garnish_icon: mint
+  ing: ["8 leaf mint muddle", "60 rum_aged | Demerara or other aged rum", "22.5 lime_juice", "15 simple_syrup", "4 dash angostura_bitters"]
+  steps:
+    - Lightly press the mint leaves with the syrup in a Collins glass.
+    - Add the rum and lime juice and fill with crushed ice.
+    - Swizzle with a bar spoon until the glass frosts.
+    - Top with more crushed ice, dash the bitters over the top and garnish with mint.
+  wiki: Queen's Park Swizzle
+
+- id: ti_punch
+  name: Ti' Punch
+  aka: [Ti Punch]
+  glass: rocks
+  method: built
+  ice: none
+  garnish: null
+  garnish_icon: lime_wedge
+  ing: ["1 piece lime muddle | A coin-sized slice of lime with peel", "5 simple_syrup | Cane syrup", "60 rum_agricole"]
+  steps:
+    - Squeeze the lime piece over a small rocks glass and drop it in.
+    - Add the cane syrup and stir to coat.
+    - Pour in the rhum agricole and stir. Add one ice cube if you like.
+  wiki: "Ti' punch"
+
+# ---- tequila and mezcal
+- id: batanga
+  name: Batanga
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Salt rim and a lime wedge
+  garnish_icon: salt_rim
+  ing: ["- pinch salt rim | Salt for the rim", "50 tequila_blanco", "10 lime_juice", "120 top cola"]
+  wiki: Batanga (cocktail)
+
+- id: el_diablo
+  name: El Diablo
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Lime wedge
+  garnish_icon: lime_wedge
+  ing: ["45 tequila_reposado", "15 lime_juice", "90 top ginger_beer", "15 creme_de_cassis sink"]
+
+- id: ranch_water
+  name: Ranch Water
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Lime wedge
+  garnish_icon: lime_wedge
+  ing: ["45 tequila_blanco", "20 lime_juice", "120 top soda_water | Sparkling mineral water (Topo Chico)"]
+
+- id: oaxaca_old_fashioned
+  name: Oaxaca Old Fashioned
+  glass: rocks
+  method: stirred
+  ice: large_cube
+  garnish: Flamed orange twist
+  garnish_icon: orange_twist
+  ing: ["45 tequila_reposado", "15 mezcal", "5 agave_syrup", "2 dash angostura_bitters"]
+
+- id: spicy_margarita
+  name: Spicy Margarita
+  glass: rocks
+  method: shaken
+  ice: cubes
+  garnish: Chili slice and a salt rim (optional)
+  garnish_icon: chili
+  ing: ["2 piece chili_pepper muddle | 2 slices of jalapeño", "50 tequila_blanco", "15 triple_sec", "25 lime_juice", "10 agave_syrup", "- pinch salt rim opt | Salt for the rim (optional)"]
+
+# ---- whiskey
+- id: rob_roy
+  name: Rob Roy
+  glass: coupe
+  method: stirred
+  ice: none
+  garnish: Cocktail cherry
+  garnish_icon: cherry
+  ing: ["50 scotch_whisky", "25 sweet_vermouth", "1 dash angostura_bitters"]
+  wiki: Rob Roy (cocktail)
+
+- id: blood_and_sand
+  name: Blood and Sand
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: Orange twist
+  garnish_icon: orange_twist
+  ing: ["22.5 scotch_whisky", "22.5 cherry_liqueur", "22.5 sweet_vermouth", "22.5 orange_juice"]
+  wiki: Blood and Sand (cocktail)
+
+- id: whiskey_smash
+  name: Whiskey Smash
+  glass: rocks
+  method: shaken
+  ice: crushed
+  garnish: Mint sprig
+  garnish_icon: mint
+  ing: ["3 piece lemon muddle | 3 lemon wedges", "8 leaf mint muddle", "60 bourbon_whiskey", "20 simple_syrup"]
+
+- id: gold_rush
+  name: Gold Rush
+  glass: rocks
+  method: shaken
+  ice: large_cube
+  garnish: null
+  garnish_icon: none
+  ing: ["60 bourbon_whiskey", "22.5 honey_syrup", "22.5 lemon_juice"]
+
+- id: brown_derby
+  name: Brown Derby
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: Grapefruit twist
+  garnish_icon: orange_twist
+  ing: ["45 bourbon_whiskey", "30 grapefruit_juice", "15 honey_syrup"]
+  wiki: Brown Derby (cocktail)
+
+- id: ward_eight
+  name: Ward Eight
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: Cherry (optional)
+  garnish_icon: cherry
+  ing: ["60 rye_whiskey", "15 lemon_juice", "15 orange_juice", "10 grenadine"]
+
+- id: hot_toddy
+  name: Hot Toddy
+  glass: irish_coffee_mug
+  method: hot
+  ice: none
+  garnish: Lemon wheel studded with cloves
+  garnish_icon: lemon_wheel
+  ing: ["45 bourbon_whiskey | Whiskey (bourbon, Scotch or Irish)", "15 honey", "10 lemon_juice", "120 hot_water", "1 piece cinnamon opt", "3 piece cloves opt"]
+  steps:
+    - Warm a mug with hot water, then empty it.
+    - Add the honey and a splash of hot water and stir to dissolve.
+    - Add the whiskey, lemon juice and the rest of the hot water.
+    - Garnish with a lemon wheel studded with cloves and a cinnamon stick, if you like.
+  wiki: Hot toddy
+
+- id: whisky_highball
+  name: Whisky Highball
+  aka: [Highball, Scotch and Soda]
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Lemon twist
+  garnish_icon: lemon_twist
+  ing: ["45 scotch_whisky | Japanese or Scotch whisky", "120 top soda_water | Very cold soda water"]
+  wiki: Highball
+
+- id: old_pal
+  name: Old Pal
+  glass: coupe
+  method: stirred
+  ice: none
+  garnish: Lemon twist
+  garnish_icon: lemon_twist
+  ing: ["30 rye_whiskey", "30 dry_vermouth", "30 campari"]
+
+- id: black_manhattan
+  name: Black Manhattan
+  glass: coupe
+  method: stirred
+  ice: none
+  garnish: Cocktail cherry
+  garnish_icon: cherry
+  ing: ["60 rye_whiskey | Rye whiskey or bourbon", "30 averna", "1 dash angostura_bitters", "1 dash orange_bitters"]
+
+- id: kentucky_mule
+  name: Kentucky Mule
+  aka: [Bourbon Mule]
+  glass: copper_mug
+  method: built
+  ice: cubes
+  garnish: Mint sprig and a lime wedge
+  garnish_icon: mint
+  ing: ["45 bourbon_whiskey", "10 lime_juice", "120 top ginger_beer"]
+  wiki: Moscow mule
+
+- id: godfather
+  name: Godfather
+  glass: rocks
+  method: built
+  ice: cubes
+  garnish: null
+  garnish_icon: none
+  ing: ["45 scotch_whisky", "20 amaretto"]
+  wiki: Godfather (cocktail)
+
+# ---- brandy and pisco
+- id: jack_rose
+  name: Jack Rose
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: Apple slice (optional)
+  garnish_icon: apple
+  ing: ["60 calvados | Applejack or calvados", "22.5 lemon_juice", "15 grenadine"]
+  wiki: Jack Rose (cocktail)
+
+- id: eggnog
+  name: Eggnog
+  aka: [Egg Nog]
+  glass: rocks
+  method: shaken
+  ice: none
+  garnish: Grated nutmeg
+  garnish_icon: nutmeg
+  ing: ["45 cognac | Brandy, bourbon or dark rum", "60 milk", "30 heavy_cream", "1 piece whole_egg", "15 simple_syrup"]
+  steps:
+    - Shake everything without ice for 10 seconds to whip the egg.
+    - Add ice and shake hard until cold.
+    - Strain into a small glass or punch cup.
+    - Grate fresh nutmeg over the top.
+  wiki: Eggnog
+
+- id: chilcano
+  name: Chilcano
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Lime wedge
+  garnish_icon: lime_wedge
+  ing: ["60 pisco", "15 lime_juice", "120 top ginger_ale", "3 dash angostura_bitters"]
+
+# ---- liqueur-led
+- id: amaretto_sour
+  name: Amaretto Sour
+  glass: rocks
+  method: shaken
+  ice: cubes
+  garnish: Cherry and an orange slice
+  garnish_icon: cherry
+  ing: ["45 amaretto", "25 lemon_juice", "10 simple_syrup", "20 egg_white opt"]
+  wiki: Amaretto sour
+
+- id: b_52
+  name: B-52
+  glass: shot
+  method: layered
+  ice: none
+  garnish: null
+  garnish_icon: none
+  ing: ["20 coffee_liqueur", "20 irish_cream", "20 grand_marnier"]
+  wiki: B-52 (cocktail)
+
+- id: midori_sour
+  name: Midori Sour
+  aka: [Melon Sour]
+  glass: rocks
+  method: shaken
+  ice: cubes
+  garnish: Cherry
+  garnish_icon: cherry
+  ing: ["30 melon_liqueur", "30 vodka", "30 lemon_juice", "10 simple_syrup"]
+
+- id: fuzzy_navel
+  name: Fuzzy Navel
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Orange slice
+  garnish_icon: orange_slice
+  ing: ["45 peach_liqueur", "120 orange_juice"]
+  wiki: Fuzzy navel
+
+- id: golden_dream
+  name: Golden Dream
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: null
+  garnish_icon: none
+  ing: ["20 galliano", "20 triple_sec", "20 orange_juice", "10 heavy_cream"]
+  wiki: Golden dream (cocktail)
+
+- id: dirty_shirley
+  name: Dirty Shirley
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Maraschino cherries
+  garnish_icon: cherry
+  ing: ["45 vodka", "150 top lemon_lime_soda", "15 grenadine sink"]
+
+# ============================================================ Mocktails (no alcohol)
+- id: shirley_temple
+  name: Shirley Temple
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Maraschino cherry
+  garnish_icon: cherry
+  ing: ["150 ginger_ale", "15 grenadine sink", "5 lime_juice opt"]
+  steps:
+    - Fill a highball glass with ice.
+    - Add the ginger ale and lime juice.
+    - Drizzle the grenadine down the inside of the glass so it sinks.
+    - Garnish with a maraschino cherry.
+  wiki: Shirley Temple (drink)
+
+- id: roy_rogers
+  name: Roy Rogers
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Maraschino cherry
+  garnish_icon: cherry
+  ing: ["150 cola", "15 grenadine"]
+  wiki: Roy Rogers (drink)
+
+- id: virgin_mojito
+  name: Virgin Mojito
+  aka: [Nojito]
+  glass: highball
+  method: muddled_built
+  ice: crushed
+  garnish: Mint sprig and a lime wheel
+  garnish_icon: mint
+  ing: ["8 leaf mint muddle", "20 lime_juice muddle", "15 simple_syrup muddle", "150 top soda_water"]
+
+- id: virgin_pina_colada
+  name: Virgin Piña Colada
+  aka: [Virgin Pina Colada, Piña Colada mocktail]
+  glass: hurricane
+  method: blended
+  ice: blended
+  garnish: Pineapple wedge and a cherry
+  garnish_icon: pineapple
+  ing: ["90 pineapple_juice", "45 coconut_cream", "10 lime_juice"]
+
+- id: virgin_mary
+  name: Virgin Mary
+  aka: [Bloody Shame]
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Celery stalk and a lemon wedge
+  garnish_icon: celery
+  ing: ["120 tomato_juice", "15 lemon_juice", "2 dash worcestershire_sauce", "2 dash hot_sauce", "- pinch celery_salt", "- pinch black_pepper"]
+
+- id: arnold_palmer
+  name: Arnold Palmer
+  aka: [Half and Half]
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Lemon wheel
+  garnish_icon: lemon_wheel
+  ing: ["120 black_tea | Unsweetened iced tea", "120 lemonade"]
+  wiki: Arnold Palmer (drink)
+
+- id: fresh_lemonade
+  name: Fresh Lemonade
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Lemon wheel and mint (optional)
+  garnish_icon: lemon_wheel
+  ing: ["30 lemon_juice", "30 simple_syrup", "150 water | Cold water (or soda water for a sparkling version)"]
+  wiki: Lemonade
+
+- id: cinderella
+  name: Cinderella
+  glass: highball
+  method: shaken
+  ice: cubes
+  garnish: Orange slice and a cherry
+  garnish_icon: orange_slice
+  ing: ["60 orange_juice", "60 pineapple_juice", "30 lemon_juice", "10 grenadine", "60 top soda_water"]
+
+- id: virgin_mule
+  name: Virgin Mule
+  aka: [Ginger Lime Mule, Moscow Mule mocktail]
+  glass: copper_mug
+  method: built
+  ice: cubes
+  garnish: Lime wheel and mint
+  garnish_icon: lime_wheel
+  ing: ["20 lime_juice", "10 simple_syrup opt", "150 top ginger_beer"]
+
+- id: pussyfoot
+  name: Pussyfoot
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: Cherry
+  garnish_icon: cherry
+  ing: ["60 orange_juice", "15 lemon_juice", "15 lime_juice", "10 grenadine", "15 egg_yolk"]
+
+- id: lime_rickey
+  name: Lime Rickey
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Lime wedge
+  garnish_icon: lime_wedge
+  ing: ["30 lime_juice", "20 simple_syrup", "150 top soda_water"]
+  wiki: Rickey (cocktail)
+
+- id: cranberry_spritzer
+  name: Cranberry Spritzer
+  glass: wine
+  method: built
+  ice: cubes
+  garnish: A few cranberries and a lime wheel
+  garnish_icon: berries
+  ing: ["90 cranberry_juice", "10 lime_juice", "90 top soda_water"]
+
+- id: virgin_margarita
+  name: Virgin Margarita
+  aka: [Nojita]
+  glass: coupe
+  method: shaken
+  ice: none
+  garnish: Salt rim and a lime wheel
+  garnish_icon: lime_wheel
+  ing: ["- pinch salt rim opt | Salt for the rim", "30 lime_juice", "30 orange_juice", "15 agave_syrup", "30 water | Cold water"]
+
+- id: strawberry_lemonade
+  name: Strawberry Lemonade
+  glass: highball
+  method: muddled_built
+  ice: cubes
+  garnish: Strawberry and a lemon wheel
+  garnish_icon: berries
+  ing: ["3 piece strawberry muddle", "30 lemon_juice muddle", "25 simple_syrup muddle", "120 top soda_water | Soda or cold still water"]
+
+- id: virgin_sunrise
+  name: Virgin Sunrise
+  aka: [Sunrise mocktail]
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Orange slice and a cherry
+  garnish_icon: orange_slice
+  ing: ["150 orange_juice", "15 grenadine sink"]
+
+- id: virgin_bellini
+  name: Virgin Bellini
+  glass: flute
+  method: built
+  ice: none
+  garnish: null
+  garnish_icon: none
+  ing: ["50 peach_puree", "5 lemon_juice", "100 top soda_water | Very cold soda water (or sparkling apple juice)"]
+
+- id: cucumber_cooler
+  name: Cucumber Cooler
+  glass: highball
+  method: muddled_built
+  ice: cubes
+  garnish: Cucumber ribbon
+  garnish_icon: cucumber
+  ing: ["3 piece cucumber muddle | Cucumber slices", "6 leaf mint muddle", "20 lime_juice", "15 simple_syrup", "120 top soda_water"]
+
+- id: watermelon_cooler
+  name: Watermelon Cooler
+  glass: highball
+  method: shaken
+  ice: cubes
+  garnish: Watermelon wedge and mint
+  garnish_icon: watermelon
+  ing: ["6 piece watermelon muddle | Watermelon cubes (about 1 cup)", "15 lime_juice", "10 simple_syrup", "60 top soda_water"]
+
+- id: mulled_cider
+  name: Mulled Cider
+  aka: [Hot Spiced Cider]
+  glass: irish_coffee_mug
+  method: hot
+  ice: none
+  garnish: Cinnamon stick and an orange slice
+  garnish_icon: cinnamon
+  ing: ["200 apple_cider", "1 piece cinnamon", "3 piece cloves", "1 piece star_anise opt", "1 piece orange | Orange slice", "10 maple_syrup opt"]
+  steps:
+    - Warm the cider with the spices and orange slice in a small pan for 10 minutes; don't let it boil.
+    - Sweeten with maple syrup if you like.
+    - Strain into a mug and garnish with a cinnamon stick and an orange slice.
+
+- id: lemon_lime_bitters
+  name: Lemon, Lime and Bitters
+  aka: [LLB]
+  alcoholic: mocktail
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Lime wedge
+  garnish_icon: lime_wedge
+  ing: ["15 lime_juice", "4 dash angostura_bitters", "180 top lemon_lime_soda"]
+  wiki: Lemon, lime and bitters
+  doubt: Listed as a mocktail, but the bitters add a trace of alcohol (well under 1% in the glass).
+
+- id: virgin_paloma
+  name: Virgin Paloma
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Lime wheel and a salt rim (optional)
+  garnish_icon: lime_wheel
+  ing: ["15 lime_juice", "- pinch salt", "150 top grapefruit_soda"]
+
+- id: espresso_tonic
+  name: Espresso Tonic
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Orange twist (optional)
+  garnish_icon: orange_twist
+  ing: ["120 tonic_water", "30 espresso float | Fresh espresso"]
+
+- id: passion_fruit_spritz
+  name: Passion Fruit Spritz
+  glass: wine
+  method: built
+  ice: cubes
+  garnish: Half a passion fruit
+  garnish_icon: passion_fruit
+  ing: ["30 passion_fruit_puree", "15 passion_fruit_syrup", "10 lime_juice", "120 top soda_water"]
+
+- id: safe_sex_on_the_beach
+  name: Safe Sex on the Beach
+  aka: [Virgin Sex on the Beach]
+  glass: highball
+  method: built
+  ice: cubes
+  garnish: Orange slice
+  garnish_icon: orange_slice
+  ing: ["60 cranberry_juice", "60 orange_juice", "30 peach_puree | Peach nectar or purée"]
+
+- id: virgin_strawberry_daiquiri
+  name: Virgin Strawberry Daiquiri
+  glass: coupe
+  method: blended
+  ice: blended
+  garnish: Strawberry
+  garnish_icon: berries
+  ing: ["6 piece strawberry | Ripe strawberries, hulled", "20 lime_juice", "20 simple_syrup"]

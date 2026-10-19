@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "adb/recipes.schema.json",
+  "type": "object",
+  "required": ["schema_version", "recipes"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "recipes": {"type": "array", "items": {"$ref": "#/$defs/recipe"}}
+  },
+  "$defs": {
+    "recipe": {
+      "type": "object",
+      "required": ["id", "name", "ingredients", "steps", "glass", "method", "ice", "garnish", "garnish_icon", "color", "abv_est", "tags", "image", "sources", "text_license", "review"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+        "name": {"type": "string", "minLength": 1},
+        "aka": {"type": "array", "items": {"type": "string"}},
+        "ingredients": {"type": "array", "minItems": 1, "items": {
+          "type": "object", "required": ["ingredient_id", "display", "amount", "unit"], "additionalProperties": false,
+          "properties": {
+            "ingredient_id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+            "display": {"type": "string"},
+            "amount": {"type": ["number", "null"]},
+            "unit": {"enum": ["ml", "dash", "barspoon", "tsp", "cube", "piece", "leaf", "top", "pinch"]},
+            "optional": {"const": true}
+          }}},
+        "steps": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 3}},
+        "glass": {"enum": ["rocks", "double_rocks", "coupe", "martini", "highball", "collins", "flute", "wine", "copper_mug", "hurricane", "tiki", "irish_coffee_mug", "nick_and_nora", "shot"]},
+        "method": {"enum": ["shaken", "stirred", "built", "blended", "layered", "muddled_built", "hot"]},
+        "ice": {"enum": ["none", "cubes", "large_cube", "crushed", "blended"]},
+        "garnish": {"type": ["string", "null"]},
+        "garnish_icon": {"type": "string"},
+        "color": {"type": "object", "required": ["name", "hex"], "properties": {"name": {"type": "string"}, "hex": {"type": "string", "pattern": "^#[0-9A-F]{6}$"}}},
+        "abv_est": {"type": "number", "minimum": 0, "maximum": 60},
+        "tags": {"type": "object", "additionalProperties": false,
+          "required": ["base_spirit", "flavor", "strength", "season", "occasion", "difficulty", "alcoholic", "iba_category"],
+          "properties": {
+            "base_spirit": {"type": "array", "minItems": 1, "maxItems": 2, "items": {"enum": ["gin", "vodka", "rum_white", "rum_dark", "tequila", "mezcal", "whiskey_bourbon", "whiskey_rye", "whiskey_scotch", "whiskey_irish", "brandy_cognac", "pisco", "cachaca", "amaro_aperitif", "wine_sparkling", "wine", "liqueur", "none"]}},
+            "flavor": {"type": "array", "minItems": 1, "items": {"enum": ["sweet", "sour", "bitter", "spirit_forward", "fruity", "herbal", "creamy", "spicy", "smoky", "bubbly", "coffee"]}},
+            "strength": {"enum": ["light", "medium", "strong"]},
+            "season": {"type": "array", "minItems": 1, "items": {"enum": ["spring", "summer", "fall", "winter", "holiday", "all_year"]}},
+            "occasion": {"type": "array", "minItems": 1, "items": {"enum": ["brunch", "party", "aperitif", "after_dinner", "nightcap", "date_night", "classic"]}},
+            "difficulty": {"enum": [1, 2, 3]},
+            "alcoholic": {"enum": ["alcoholic", "mocktail", "low_abv"]},
+            "iba_category": {"enum": ["unforgettable", "contemporary_classic", "new_era", null]}
+          }},
+        "image": {"type": "object", "additionalProperties": false,
+          "required": ["kind", "file", "thumb", "icon_file", "icon_thumb", "title", "author", "source_url", "license", "license_url", "modified"],
+          "properties": {
+            "kind": {"enum": ["photo", "icon"]},
+            "file": {"type": "string"}, "thumb": {"type": "string"},
+            "icon_file": {"type": "string"}, "icon_thumb": {"type": "string"},
+            "title": {"type": ["string", "null"]}, "author": {"type": ["string", "null"]},
+            "source_url": {"type": ["string", "null"]},
+            "license": {"type": ["string", "null"], "pattern": "^(CC0-1\\.0|Public-Domain|CC-BY(-SA)?-[1-4]\\.[05](-[A-Z\\-]+)?)$"},
+            "license_url": {"type": ["string", "null"]}, "modified": {"type": ["string", "null"]}
+          },
+          "if": {"properties": {"kind": {"const": "photo"}}},
+          "then": {"properties": {"license": {"type": "string"}, "source_url": {"type": "string"}, "author": {"type": "string"}, "title": {"type": "string"}}}
+        },
+        "sources": {"type": "array", "items": {"type": "object", "required": ["name", "url", "used_for"]}},
+        "text_license": {"const": "CC-BY-4.0"},
+        "review": {"type": "object", "required": ["tags_reviewed", "notes"]}
+      }
+    }
+  }
+}

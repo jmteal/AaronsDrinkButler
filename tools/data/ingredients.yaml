@@ -1,0 +1,186 @@
+# Normalized ingredient table (source of truth for data/ingredients.json).
+#
+# Fields:
+#   name      display name in the My Bar list and default ingredient label
+#   short     wording used inside generated steps (defaults to name, lower-cased)
+#   cat       spirit | liqueur | wine | mixer | juice | syrup | bitters | dairy | egg | garnish | other
+#   abv       % alcohol by volume (0 if omitted); used for the ABV estimate
+#   base      base_spirit tag value when this is the largest alcoholic ingredient
+#   sub       ingredient ids that can stand in for this one (pantry counts them as present)
+#   essential pantry_essential flag (shown first in My Bar)
+#   pantry    false = never asked about in My Bar (water, ice)
+#   aliases   extra names used only to map reference data (IBA, TheCocktailDB, Wikidata)
+#
+# Category names shown in the UI live in CATEGORY_LABELS in adb/emit.py.
+
+# ---------------------------------------------------------------- spirits
+gin:               {name: Gin, cat: spirit, abv: 40, base: gin, essential: true, sub: [old_tom_gin], aliases: [london dry gin, dry gin, plymouth gin, gin (london dry)]}
+old_tom_gin:       {name: Old Tom gin, short: Old Tom gin, cat: spirit, abv: 40, base: gin, sub: [gin]}
+vodka:             {name: Vodka, cat: spirit, abv: 40, base: vodka, essential: true, aliases: [smirnoff vodka, absolut vodka]}
+vodka_citron:      {name: Citrus vodka, cat: spirit, abv: 40, base: vodka, sub: [vodka], aliases: [vodka citron, absolut citron, lemon vodka, citron vodka]}
+vodka_vanilla:     {name: Vanilla vodka, cat: spirit, abv: 37.5, base: vodka, sub: [vodka], aliases: [vodka vanilla, vanilla vodka, absolut vanilia]}
+rum_white:         {name: White rum, cat: spirit, abv: 40, base: rum_white, essential: true, sub: [rum_aged], aliases: [light rum, white cuban ron, cuban rum, bacardi, white rum, rum, cuban aguardiente, puerto rican rum]}
+rum_aged:          {name: Aged (gold) rum, short: aged rum, cat: spirit, abv: 40, base: rum_dark, sub: [rum_dark, rum_white], aliases: [gold rum, golden rum, gold jamaican rum, ron profundo havana club, ron smoky havana club, amber jamaican rum, aged rum, añejo rum, gold puerto rican rum, blended aged rum, spiced rum]}
+rum_dark:          {name: Dark rum, cat: spirit, abv: 40, base: rum_dark, sub: [rum_aged], aliases: [goslings rum, black rum, dark rum, jamaican rum, blackstrap rum, demerara rum, jamaican dark rum, myers's rum]}
+rum_overproof:     {name: Overproof rum, cat: spirit, abv: 63, base: rum_dark, sub: [rum_dark], aliases: [151 proof rum, jamaica overproof white rum, overproof rum]}
+rum_agricole:      {name: Rhum agricole, cat: spirit, abv: 50, base: rum_white, sub: [rum_white], aliases: [martinique molasses rhum, rhum agricole, rhum martinique agricole]}
+cachaca:           {name: Cachaça, cat: spirit, abv: 40, base: cachaca, sub: [rum_white], aliases: [cachaça, cachaca]}
+tequila_blanco:    {name: Blanco tequila, cat: spirit, abv: 40, base: tequila, essential: true, sub: [tequila_reposado], aliases: [tequila, tequila 100% agave, 100% agave tequila, silver tequila, blanco tequila]}
+tequila_reposado:  {name: Reposado tequila, cat: spirit, abv: 40, base: tequila, sub: [tequila_blanco], aliases: [reposado tequila, gold tequila]}
+mezcal:            {name: Mezcal, cat: spirit, abv: 42, base: mezcal, aliases: [espadin mezcal]}
+bourbon_whiskey:   {name: Bourbon, cat: spirit, abv: 45, base: whiskey_bourbon, essential: true, sub: [rye_whiskey], aliases: [bourbon, bourbon whiskey, bourbon or rye whiskey, blended whiskey, whiskey, whisky, tennessee whiskey]}
+rye_whiskey:       {name: Rye whiskey, cat: spirit, abv: 45, base: whiskey_rye, sub: [bourbon_whiskey], aliases: [rye whiskey, rye, rye whiskey or bourbon]}
+scotch_whisky:     {name: Scotch whisky, short: Scotch whisky, cat: spirit, abv: 40, base: whiskey_scotch, sub: [islay_scotch], aliases: [scotch, scotch whisky, blended scotch whisky, blended scotch, japanese whisky]}
+islay_scotch:      {name: Islay (peated) Scotch, short: peated Islay Scotch, cat: spirit, abv: 43, base: whiskey_scotch, sub: [scotch_whisky], aliases: [lagavulin 16y, islay scotch, peated scotch, laphroaig]}
+irish_whiskey:     {name: Irish whiskey, short: Irish whiskey, cat: spirit, abv: 40, base: whiskey_irish, sub: [bourbon_whiskey, scotch_whisky], aliases: [irish whiskey, jameson]}
+cognac:            {name: Cognac or brandy, short: cognac, cat: spirit, abv: 40, base: brandy_cognac, essential: true, aliases: [cognac, brandy, cognac or brandy, armagnac]}
+calvados:          {name: Calvados or applejack, short: calvados, cat: spirit, abv: 40, base: brandy_cognac, sub: [cognac], aliases: [calvados, applejack, apple brandy]}
+pisco:             {name: Pisco, cat: spirit, abv: 40, base: pisco, sub: [cognac]}
+grappa:            {name: Grappa, cat: spirit, abv: 40, base: brandy_cognac, sub: [pisco], aliases: [white smooth grappa]}
+absinthe:          {name: Absinthe, cat: spirit, abv: 60, aliases: [pernod, pastis, herbsaint, ricard, absinthe]}
+
+# ---------------------------------------------------------------- liqueurs and amari
+triple_sec:        {name: Triple sec, cat: liqueur, abv: 40, base: liqueur, essential: true, sub: [orange_curacao, grand_marnier], aliases: [cointreau, triple sec, orange liqueur]}
+orange_curacao:    {name: Orange curaçao, short: orange curaçao, cat: liqueur, abv: 40, base: liqueur, sub: [triple_sec], aliases: [curacao, curaçao, dry curaçao, orange curacao]}
+grand_marnier:     {name: Grand Marnier, short: Grand Marnier, cat: liqueur, abv: 40, base: liqueur, sub: [triple_sec], aliases: [grand marnier]}
+blue_curacao:      {name: Blue curaçao, cat: liqueur, abv: 25, base: liqueur, aliases: [blue curacao]}
+maraschino_liqueur: {name: Maraschino liqueur, short: maraschino, cat: liqueur, abv: 32, base: liqueur, aliases: [maraschino, luxardo, maraschino luxardo, luxardo maraschino, maraschino liqueur]}
+creme_de_violette: {name: Crème de violette, cat: liqueur, abv: 20, base: liqueur, aliases: [creme de violette, crème de violette, violet liqueur]}
+green_chartreuse:  {name: Green Chartreuse, short: Green Chartreuse, cat: liqueur, abv: 55, base: liqueur, sub: [yellow_chartreuse], aliases: [green chartreuse, chartreuse]}
+yellow_chartreuse: {name: Yellow Chartreuse, short: Yellow Chartreuse, cat: liqueur, abv: 40, base: liqueur, sub: [green_chartreuse], aliases: [yellow chartreuse]}
+benedictine:       {name: Bénédictine, short: Bénédictine, cat: liqueur, abv: 40, base: liqueur, aliases: [benedictine, bénédictine, dom bénédictine]}
+drambuie:          {name: Drambuie, short: Drambuie, cat: liqueur, abv: 40, base: liqueur}
+campari:           {name: Campari, short: Campari, cat: liqueur, abv: 25, base: amaro_aperitif, essential: true, aliases: [bitter campari, campari]}
+aperol:            {name: Aperol, short: Aperol, cat: liqueur, abv: 11, base: amaro_aperitif, sub: [campari]}
+fernet_branca:     {name: Fernet-Branca, short: Fernet-Branca, cat: liqueur, abv: 39, base: amaro_aperitif, aliases: [fernet, fernet branca, fernet-branca]}
+amaro_nonino:      {name: Amaro Nonino, short: Amaro Nonino, cat: liqueur, abv: 35, base: amaro_aperitif, sub: [averna], aliases: [amaro nonino, amaro]}
+averna:            {name: Averna, short: Averna, cat: liqueur, abv: 29, base: amaro_aperitif, sub: [amaro_nonino], aliases: [amaro averna]}
+cynar:             {name: Cynar, short: Cynar, cat: liqueur, abv: 16.5, base: amaro_aperitif, sub: [averna]}
+coffee_liqueur:    {name: Coffee liqueur, cat: liqueur, abv: 20, base: liqueur, essential: true, aliases: [kahlua, kahlúa, coffee liqueur, tia maria]}
+creme_de_cacao:    {name: Crème de cacao, cat: liqueur, abv: 25, base: liqueur, aliases: [creme de cacao, crème de cacao, crème de cacao (brown), crème de cacao (white), white creme de cacao, dark creme de cacao, chocolate liqueur]}
+creme_de_menthe:   {name: Crème de menthe, cat: liqueur, abv: 25, base: liqueur, aliases: [creme de menthe, crème de menthe, green creme de menthe, white crème de menthe, crème de menthe (green)]}
+creme_de_cassis:   {name: Crème de cassis, cat: liqueur, abv: 20, base: liqueur, aliases: [creme de cassis, crème de cassis, blackcurrant liqueur]}
+creme_de_mure:     {name: Crème de mûre (blackberry liqueur), short: crème de mûre, cat: liqueur, abv: 20, base: liqueur, sub: [creme_de_cassis], aliases: [crème de mûre, creme de mure, blackberry liqueur]}
+raspberry_liqueur: {name: Raspberry liqueur (Chambord), short: raspberry liqueur, cat: liqueur, abv: 16.5, base: liqueur, sub: [creme_de_cassis], aliases: [chambord, raspberry liqueur, chambord raspberry liqueur]}
+peach_liqueur:     {name: Peach schnapps, short: peach schnapps, cat: liqueur, abv: 20, base: liqueur, aliases: [peach schnapps, peach liqueur, peach brandy, crème de pêche]}
+apricot_brandy:    {name: Apricot brandy (liqueur), short: apricot brandy, cat: liqueur, abv: 24, base: liqueur, aliases: [apricot brandy, apricot liqueur]}
+cherry_liqueur:    {name: Cherry liqueur (Cherry Heering), short: cherry liqueur, cat: liqueur, abv: 24, base: liqueur, aliases: [cherry heering, cherry brandy, cherry liqueur, cherry sangue morlacco, cherry brandy luxardo]}
+amaretto:          {name: Amaretto, cat: liqueur, abv: 24, base: liqueur, aliases: [amaretto, licor amaretto, disaronno]}
+hazelnut_liqueur:  {name: Hazelnut liqueur (Frangelico), short: hazelnut liqueur, cat: liqueur, abv: 20, base: liqueur, sub: [amaretto], aliases: [frangelico, licor frangelico]}
+irish_cream:       {name: Irish cream liqueur, short: Irish cream, cat: liqueur, abv: 17, base: liqueur, aliases: [baileys irish cream, baileys, irish cream]}
+galliano:          {name: Galliano, short: Galliano, cat: liqueur, abv: 30, base: liqueur}
+sloe_gin:          {name: Sloe gin, cat: liqueur, abv: 26, base: liqueur, aliases: [sloe gin]}
+elderflower_liqueur: {name: Elderflower liqueur (St-Germain), short: elderflower liqueur, cat: liqueur, abv: 20, base: liqueur, sub: [elderflower_syrup], aliases: [st-germain, st germain, elderflower liqueur]}
+melon_liqueur:     {name: Melon liqueur (Midori), short: melon liqueur, cat: liqueur, abv: 20, base: liqueur, aliases: [midori, midori melon liqueur, melon liqueur]}
+passion_fruit_liqueur: {name: Passion fruit liqueur, cat: liqueur, abv: 17, base: liqueur, aliases: [passoa, passion fruit liqueur]}
+falernum:          {name: Falernum, cat: liqueur, abv: 11, base: liqueur, aliases: [velvet falernum, falernum]}
+allspice_dram:     {name: Allspice dram, cat: liqueur, abv: 22, base: liqueur, aliases: [allspice saint elizabeth, pimento dram, allspice dram, st. elizabeth allspice dram]}
+limoncello:        {name: Limoncello, cat: liqueur, abv: 30, base: liqueur}
+pimms:             {name: Pimm's No. 1, short: Pimm's, cat: liqueur, abv: 25, base: liqueur, aliases: [pimm's, pimms, pimm's no. 1]}
+
+# ---------------------------------------------------------------- wine and aperitif wine
+sweet_vermouth:    {name: Sweet (red) vermouth, short: sweet vermouth, cat: wine, abv: 16, base: amaro_aperitif, essential: true, aliases: [sweet vermouth, sweet red vermouth, red vermouth, rosso vermouth, vermouth, sweet vermouth cinzano rosso]}
+dry_vermouth:      {name: Dry vermouth, cat: wine, abv: 17, base: amaro_aperitif, essential: true, aliases: [dry vermouth, white vermouth, french vermouth]}
+lillet_blanc:      {name: Lillet Blanc, short: Lillet Blanc, cat: wine, abv: 17, base: amaro_aperitif, sub: [dry_vermouth], aliases: [lillet blanc, lillet, cocchi americano, kina lillet]}
+sparkling_wine:    {name: Sparkling wine (Champagne, prosecco), short: sparkling wine, cat: wine, abv: 12, base: wine_sparkling, essential: true, aliases: [champagne, prosecco, sparkling wine, chilled champagne, brut champagne or prosecco, cava, brut champagne]}
+white_wine:        {name: Dry white wine, cat: wine, abv: 12, base: wine, aliases: [dry white wine, white wine]}
+red_wine:          {name: Red wine, cat: wine, abv: 13, base: wine, aliases: [red wine, red wine (shiraz or malbech), dry red wine]}
+port:              {name: Port, cat: wine, abv: 20, base: wine, aliases: [port, ruby port, red tawny port wine, tawny port]}
+sherry:            {name: Sherry (amontillado or fino), short: sherry, cat: wine, abv: 17, base: wine, aliases: [sherry, amontillado sherry, palo cortado, fino sherry, dry sherry, cream sherry]}
+
+# ---------------------------------------------------------------- mixers
+soda_water:        {name: Soda water, cat: mixer, essential: true, aliases: [soda water, club soda, carbonated water, sparkling water, seltzer]}
+tonic_water:       {name: Tonic water, cat: mixer, essential: true, aliases: [tonic water, tonic]}
+ginger_beer:       {name: Ginger beer, cat: mixer, essential: true, sub: [ginger_ale], aliases: [ginger beer]}
+ginger_ale:        {name: Ginger ale, cat: mixer, sub: [ginger_beer], aliases: [ginger ale]}
+cola:              {name: Cola, cat: mixer, essential: true, aliases: [cola, coca-cola, coke]}
+lemon_lime_soda:   {name: Lemon-lime soda (7UP, Sprite), short: lemon-lime soda, cat: mixer, aliases: [lemon-lime soda, sprite, 7-up, 7up, lemonade (uk)]}
+grapefruit_soda:   {name: Grapefruit soda, cat: mixer, aliases: [pink grapefruit soda, grapefruit soda, squirt]}
+espresso:          {name: Espresso, cat: mixer, sub: [coffee_hot], aliases: [espresso, strong espresso, 1 strong espresso]}
+coffee_hot:        {name: Hot coffee, cat: mixer, sub: [espresso], aliases: [hot coffee, coffee, hot strong coffee]}
+black_tea:         {name: Black tea (brewed, cooled), short: iced tea, cat: mixer, aliases: [iced tea, tea, black tea]}
+hot_water:         {name: Hot water, cat: mixer, pantry: false}
+water:             {name: Water, cat: mixer, pantry: false, aliases: [water, plain water, few dashes plain water]}
+
+# ---------------------------------------------------------------- juices and purées
+lime_juice:        {name: Lime juice, short: lime juice, cat: juice, essential: true, aliases: [lime juice, fresh lime juice, fresh lime, juice of 1 lime, freshly squeezed lime juice, fresh squeezed lime juice, lime]}
+lemon_juice:       {name: Lemon juice, short: lemon juice, cat: juice, essential: true, aliases: [lemon juice, fresh lemon juice, freshly squeezed lemon juice, fresh squeezed lemon juice, juice of 1 lemon, lemon]}
+orange_juice:      {name: Orange juice, cat: juice, essential: true, aliases: [orange juice, fresh orange juice, freshly squeezed orange juice]}
+grapefruit_juice:  {name: Grapefruit juice, cat: juice, aliases: [grapefruit juice, pink grapefruit juice]}
+pineapple_juice:   {name: Pineapple juice, cat: juice, essential: true, aliases: [pineapple juice, fresh pineapple juice]}
+cranberry_juice:   {name: Cranberry juice, cat: juice, essential: true, aliases: [cranberry juice]}
+tomato_juice:      {name: Tomato juice, cat: juice, aliases: [tomato juice]}
+clamato_juice:     {name: Clamato (tomato-clam juice), short: Clamato, cat: juice, sub: [tomato_juice], aliases: [clamato juice, clamato]}
+apple_juice:       {name: Apple juice, cat: juice, sub: [apple_cider], aliases: [apple juice]}
+apple_cider:       {name: Apple cider (unfiltered, non-alcoholic), short: apple cider, cat: juice, sub: [apple_juice], aliases: [apple cider, cider]}
+lemonade:          {name: Lemonade, cat: juice, aliases: [lemonade]}
+peach_puree:       {name: White peach purée, short: peach purée, cat: juice, aliases: [white peach puree, peach puree, peach nectar]}
+passion_fruit_puree: {name: Passion fruit purée, short: passion fruit purée, cat: juice, aliases: [passion fruit puree, passion fruit juice]}
+strawberry_puree:  {name: Strawberry purée, short: strawberry purée, cat: juice, aliases: [strawberry puree]}
+coconut_water:     {name: Coconut water, cat: juice}
+
+# ---------------------------------------------------------------- syrups and sweeteners
+simple_syrup:      {name: Simple syrup, cat: syrup, essential: true, sub: [sugar, sugar_cube], aliases: [simple syrup, sugar syrup, gomme syrup, demerara sugar syrup, cane syrup, sugar cane juice, rich simple syrup]}
+sugar:             {name: Sugar, cat: syrup, sub: [simple_syrup, sugar_cube], aliases: [sugar, white cane sugar, superfine sugar, powdered sugar, granulated sugar, caster sugar, white sugar, vanilla sugar]}
+sugar_cube:        {name: Sugar cube, cat: syrup, sub: [sugar, simple_syrup], aliases: [sugar cube, 1 sugar cube]}
+brown_sugar:       {name: Brown sugar, cat: syrup, sub: [sugar], aliases: [brown sugar, demerara sugar]}
+honey_syrup:       {name: Honey syrup, cat: syrup, sub: [honey], aliases: [honey syrup, honey mix, monin honey syrup]}
+honey:             {name: Honey, cat: syrup, sub: [honey_syrup], aliases: [honey, raw honey]}
+agave_syrup:       {name: Agave syrup, cat: syrup, sub: [simple_syrup], aliases: [agave nectar, agave syrup]}
+grenadine:         {name: Grenadine, cat: syrup, essential: true, aliases: [grenadine, grenadine syrup]}
+raspberry_syrup:   {name: Raspberry syrup, cat: syrup, sub: [grenadine], aliases: [raspberry syrup]}
+orgeat:            {name: Orgeat (almond syrup), short: orgeat, cat: syrup, aliases: [orgeat syrup, orgeat, orgeat syrup (almond), almond syrup]}
+ginger_syrup:      {name: Ginger syrup, cat: syrup, aliases: [ginger syrup, honey-ginger syrup]}
+cinnamon_syrup:    {name: Cinnamon syrup, cat: syrup, aliases: [cinnamon syrup]}
+passion_fruit_syrup: {name: Passion fruit syrup, cat: syrup, sub: [passion_fruit_puree], aliases: [passion fruit syrup]}
+vanilla_syrup:     {name: Vanilla syrup, cat: syrup, sub: [simple_syrup], aliases: [vanilla syrup]}
+elderflower_syrup: {name: Elderflower cordial, cat: syrup, sub: [elderflower_liqueur], aliases: [elderflower cordial, elderflower syrup]}
+chamomile_syrup:   {name: Chamomile syrup, cat: syrup, sub: [honey_syrup], aliases: [chamomile cordial, chamomile syrup]}
+maple_syrup:       {name: Maple syrup, cat: syrup, sub: [simple_syrup]}
+
+# ---------------------------------------------------------------- bitters
+angostura_bitters: {name: Angostura bitters, short: Angostura bitters, cat: bitters, abv: 44.7, essential: true, aliases: [angostura bitters, bitters, aromatic bitters, angostura, amargo bitters, dash of angostura bitters (optional)]}
+orange_bitters:    {name: Orange bitters, cat: bitters, abv: 28, sub: [angostura_bitters], aliases: [orange bitters]}
+peychauds_bitters: {name: Peychaud's bitters, short: Peychaud's bitters, cat: bitters, abv: 35, sub: [angostura_bitters], aliases: [peychaud's bitters, peychaud bitters, peychauds bitters]}
+
+# ---------------------------------------------------------------- dairy and eggs
+heavy_cream:       {name: Cream, cat: dairy, essential: true, aliases: [cream, heavy cream, fresh cream, light cream, double cream, whipped cream, half-and-half, fresh cream (chilled)]}
+milk:              {name: Milk, cat: dairy, aliases: [milk, whole milk]}
+butter:            {name: Butter, cat: dairy}
+coconut_cream:     {name: Cream of coconut, short: cream of coconut, cat: dairy, aliases: [coconut cream, cream of coconut, coco lopez, coconut milk]}
+egg_white:         {name: Egg white, cat: egg, aliases: [egg white, raw whole egg white, few drops of egg white, egg white (optional)]}
+egg_yolk:          {name: Egg yolk, cat: egg, sub: [whole_egg], aliases: [egg yolk]}
+whole_egg:         {name: Egg (whole), short: egg, cat: egg, aliases: [egg, whole egg]}
+
+# ---------------------------------------------------------------- fresh produce, herbs, garnish-ingredients
+mint:              {name: Fresh mint, short: mint, cat: garnish, essential: true, aliases: [mint, mint leaves, fresh mint, mint sprigs, mint sprig]}
+basil:             {name: Fresh basil, short: basil, cat: garnish, aliases: [basil, italian basil leaves, basil leaves]}
+lime:              {name: Lime (fresh fruit), short: lime, cat: garnish, essential: true, sub: [lime_juice], aliases: [lime wedge, lime wedges, lime cut into small wedges]}
+lemon:             {name: Lemon (fresh fruit), short: lemon, cat: garnish, sub: [lemon_juice], aliases: [lemon wedge, lemon slice, lemon wheel, lemon peel]}
+orange:            {name: Orange (fresh fruit), short: orange, cat: garnish, aliases: [orange slice, orange wheel, orange peel, orange]}
+cucumber:          {name: Cucumber, cat: garnish}
+strawberry:        {name: Strawberries, short: strawberries, cat: garnish, sub: [strawberry_puree], aliases: [strawberries, strawberry]}
+watermelon:        {name: Watermelon, cat: garnish}
+pineapple:         {name: Pineapple (fresh), short: pineapple, cat: garnish, sub: [pineapple_juice], aliases: [pineapple chunks, pineapple]}
+fresh_ginger:      {name: Fresh ginger, short: ginger, cat: garnish, sub: [ginger_syrup], aliases: [ginger, fresh ginger, gengibre slice, sliced fresh ginger]}
+chili_pepper:      {name: Fresh chili or jalapeño, short: chili, cat: garnish, aliases: [red chili pepper, jalapeño, jalapeno, chili pepper]}
+celery:            {name: Celery stalk, cat: garnish, aliases: [celery]}
+olive:             {name: Cocktail olives, short: olive, cat: garnish, aliases: [olive, olives, green olive]}
+cocktail_onion:    {name: Cocktail onions, short: cocktail onion, cat: garnish, aliases: [cocktail onion, pearl onion]}
+cherry:            {name: Cocktail cherries, short: cherry, cat: garnish, aliases: [maraschino cherry, cocktail cherry, cherry]}
+
+# ---------------------------------------------------------------- other pantry items
+salt:              {name: Salt, cat: other, aliases: [salt, a pinch of salt, kosher salt, coarse salt]}
+celery_salt:       {name: Celery salt, cat: other, sub: [salt], aliases: [celery salt]}
+black_pepper:      {name: Black pepper, cat: other, aliases: [pepper, black pepper]}
+worcestershire_sauce: {name: Worcestershire sauce, short: Worcestershire sauce, cat: other, aliases: [worcestershire sauce]}
+hot_sauce:         {name: Hot sauce (Tabasco), short: hot sauce, cat: other, aliases: [tabasco, tabasco sauce, hot sauce]}
+olive_brine:       {name: Olive brine, cat: other, sub: [olive], aliases: [olive brine, olive juice]}
+nutmeg:            {name: Nutmeg, cat: other, aliases: [nutmeg, ground nutmeg]}
+cinnamon:          {name: Cinnamon sticks, short: cinnamon stick, cat: other, aliases: [cinnamon, cinnamon stick]}
+cloves:            {name: Whole cloves, short: cloves, cat: other, aliases: [cloves, clove]}
+star_anise:        {name: Star anise, cat: other}
+orange_flower_water: {name: Orange flower water, cat: other, aliases: [orange flower water, orange blossom water]}
+vanilla_extract:   {name: Vanilla extract, cat: other, aliases: [vanilla extract]}
+apple_liqueur:     {name: Sour apple schnapps, short: apple schnapps, cat: liqueur, abv: 18, base: liqueur, aliases: [sour apple schnapps, apple schnapps, sour apple pucker, apple liqueur]}
+orange_marmalade:  {name: Orange marmalade, cat: other, aliases: [orange marmalade, marmalade]}
