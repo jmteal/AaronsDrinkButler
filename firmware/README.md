@@ -71,7 +71,7 @@ At boot the app maps the partition (`esp_partition_mmap`, only as much as the pa
 
 **User state** (favorites, pantry, settings, owner name) is stored as NVS blobs in namespace `adb`, keyed by drink and ingredient id so it survives a new pack.
 
-**Sounds and sleep (first pass)**: UI sounds are short synthesized tones played by a worker task through the ES8311. After the Settings screen-off timeout (default 2 min) with no touch, the app light-sleeps (`bsp_sleep_light`) until a touch or BOOT; the waking touch is swallowed. Battery-life tuning is phase 3.
+**Sounds and sleep (first pass)**: UI sounds are short synthesized tones played by a worker task through the ES8311. After the Settings screen-off timeout (default 2 min) with no touch, the app light-sleeps (`bsp_sleep_light`) until a touch or BOOT; the waking touch is swallowed. It doesn't sleep while a USB host (computer) is attached, because light sleep suspends USB-Serial/JTAG and the board would then ignore the console and `idf.py flash` until touched; a plain USB charger doesn't count as a host, so the device still sleeps there. Battery-life tuning is phase 3.
 
 ## Serial debug console
 

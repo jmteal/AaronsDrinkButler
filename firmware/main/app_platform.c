@@ -4,12 +4,17 @@
  * Sounds are short synthesized tones played by a worker task (bsp_audio_play blocks
  * for the clip's length, which must not happen on the LVGL task). Idle sleep watches
  * LVGL's inactivity time and light-sleeps until a touch or BOOT (bsp_sleep_light
- * swallows the waking touch so it doesn't land as a tap).
+ * swallows the waking touch so it doesn't land as a tap). It never sleeps while a USB
+ * host is attached: light sleep suspends the USB-Serial/JTAG link, so the console and
+ * esptool's auto-reset can't reach the chip until someone touches it. The board has no
+ * VBUS sense pin; usb_serial_jtag_is_connected() watches the host's 1 ms SOF packets
+ * instead, so on a plain USB charger (no SOF) the device still sleeps.
  */
 #include <math.h>
 #include <string.h>
 #include "app.h"
 #include "bsp.h"
+#include "driver/usb_serial_jtag.h"
 #include "esp_app_desc.h"
 #include "esp_log.h"
 #include "freertos/FreeRTOS.h"
@@ -57,6 +62,7 @@ void app_platform_stay_awake(bool on) { s_stay_awake = on; }
 
 static void idle_task(void *arg)
 {
+    bool usb_was_attached = false;
     for (;;) {
         vTaskDelay(pdMS_TO_TICKS(500));
         if (!s_sleep_s || s_stay_awake) continue;
@@ -66,6 +72,13 @@ static void idle_task(void *arg)
             lvgl_port_unlock();
         }
         if (idle_ms < (uint32_t)s_sleep_s * 1000) continue;
+        bool usb_attached = usb_serial_jtag_is_connected();
+        if (usb_attached != usb_was_attached) {
+            ESP_LOGI(TAG, "USB host %s: idle sleep %s", usb_attached ? "attached" : "gone",
+                     usb_attached ? "off" : "on");
+            usb_was_attached = usb_attached;
+        }
+        if (usb_attached) continue;
         ESP_LOGI(TAG, "idle %u s: screen off", (unsigned)(idle_ms / 1000));
         bsp_wake_src_t src = bsp_sleep_light(0, NULL);
         ESP_LOGI(TAG, "screen on (woke by %s)", bsp_wake_src_name(src));
