@@ -13,6 +13,7 @@ typedef struct {
     struct tm time;
     bool quiet;           /* don't log sounds / hardware calls */
     uint32_t flushes;     /* headless display flush count */
+    uint32_t speech_ms;   /* stand-in clip length; 0 = default (4 s) */
 } sim_platform_state_t;
 
 extern sim_platform_state_t g_sim;
@@ -28,6 +29,12 @@ int sim_scroll_bench(adb_db_t *db, adb_state_t *st);
 /* Drives the UI with scripted taps through an LVGL pointer indev and checks
  * the resulting state. Returns number of failures. */
 int sim_selftest(adb_db_t *db, adb_state_t *st);
+
+/* Plays a scripted tour with synthetic touches and writes one PNG per frame
+ * (15 fps) into dir, with a circle drawn where each touch lands, plus
+ * dir/events.txt (frame rate, frame count, when the speaker was tapped).
+ * Returns number of failures. */
+int sim_record(const char *dir, adb_db_t *db, adb_state_t *st);
 
 /* Saves the active screen as a PNG. */
 bool sim_save_png(const char *path);

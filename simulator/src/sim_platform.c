@@ -34,7 +34,8 @@ static void play_sound(void *ctx, ui_sound_t s)
 
 /* Spoken recipes: a silent stand-in (the clips live in the device pack), so
  * the detail screen's speaker button can be seen and exercised here. A
- * "clip" lasts SIM_SPEECH_MS. */
+ * "clip" lasts SIM_SPEECH_MS, or g_sim.speech_ms when set (--record matches the
+ * real clip's length). */
 #define SIM_SPEECH_MS 4000
 static uint32_t s_speech_start;
 static bool s_speech_on;
@@ -57,7 +58,7 @@ static void speech_stop(void *ctx)
 
 static bool speech_playing(void *ctx)
 {
-    if (s_speech_on && lv_tick_elaps(s_speech_start) >= SIM_SPEECH_MS) s_speech_on = false;
+    if (s_speech_on && lv_tick_elaps(s_speech_start) >= (g_sim.speech_ms ? g_sim.speech_ms : SIM_SPEECH_MS)) s_speech_on = false;
     return s_speech_on;
 }
 

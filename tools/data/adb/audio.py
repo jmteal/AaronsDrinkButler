@@ -240,8 +240,8 @@ def build(recipes: list[dict], verify: bool = False, device: str = "auto") -> di
     return files
 
 
-def say(drink_id: str, data_dir: Path) -> int:
-    """Play a drink's clip on the Mac (from the cache; build the pack first)."""
+def clip_path(drink_id: str, data_dir: Path) -> tuple[Path, list]:
+    """A drink's cached Opus recording and its script; SystemExit when it isn't built yet."""
     recipes = {r["id"]: r for r in json.loads((data_dir / "recipes.json").read_text())["recipes"]}
     if drink_id not in recipes:
         raise SystemExit(f"say: unknown drink id {drink_id!r}")
@@ -257,6 +257,16 @@ def say(drink_id: str, data_dir: Path) -> int:
     ogg = TTS_CACHE / "drinks" / f"{drink_key(ks, [b for _, b in parts], res['voice'])}.opus"
     if not ogg.exists():
         raise SystemExit(f"say: no clip for {drink_id}; run build.py pack first")
+    return ogg, parts
+
+
+def say(drink_id: str, data_dir: Path, path_only: bool = False) -> int:
+    """Play a drink's clip on the Mac (from the cache; build the pack first). path_only prints
+    the cached .opus file instead (tools/demo/make_demo.sh muxes it into the demo video)."""
+    ogg, parts = clip_path(drink_id, data_dir)
+    if path_only:
+        print(ogg)
+        return 0
     need_opusenc()
     opusdec = shutil.which("opusdec")
     print("\n".join(t for t, _ in parts))

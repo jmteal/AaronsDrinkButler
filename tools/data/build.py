@@ -9,6 +9,7 @@
     python build.py pack --no-audio # the same without speech (standard library only)
     python build.py pack --verify   # also check every sentence with Whisper, re-record bad ones
     python build.py say DRINK_ID    # play a drink's spoken recipe on the Mac
+    python build.py say DRINK_ID --path  # print its cached .opus file instead
 
 See README.md for details.
 """

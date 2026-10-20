@@ -93,10 +93,11 @@ def say(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(prog="build.py say", description="Play a drink's spoken recipe on the Mac")
     ap.add_argument("drink_id")
     ap.add_argument("--data", type=Path, default=DATA_DIR)
+    ap.add_argument("--path", action="store_true", help="print the cached .opus file instead of playing it")
     args = ap.parse_args(argv)
     from . import audio as speech_audio
 
-    return speech_audio.say(args.drink_id, args.data)
+    return speech_audio.say(args.drink_id, args.data, path_only=args.path)
 
 
 def main(argv: list[str]) -> int:

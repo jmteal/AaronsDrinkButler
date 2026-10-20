@@ -6,6 +6,7 @@
  *   drink_butler_sim --screenshots DIR               headless: PNG of every screen
  *   drink_butler_sim --bench [--data recipes.json]   headless: Browse scroll timing
  *   drink_butler_sim --selftest                      headless: scripted taps, checks state
+ *   drink_butler_sim --record DIR [--speech-ms N]    headless: demo tour, one PNG per frame
  *
  * Default dataset: data/recipes.json if present, else docs/research/sample_recipes.json.
  * Mouse = touch. Favorites/pantry/settings persist in ~/.drink_butler_sim/.
@@ -27,7 +28,8 @@ static void usage(const char *argv0)
             "       %s --check [--data recipes.json]\n"
             "       %s --screenshots DIR [--data recipes.json]\n"
             "       %s --bench [--data recipes.json]\n"
-            "       %s --selftest\n", argv0, argv0, argv0, argv0, argv0);
+            "       %s --selftest\n"
+            "       %s --record DIR [--speech-ms N]\n", argv0, argv0, argv0, argv0, argv0, argv0);
 }
 
 static bool exists(const char *p)
@@ -51,13 +53,15 @@ static void headless_flush(lv_display_t *d, const lv_area_t *a, uint8_t *px)
 
 int main(int argc, char **argv)
 {
-    const char *data = NULL, *state_dir = NULL, *shots = NULL;
+    const char *data = NULL, *state_dir = NULL, *shots = NULL, *record = NULL;
     bool check = false, bench = false, selftest = false;
     float zoom = 1.0f;
     for (int i = 1; i < argc; i++) {
         if (!strcmp(argv[i], "--data") && i + 1 < argc) data = argv[++i];
         else if (!strcmp(argv[i], "--state") && i + 1 < argc) state_dir = argv[++i];
         else if (!strcmp(argv[i], "--screenshots") && i + 1 < argc) shots = argv[++i];
+        else if (!strcmp(argv[i], "--record") && i + 1 < argc) record = argv[++i];
+        else if (!strcmp(argv[i], "--speech-ms") && i + 1 < argc) g_sim.speech_ms = (uint32_t)atoi(argv[++i]);
         else if (!strcmp(argv[i], "--zoom") && i + 1 < argc) zoom = (float)atof(argv[++i]);
         else if (!strcmp(argv[i], "--check")) check = true;
         else if (!strcmp(argv[i], "--bench")) bench = true;
@@ -90,8 +94,8 @@ int main(int argc, char **argv)
     lv_init();
     srand((unsigned)time(NULL));
 
-    if (shots || bench || selftest) {
-        if (!selftest) lv_tick_set_cb(mono_ms); /* the self-test advances time itself */
+    if (shots || bench || selftest || record) {
+        if (!selftest && !record) lv_tick_set_cb(mono_ms); /* the self-test and recording advance time themselves */
         lv_display_t *disp = lv_display_create(UI_HOR_RES, UI_VER_RES);
         size_t sz = UI_HOR_RES * UI_VER_RES * 2;
         void *buf = malloc(sz);
@@ -99,6 +103,7 @@ int main(int argc, char **argv)
         lv_display_set_flush_cb(disp, headless_flush);
         if (bench) return sim_scroll_bench(&db, &st);
         if (selftest) return sim_selftest(&db, &st) ? 1 : 0;
+        if (record) return sim_record(record, &db, &st) ? 1 : 0;
         int fails = sim_take_screenshots(shots, &db, &st);
         printf("%s\n", fails ? "screenshots: some failed" : "screenshots: done");
         return fails ? 1 : 0;
@@ -107,7 +112,7 @@ int main(int argc, char **argv)
 #if !LV_USE_SDL
     (void)state_dir;
     (void)zoom;
-    fprintf(stderr, "This is a headless build: use --screenshots, --selftest or --bench.\n");
+    fprintf(stderr, "This is a headless build: use --screenshots, --selftest, --record or --bench.\n");
     return 2;
 #else
     static adb_storage_t io;

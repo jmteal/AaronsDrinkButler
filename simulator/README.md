@@ -71,6 +71,17 @@ These modes never open a window:
 - `--selftest` sends scripted taps through an LVGL pointer input device. It opens a drink, toggles the heart, ticks a bottle in My Bar and flips the sound switch, then checks that the state changed and was saved.
 - `--bench` scrolls Browse from top to bottom and renders every 24 px step. It reports how many row objects exist (7 for any list length) and the time per frame on the host CPU.
 - `--check` loads a dataset and lists unknown tag values (glass, method, flavor…). It exits with code 3 if there are warnings. The data pipeline can use it as a validation step.
+- `--record DIR` plays a scripted tour with the same synthetic touches as the self-test and writes one PNG per frame at 15 fps, with a translucent circle where each touch lands. `DIR/events.txt` records the frame count and when the speaker was tapped. `--speech-ms N` makes the silent speech stand-in last N ms instead of 4 s.
+
+## Demo video
+
+```bash
+tools/demo/make_demo.sh
+```
+
+This builds the headless simulator, records the tour (Home, Browse scrolling, the filter sheet, the Negroni detail with the speaker playing, My Bar "What can I make?", Favorites, Settings) and writes `build/demo/demo.mp4` (640×960 H.264, 2× nearest-neighbour) and `build/demo/demo.gif` (10 fps, the largest size under 8 MB). `build/` is git-ignored. It takes about half a minute and needs ffmpeg (`brew install ffmpeg`).
+
+When the speech cache has the Negroni clip (`python3 tools/data/build.py pack`, needs opus-tools), the script decodes it with `opusdec`, adds it as the MP4's audio track starting at the speaker tap, and keeps the stop icon on screen for the clip's length. Without the cache the video is silent. `DEMO_CLIP=file.opus` uses another recording, and an argument changes the output folder.
 
 ## Unit tests (data component)
 
