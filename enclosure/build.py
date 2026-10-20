@@ -5,10 +5,16 @@ Usage (from the repo root or enclosure/):
     enclosure/.venv/bin/python enclosure/build.py
 
 Parts are written in their print orientation. Two-colour parts are written as a pair of
-files in the same frame: <part>.stl (black) and <part>_text.stl (white). Load both into
-Bambu Studio at once and answer "Yes" to loading them as one object with multiple parts,
-then set the _text part to the white filament. The 3MF of a two-colour part holds both
-bodies. out/assembly.step holds the printed parts in their assembled positions.
+files in the same frame: <part>.stl (black) and <part>_text.stl (white). Load one part and
+its own _text file together and answer "Yes" to loading them as one object with multiple
+parts, then set the _text part to the white filament. Never combine two different parts
+that way: they share an origin and would print merged. The 3MF of a two-colour part holds
+both bodies. out/assembly.step holds the printed parts in their assembled positions.
+
+The two test pieces are separate on purpose: test_front checks the front shell (window,
+pocket, bands, inserts, microSD), test_back checks the rear cover (door, hinge, latch,
+plungers). Their STLs are written already spread out on the test plate, so even loaded
+together they sit side by side. out/test_plate.3mf holds both plus two plungers.
 """
 
 import sys
@@ -33,9 +39,19 @@ PRINTS = {
     "stand": (["stand"], [], "as_built"),
     "wafer": (["wafer"], [], "wafer"),
     "plunger": (["plunger"], [], "plunger"),
-    "fit_coupon": (["fit_coupon"], ["fit_coupon_text"], "face_down"),
-    "door_test": (["door_test", "door_test_door"], ["door_test_text"], "cover"),
+    "test_front": (["fit_coupon"], ["fit_coupon_text"], "face_down"),
+    "test_back": (["door_test", "door_test_door"], ["door_test_text"], "cover"),
 }
+
+# Test plate: the two test pieces and two plungers, each its own object. The test STLs are
+# exported at these positions too (see export()), so they can't land on top of each other.
+TEST_PRINTS = ("test_front", "test_back")
+TEST_LAYOUT = [
+    ("test_front", 0, 10.0, 10.0),
+    ("test_back", 0, 90.0, 10.0),
+    ("plunger", 0, 90.0, 45.0),
+    ("plunger", 1, 110.0, 45.0),
+]
 
 
 def build_all():
@@ -100,13 +116,13 @@ PLATE_LAYOUT = [
 ]
 
 
-def plate_bodies(parts):
+def plate_bodies(parts, layout=PLATE_LAYOUT):
     """Every print in its print pose, moved to its place on the plate.
 
     Returns (black bodies, white bodies, footprints) with footprints as (name, bbox).
     """
     black, white, feet = [], [], []
-    for name, copy, x, y in PLATE_LAYOUT:
+    for name, copy, x, y in layout:
         b_names, w_names, kind = PRINTS[name]
         posed_b = [pose(kind, parts[k]) for k in b_names]
         posed_w = [pose(kind, parts[k]) for k in w_names]
@@ -129,6 +145,34 @@ def export_plate(parts):
     mesher.write(str(OUT / "plate.3mf"))
 
 
+def test_move(parts, name):
+    """Where a test print sits on the test plate (applied to its own STL/3MF as well)."""
+    for n, copy, x, y in TEST_LAYOUT:
+        if n == name and copy == 0:
+            b_names, _, kind = PRINTS[name]
+            bb = _one([pose(kind, parts[k]) for k in b_names]).bounding_box()
+            return Pos(x - bb.min.X, y - bb.min.Y, -bb.min.Z)
+    return Pos(0, 0, 0)
+
+
+def export_test_plate(parts):
+    """One 3MF with each test print as its own object (never merged into one)."""
+    mesher = Mesher()
+    for name, copy, x, y in TEST_LAYOUT:
+        b_names, w_names, kind = PRINTS[name]
+        posed_b = [pose(kind, parts[k]) for k in b_names]
+        bb = _one(posed_b).bounding_box()
+        move = Pos(x - bb.min.X, y - bb.min.Y, -bb.min.Z)
+        label = f"{name}{'' if name in TEST_PRINTS else f' {copy + 1}'}"
+        mesher.add_shape(move * _one(posed_b), linear_deflection=0.01, angular_deflection=0.1,
+                         part_number=f"{label} (black)")
+        if w_names:
+            w = _one([pose(kind, parts[k]) for k in w_names])
+            mesher.add_shape(move * w, linear_deflection=0.01, angular_deflection=0.1,
+                             part_number=f"{label} text (white)")
+    mesher.write(str(OUT / "test_plate.3mf"))
+
+
 def _one(bodies):
     return bodies[0] if len(bodies) == 1 else Compound(children=list(bodies))
 
@@ -139,14 +183,18 @@ def write_stl(shape, path):
 
 def export(parts):
     OUT.mkdir(exist_ok=True)
+    for old in ("fit_coupon", "door_test"):          # renamed to test_front / test_back
+        for ext in (".stl", "_text.stl", ".3mf", ".step"):
+            (OUT / f"{old}{ext}").unlink(missing_ok=True)
     for name, (black, white, kind) in PRINTS.items():
-        b = _one([pose(kind, parts[k]) for k in black])
+        move = test_move(parts, name) if name in TEST_PRINTS else Pos(0, 0, 0)
+        b = move * _one([pose(kind, parts[k]) for k in black])
         write_stl(b, OUT / f"{name}.stl")
         export_step(b, str(OUT / f"{name}.step"))
         mesher = Mesher()
         mesher.add_shape(b, linear_deflection=0.01, angular_deflection=0.1, part_number=f"{name} (black)")
         if white:
-            w = _one([pose(kind, parts[k]) for k in white])
+            w = move * _one([pose(kind, parts[k]) for k in white])
             write_stl(w, OUT / f"{name}_text.stl")
             mesher.add_shape(w, linear_deflection=0.01, angular_deflection=0.1, part_number=f"{name} text (white)")
         mesher.write(str(OUT / f"{name}.3mf"))
@@ -156,6 +204,7 @@ def export(parts):
     ])
     export_step(assembly, str(OUT / "assembly.step"))
     export_plate(parts)
+    export_test_plate(parts)
 
 
 def main():
@@ -173,6 +222,8 @@ def main():
     y1 = max(bb.max.Y for _, bb in feet)
     print(f"plate       {len(feet)} parts on one {PLATE[0]:.0f} x {PLATE[1]:.0f} plate, "
           f"footprint {x1:.0f} x {y1:.0f} mm (out/plate.stl + plate_text.stl)")
+    print(f"test plate  {', '.join(n for n, _, _, _ in TEST_LAYOUT)} as separate objects "
+          f"(out/test_plate.3mf)")
     print(f"wrote {OUT} in {time.time() - t0:.1f} s")
     return parts
 

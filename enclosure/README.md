@@ -17,6 +17,7 @@ A parametric build123d case for the Hosyond ES3C35P board and the 66 × 35.5 × 
 | ![snap section](out/previews/section_snap.png) | ![cover inside](out/previews/cover_inside.png) |
 | ![section](out/previews/section_center.png) | ![exploded](out/previews/exploded.png) |
 | ![screw section](out/previews/section_screw.png) | ![stand](out/previews/on_stand.png) |
+| ![test plate](out/previews/test_plate.png) | |
 
 ## Files
 
@@ -30,12 +31,12 @@ A parametric build123d case for the Hosyond ES3C35P board and the 66 × 35.5 × 
 | `parts/wafer.py` | Wafer between the board's rear parts and the pack |
 | `parts/snaps.py` | Snap arms (on the cover), their wall pockets and the pry notches (in the shell) |
 | `parts/stand.py` | Detachable 60° desk stand |
-| `parts/fit_coupon.py` | The first 6.8 mm of the front shell, for a fit test |
-| `parts/door_test.py` | The bottom of the cover with the door, for a hinge and latch test |
+| `parts/fit_coupon.py` | **test_front**: the first 6.8 mm of the front shell only (window, pocket, bands, inserts, microSD), for a display-fit test |
+| `parts/door_test.py` | **test_back**: the bottom of the rear cover only, with the door, for a hinge, latch and plunger test |
 | `parts/refs.py` | Simple boxes for the board, buttons, pack, USB plug and cable channels (validation and previews only) |
 | `fonts/` | Inter Bold, used for the labels (SIL Open Font License, see `fonts/OFL.txt`) |
 | `build.py` | Writes `out/<part>.stl`, `.3mf` and `.step` in print orientation, plus `out/assembly.step`. Two-colour parts also get `out/<part>_text.stl` (see Printing) |
-| `validate.py` | 126 checks (see below), then renders `out/previews/*.png` |
+| `validate.py` | 136 checks (see below), then renders `out/previews/*.png` |
 
 ## Setup
 
@@ -143,9 +144,9 @@ The build takes about 15 s. Validation takes about 20 s, plus about 25 s for the
 
 Load **black PETG in AMS slot 1** and **white PETG in slot 2**.
 
-**Two-colour parts.** The front shell, rear cover, fit coupon and door test each come as a pair of STLs in the same frame: `<part>.stl` (black) and `<part>_text.stl` (white). To set one up in Bambu Studio:
+**Two-colour parts.** The front shell, rear cover, test_front and test_back each come as a pair of STLs in the same frame: `<part>.stl` (black) and `<part>_text.stl` (white). To set one up in Bambu Studio:
 
-1. Drag **both files in together**. When Bambu Studio asks whether to load them as a single object with multiple parts, choose **Yes**.
+1. Drag **one part and its own `_text` file** in together. When Bambu Studio asks whether to load them as a single object with multiple parts, choose **Yes**. Only ever pair a part with its own `_text` file. Two different parts loaded this way are merged into one object and print fused together. That's what went wrong with the first combined coupon print.
 2. In the Objects list, select the `_text` part and set its filament to **2 (white)**. Leave the rest on 1 (black).
 3. Bambu Studio adds a prime tower. White only appears in a few layers, so the colour changes are few:
    - Front shell: the first 3 layers (0.6 mm) of the face-down front. The label is flush.
@@ -158,7 +159,13 @@ Load **black PETG in AMS slot 1** and **white PETG in slot 2**.
 - 10 mm from the edges and 10 mm apart, footprint 214 × 192 mm;
 - a 60 × 60 mm corner left empty for the prime tower.
 
-Load both files together exactly as above, answer **Yes**, and set `plate_text` to white. Bambu Studio loads the whole layout as one object and centres it. If the prime tower lands on a part, drag it into the empty corner. Don't use Auto-arrange: it would move the white labels away from their parts. The test pieces (`fit_coupon`, `door_test`) aren't on the plate, because they're meant to be printed and checked first.
+Load both files together exactly as above, answer **Yes**, and set `plate_text` to white. Bambu Studio loads the whole layout as one object and centres it. If the prime tower lands on a part, drag it into the empty corner. Don't use Auto-arrange: it would move the white labels away from their parts. The test pieces aren't on this plate, because they're meant to be printed and checked first (see the test plate below).
+
+**Test plate.** Open `out/test_plate.3mf`. It holds the two test pieces and two plungers, each as its own object, already spread out on the plate. They test different halves of the case, so they're printed as separate pieces:
+- **`test_front`** (left) is the front shell only: the flush window, board pocket, bands, insert holes and microSD opening. Use it for the display fit.
+- **`test_back`** (right) is the bottom of the rear cover only: the print-in-place door, hinge, latch, well and plunger holes. Use it for the door, with the two plungers.
+
+If you'd rather use the STLs, `test_front.stl` and `test_back.stl` are written at their plate positions, 16 mm apart. Even if they get loaded together they can't land on top of each other, but load each with only its own `_text` file. Set the white labels to filament 2.
 
 ![plate](out/previews/plate.png)
 
@@ -179,8 +186,8 @@ Start from Bambu Studio's **Generic PETG** (or your brand's) profile on the **te
 
 | Part | Orientation (as exported) | Notes |
 |---|---|---|
-| `fit_coupon` (+ `_text`) | Face down | About 14 cm³; roughly 25–30 min. Print it first |
-| `door_test` (+ `_text`) | Outside face down | 48 × 21 × 8 mm. The bottom of the cover with the door; print it before the cover (see Assembly) |
+| `test_front` (+ `_text`) | Face down | Front shell only, 64 × 112 × 6.8 mm, about 13 cm³; roughly 25–30 min. Print it first |
+| `test_back` (+ `_text`) | Outside face down | Rear cover only, 48 × 21 × 8 mm: the bottom of the cover with the door; print it before the cover (see Assembly) |
 | `front_shell` (+ `_text`) | **Face down** on the plate | Flat, textured front with the white USB-C label in the first layers. The USB-C top is a 12.5 mm bridge; everything else is vertical or 45° |
 | `rear_cover` (+ `_text`) | Outside face down | The door prints in place. Standoffs, tubes, snap arms and ribs point up. Counterbores are on the plate side. The well floor is a 13 mm bridge over the door |
 | `plunger` | Cap down | **Print 2.** Small and tall (21 mm); put them on the same plate as a bigger part so the layers have time to cool, and add a 3 mm brim |
@@ -189,22 +196,23 @@ Start from Bambu Studio's **Generic PETG** (or your brand's) profile on the **te
 
 All parts fit on one plate together.
 
-**Print-in-place door.** It needs the 0.15 mm elephant-foot compensation, so the door's first layer doesn't fuse to the cover's. When the cover comes off the plate, free the door gently: push it out from inside the well with a finger, then work it open and shut a few times. If it won't free up, raise `DOOR_GAP`, `HINGE_GAP` and `LATCH_GAP` by 0.05–0.1 mm and reprint the door test.
+**Print-in-place door.** It needs the 0.15 mm elephant-foot compensation, so the door's first layer doesn't fuse to the cover's. When the cover comes off the plate, free the door gently: push it out from inside the well with a finger, then work it open and shut a few times. If it won't free up, raise `DOOR_GAP`, `HINGE_GAP` and `LATCH_GAP` by 0.05–0.1 mm and reprint `test_back`.
 
 **Heat-set inserts.** Install them with a soldering iron at about **225 °C** (PETG; follow your insert maker's chart). Rest the shell face down on a flat, hard surface so the 1.2 mm front skin is supported. Press straight down slowly and stop when the insert is flush with the band face. Don't push past flush: the hole is blind, with only 1.2 mm of skin left. Let it cool before fitting the screws.
 
 ## Assembly order
 
-1. **Fit coupon.** Print it (with its white text), then check four things:
+1. **Test plate.** Print `out/test_plate.3mf`. Check `test_front` (the front shell) for four things:
    - Glass and window: the board's glass slides into the window with an even gap.
    - Pocket: the PCB drops into the pocket without force.
    - Flushness: lay a straightedge across the glass and frame. The glass should be flush to 0.1 mm proud.
    - Inserts: one insert installs cleanly.
 
-   You can clamp the board to the coupon with M3 × 4 screws to check flushness under load. Adjust `GLASS_GAP`, `BOARD_GAP` or `GLASS_TO_PCB` / `GLASS_FLUSH` in `params.py`, then rebuild.
-2. **Door test.** Print `door_test` (with its white text). Check three things:
+   You can clamp the board to `test_front` with M3 × 4 screws to check flushness under load. Adjust `GLASS_GAP`, `BOARD_GAP` or `GLASS_TO_PCB` / `GLASS_FLUSH` in `params.py`, then rebuild.
+2. **Door.** On `test_back` (the rear cover piece from the same plate), check four things:
    - The door frees up and swings past vertical.
    - The latch clicks shut and holds, and the fingernail notch opens it.
+   - With both plungers dropped in from the well side and the door shut, pressing hard on the door doesn't move them.
    - The labels are crisp and white.
 
    If the door sticks, raise the gaps (see Printing). If the latch is too stiff or too loose, change `LATCH_RIDGE` by ±0.1 mm.
@@ -226,7 +234,7 @@ All parts fit on one plate together.
 
 ## Calipers checklist
 
-Measure these, update `params.py`, re-run `build.py` and `validate.py`, and reprint the coupon if anything in the first 6.8 mm changed. The values shown are the current defaults.
+Measure these, update `params.py`, re-run `build.py` and `validate.py`, and reprint `test_front` if anything in the first 6.8 mm changed. The values shown are the current defaults.
 
 | # | Parameter | Default (mm) | How to measure |
 |---|---|---|---|

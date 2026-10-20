@@ -168,11 +168,20 @@ def on_stand(parts):
     return shoot(p, "on_stand", (-260, -200, 120), focal=(0, 10, 40), up=(0, 0, 1))
 
 
-def coupon(parts):
+def test_plate(parts):
+    """The test plate as printed: test_front (left), test_back with its door and two plungers."""
+    from build import TEST_LAYOUT, plate_bodies
     p = plotter()
-    add(p, parts["fit_coupon"], COLORS["shell"])
-    title(p, "Fit coupon (from the back): pocket, bands, insert holes")
-    return shoot(p, "fit_coupon", (-120, 90, -200), focal=(0, 0, -3), zoom=1.2)
+    black, white, feet = plate_bodies(parts, TEST_LAYOUT)
+    for s in black:
+        add(p, s, COLORS["shell"])
+    for s in white:
+        add(p, s, "#f2f2f2")
+    x1 = max(bb.max.X for _, bb in feet)
+    y1 = max(bb.max.Y for _, bb in feet)
+    c = (x1 / 2 + 5, y1 / 2 + 5, 0)
+    title(p, "Test plate: test_front (front shell fit) and test_back (door, hinge, latch) + 2 plungers")
+    return shoot(p, "test_plate", (c[0] + 60, c[1] - 170, 190), focal=c, up=(0, 0, 1), zoom=1.1)
 
 
 def render_all(parts):
@@ -190,7 +199,7 @@ def render_all(parts):
         door_inside(parts),
         wafer_view(parts),
         on_stand(parts),
-        coupon(parts),
+        test_plate(parts),
         plate_view(parts),
     ]
 

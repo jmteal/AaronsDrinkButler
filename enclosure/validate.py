@@ -118,6 +118,44 @@ def plate_check(parts):
         check("every white label sits on its black part", True)
 
 
+def test_piece_checks(parts):
+    """The two test pieces stay separate: front-only and back-only, never on top of each other."""
+    from build import PLATE, PLATE_MARGIN, PRINTS, TEST_LAYOUT, TEST_PRINTS, _one, plate_bodies, pose, test_move
+    print("Test pieces (test_front, test_back, out/test_plate.3mf)")
+    front, back, back_door = parts["fit_coupon"], parts["door_test"], parts["door_test_door"]
+    no_overlap("test_front has no rear-cover or door geometry", front, parts["rear_cover"] + parts["door"])
+    no_overlap("test_back has no front-shell geometry", back + back_door, parts["front_shell"])
+    for label, body in (("glass", refs.glass()), ("PCB", refs.pcb()), ("rear parts", refs.rear_parts())):
+        no_overlap(f"test_front vs {label} (board drops in)", front, body)
+    gap("test_front glass to window wall", refs.glass(), front, P.GLASS_GAP, P.GLASS_GAP + 0.05)
+    no_overlap("test_back door vs its cover piece (shut)", back_door, back)
+    swing = door.build(latch=False)            # latch ridges spring past; skip them
+    stop = None
+    for a in range(5, int(P.DOOR_OPEN_MIN) + 1, 5):
+        if overlap(door.open_location(a) * swing, back) > TOL_VOL:
+            stop = a
+            break
+    check(f"test_back door swings to {P.DOOR_OPEN_MIN:.0f} deg on its own",
+          stop is None, "" if stop is None else f"first contact near {stop} deg")
+    # Exported STLs: each test print sits at its own spot, so loading them together can't merge them.
+    boxes = {}
+    for name in TEST_PRINTS:
+        b_names, _, kind = PRINTS[name]
+        boxes[name] = (test_move(parts, name) * _one([pose(kind, parts[k]) for k in b_names])).bounding_box()
+    a, b = boxes["test_front"], boxes["test_back"]
+    apart = max(b.min.X - a.max.X, a.min.X - b.max.X, b.min.Y - a.max.Y, a.min.Y - b.max.Y)
+    check("test_front.stl and test_back.stl don't overlap even if loaded as one object",
+          apart >= 5.0, f"{apart:.1f} mm apart")
+    _, _, feet = plate_bodies(parts, TEST_LAYOUT)
+    m = PLATE_MARGIN - 0.01
+    inside = all(bb.min.X >= m and bb.min.Y >= m and bb.max.X <= PLATE[0] - m
+                 and bb.max.Y <= PLATE[1] - m and abs(bb.min.Z) < 0.05 for _, bb in feet)
+    worst = min(max(q.min.X - p.max.X, p.min.X - q.max.X, q.min.Y - p.max.Y, p.min.Y - q.max.Y)
+                for i, (_, p) in enumerate(feet) for _, q in feet[i + 1:])
+    check(f"test plate: {len(feet)} objects on the plate, at least 5 mm apart", inside and worst >= 5.0,
+          f"closest pair {worst:.1f} mm")
+
+
 def board_fit(shell, cover, wafer):
     print("Board, wafer and pack")
     glass, pcb, rear = refs.glass(), refs.pcb(), refs.rear_parts()
@@ -346,6 +384,7 @@ def main():
     solids(parts)
     build_volume(parts)
     plate_check(parts)
+    test_piece_checks(parts)
     board_fit(parts["front_shell"], parts["rear_cover"], parts["wafer"])
     fasteners(parts["front_shell"], parts["rear_cover"])
     openings(parts["front_shell"], parts["rear_cover"])
