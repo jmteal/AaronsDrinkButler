@@ -36,7 +36,7 @@ A parametric build123d case for the Hosyond ES3C35P board and the 66 × 35.5 × 
 | `parts/refs.py` | Simple boxes for the board, buttons, pack, USB plug and cable channels (validation and previews only) |
 | `fonts/` | Inter Bold, used for the labels (SIL Open Font License, see `fonts/OFL.txt`) |
 | `build.py` | Writes `out/<part>.stl`, `.3mf` and `.step` in print orientation, plus `out/assembly.step`. Two-colour parts also get `out/<part>_text.stl` (see Printing) |
-| `validate.py` | 136 checks (see below), then renders `out/previews/*.png` |
+| `validate.py` | 145 checks (see below), then renders `out/previews/*.png` |
 
 ## Setup
 
@@ -152,7 +152,11 @@ Load **black PETG in AMS slot 1** and **white PETG in slot 2**.
    - Front shell: the first 3 layers (0.6 mm) of the face-down front. The label is flush.
    - Rear cover: 4 layers (z = 2.0–2.8 mm), on the door's inside face. The labels stand proud.
 
-`rear_cover.stl` holds two bodies: the cover and the door printed in place inside it. Keep them together. The `.3mf` files hold the same bodies as separate objects. If Bambu Studio splits them apart, use the STLs instead.
+`rear_cover.stl` holds two bodies: the cover and the door printed in place inside it. Keep them together.
+
+**3MF files (easiest).** Each `.3mf` holds one object per print, flat on the plate at real size, with the white labels as a second part of that object. Bambu Studio shows the labels part as `<print>_2` (for example `test_front_2`): select it in the Objects list and set it to the white filament. The files carry no printer or filament settings, so your P2S setup stays as it is. Bambu Studio may tell you the 3MF is from another program and that it's loading the geometry only. That's expected; click OK. There should be no "too small" or "multi-part object" prompt. If one appears, answer **No** and let me know.
+
+The first 3MFs (before 20 Oct) stored each letter as its own tiny object. That triggered both prompts, and answering Yes to "scale to millimetres" blew a letter up about 25×. Delete any older copies.
 
 **Whole case on one plate.** `out/plate.stl` (black) and `out/plate_text.stl` (white) hold every part for one build, already laid out on the 256 × 256 plate:
 - the front shell, the rear cover with its door, the wafer, the stand and 2 plungers;
@@ -161,7 +165,7 @@ Load **black PETG in AMS slot 1** and **white PETG in slot 2**.
 
 Load both files together exactly as above, answer **Yes**, and set `plate_text` to white. Bambu Studio loads the whole layout as one object and centres it. If the prime tower lands on a part, drag it into the empty corner. Don't use Auto-arrange: it would move the white labels away from their parts. The test pieces aren't on this plate, because they're meant to be printed and checked first (see the test plate below).
 
-**Test plate.** Open `out/test_plate.3mf`. It holds the two test pieces and two plungers, each as its own object, already spread out on the plate. They test different halves of the case, so they're printed as separate pieces:
+**Test plate.** Open `out/test_plate.3mf`. It holds four objects, already spread out on the plate: the two test pieces and two plungers. Set `test_front_2` and `test_back_2` (the labels) to white. They test different halves of the case, so they're printed as separate pieces:
 - **`test_front`** (left) is the front shell only: the flush window, board pocket, bands, insert holes and microSD opening. Use it for the display fit.
 - **`test_back`** (right) is the bottom of the rear cover only: the print-in-place door, hinge, latch, well and plunger holes. Use it for the door, with the two plungers.
 

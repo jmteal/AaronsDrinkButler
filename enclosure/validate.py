@@ -156,6 +156,67 @@ def test_piece_checks(parts):
           f"closest pair {worst:.1f} mm")
 
 
+BAMBU_CLI = Path("/Applications/BambuStudio.app/Contents/MacOS/BambuStudio")
+
+
+def threemf_checks(bambu=False):
+    """Read every 3MF back: one object per print, labels as a part, flat, full size, apart.
+
+    These are what Bambu Studio checks on import. Before this, each letter was its own tiny
+    object, which set off its "too small" and "multiple heights" prompts.
+    """
+    from build import OUT, PLATE, PLATE_LAYOUT, PRINTS, TEST_LAYOUT
+    from parts import threemf
+    print("3MF files (what Bambu Studio sees)")
+    expect = {f"{n}.3mf": [n] for n in PRINTS}
+    expect["plate.3mf"] = [n for n, *_ in PLATE_LAYOUT]
+    expect["test_plate.3mf"] = [n for n, *_ in TEST_LAYOUT]
+    for fname, prints in expect.items():
+        objs = threemf.summary(OUT / fname)
+        problems = []
+        if len(objs) != len(prints):
+            problems.append(f"{len(objs)} objects, want {len(prints)}")
+        for (oname, pnames, bb), pname in zip(objs, prints):
+            want_parts = 2 if PRINTS[pname][1] else 1
+            if len(pnames) != want_parts:
+                problems.append(f"{oname}: {len(pnames)} parts")
+            if abs(bb[2]) > 0.05:
+                problems.append(f"{oname} floats at z={bb[2]:.2f}")
+            if min(bb[3] - bb[0], bb[4] - bb[1]) < 5.0:
+                problems.append(f"{oname} under 5 mm")
+            if bb[0] < 0 or bb[1] < 0 or bb[3] > PLATE[0] or bb[4] > PLATE[1]:
+                problems.append(f"{oname} off the plate")
+        for i, (_, _, a) in enumerate(objs):
+            for (_, _, b) in objs[i + 1:]:
+                if max(b[0] - a[3], a[0] - b[3], b[1] - a[4], a[1] - b[4]) < 5.0:
+                    problems.append("objects closer than 5 mm")
+        check(f"{fname}: {len(prints)} object(s), labels as parts, flat on the plate",
+              not problems, "; ".join(problems) or ", ".join(o for o, _, _ in objs))
+    if not bambu or not BAMBU_CLI.exists():
+        # Opt-in: it launches Bambu Studio's command line, which macOS may flag.
+        print("  (add --bambu to also round-trip test_plate.3mf through Bambu Studio)")
+        return
+    import re
+    import subprocess
+    import tempfile
+    import zipfile
+    with tempfile.TemporaryDirectory() as tmp:
+        r = subprocess.run([str(BAMBU_CLI), str(OUT / "test_plate.3mf"), "--arrange", "0",
+                            "--outputdir", tmp, "--export-3mf", "rt.3mf"],
+                           capture_output=True, text=True, timeout=300)
+        ok = r.returncode == 0 and (Path(tmp) / "rt.3mf").exists()
+        names = []
+        if ok:
+            cfg = zipfile.ZipFile(Path(tmp) / "rt.3mf").read("Metadata/model_settings.config").decode()
+            for ob in re.findall(r'<object id="\d+">(.*?)</object>', cfg, re.S):
+                parts = re.findall(r"<part ", ob)
+                names.append(f"{re.search(r'key=\"name\" value=\"([^\"]*)', ob).group(1)}:{len(parts)}")
+        want = [f"{n}{'' if sum(m == n for m, *_ in TEST_LAYOUT) == 1 else f' {c + 1}'}:"
+                f"{2 if PRINTS[n][1] else 1}" for n, c, *_ in TEST_LAYOUT]
+        check("Bambu Studio imports test_plate.3mf as the same objects and parts",
+              ok and names == want, ", ".join(names) or f"exit {r.returncode}")
+
+
 def board_fit(shell, cover, wafer):
     print("Board, wafer and pack")
     glass, pcb, rear = refs.glass(), refs.pcb(), refs.rear_parts()
@@ -377,6 +438,8 @@ def stand_fit(shell, cover, st):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--no-previews", action="store_true")
+    ap.add_argument("--bambu", action="store_true",
+                    help="also import test_plate.3mf with Bambu Studio's CLI (if installed)")
     args = ap.parse_args()
 
     parts = build_all()
@@ -385,6 +448,7 @@ def main():
     build_volume(parts)
     plate_check(parts)
     test_piece_checks(parts)
+    threemf_checks(args.bambu)
     board_fit(parts["front_shell"], parts["rear_cover"], parts["wafer"])
     fasteners(parts["front_shell"], parts["rear_cover"])
     openings(parts["front_shell"], parts["rear_cover"])

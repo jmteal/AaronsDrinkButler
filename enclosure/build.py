@@ -4,12 +4,14 @@
 Usage (from the repo root or enclosure/):
     enclosure/.venv/bin/python enclosure/build.py
 
-Parts are written in their print orientation. Two-colour parts are written as a pair of
-files in the same frame: <part>.stl (black) and <part>_text.stl (white). Load one part and
-its own _text file together and answer "Yes" to loading them as one object with multiple
-parts, then set the _text part to the white filament. Never combine two different parts
-that way: they share an origin and would print merged. The 3MF of a two-colour part holds
-both bodies. out/assembly.step holds the printed parts in their assembled positions.
+Parts are written in their print orientation. Each <part>.3mf holds the print as one
+object, centred on the plate, with the white labels (if any) as a second part named
+"... labels (white)": open it and set that part to the white filament. Two-colour parts
+also come as a pair of STLs in the same frame: <part>.stl (black) and <part>_text.stl
+(white). Load one part and its own _text file together and answer "Yes" to loading them
+as one object with multiple parts. Never combine two different parts that way: they
+share an origin and would print merged. out/assembly.step holds the printed parts in
+their assembled positions.
 
 The two test pieces are separate on purpose: test_front checks the front shell (window,
 pocket, bands, inserts, microSD), test_back checks the rear cover (door, hinge, latch,
@@ -24,10 +26,11 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 
-from build123d import Compound, Mesher, Pos, Rot, export_step, export_stl  # noqa: E402
+from build123d import Compound, Pos, Rot, export_step, export_stl  # noqa: E402
 
 import params as P  # noqa: E402
 from parts import door, door_test, fit_coupon, front_shell, plunger, rear_cover, stand, wafer  # noqa: E402
+from parts import threemf  # noqa: E402
 from parts.common import for_print_face_down  # noqa: E402
 
 OUT = HERE / "out"
@@ -134,15 +137,27 @@ def plate_bodies(parts, layout=PLATE_LAYOUT):
     return black, white, feet
 
 
+def layout_objects(parts, layout):
+    """3MF objects for a plate layout: one object per print, its labels as a second part."""
+    objects = []
+    for name, copy, x, y in layout:
+        b_names, w_names, kind = PRINTS[name]
+        posed_b = _one([pose(kind, parts[k]) for k in b_names])
+        bb = posed_b.bounding_box()
+        move = Pos(x - bb.min.X, y - bb.min.Y, -bb.min.Z)
+        label = name if sum(n == name for n, *_ in layout) == 1 else f"{name} {copy + 1}"
+        obj = [(label, move * posed_b)]
+        if w_names:
+            obj.append((f"{label} labels (white)", move * _one([pose(kind, parts[k]) for k in w_names])))
+        objects.append((label, obj))
+    return objects
+
+
 def export_plate(parts):
     black, white, _ = plate_bodies(parts)
-    b, w = _one(black), _one(white)
-    write_stl(b, OUT / "plate.stl")
-    write_stl(w, OUT / "plate_text.stl")
-    mesher = Mesher()
-    mesher.add_shape(b, linear_deflection=0.01, angular_deflection=0.1, part_number="plate (black)")
-    mesher.add_shape(w, linear_deflection=0.01, angular_deflection=0.1, part_number="plate text (white)")
-    mesher.write(str(OUT / "plate.3mf"))
+    write_stl(_one(black), OUT / "plate.stl")
+    write_stl(_one(white), OUT / "plate_text.stl")
+    threemf.write(OUT / "plate.3mf", layout_objects(parts, PLATE_LAYOUT))
 
 
 def test_move(parts, name):
@@ -157,20 +172,7 @@ def test_move(parts, name):
 
 def export_test_plate(parts):
     """One 3MF with each test print as its own object (never merged into one)."""
-    mesher = Mesher()
-    for name, copy, x, y in TEST_LAYOUT:
-        b_names, w_names, kind = PRINTS[name]
-        posed_b = [pose(kind, parts[k]) for k in b_names]
-        bb = _one(posed_b).bounding_box()
-        move = Pos(x - bb.min.X, y - bb.min.Y, -bb.min.Z)
-        label = f"{name}{'' if name in TEST_PRINTS else f' {copy + 1}'}"
-        mesher.add_shape(move * _one(posed_b), linear_deflection=0.01, angular_deflection=0.1,
-                         part_number=f"{label} (black)")
-        if w_names:
-            w = _one([pose(kind, parts[k]) for k in w_names])
-            mesher.add_shape(move * w, linear_deflection=0.01, angular_deflection=0.1,
-                             part_number=f"{label} text (white)")
-    mesher.write(str(OUT / "test_plate.3mf"))
+    threemf.write(OUT / "test_plate.3mf", layout_objects(parts, TEST_LAYOUT))
 
 
 def _one(bodies):
@@ -191,13 +193,12 @@ def export(parts):
         b = move * _one([pose(kind, parts[k]) for k in black])
         write_stl(b, OUT / f"{name}.stl")
         export_step(b, str(OUT / f"{name}.step"))
-        mesher = Mesher()
-        mesher.add_shape(b, linear_deflection=0.01, angular_deflection=0.1, part_number=f"{name} (black)")
         if white:
-            w = move * _one([pose(kind, parts[k]) for k in white])
-            write_stl(w, OUT / f"{name}_text.stl")
-            mesher.add_shape(w, linear_deflection=0.01, angular_deflection=0.1, part_number=f"{name} text (white)")
-        mesher.write(str(OUT / f"{name}.3mf"))
+            write_stl(move * _one([pose(kind, parts[k]) for k in white]), OUT / f"{name}_text.stl")
+        # 3MF: the print alone, centred on the plate.
+        bb = _one([pose(kind, parts[k]) for k in black]).bounding_box()
+        cx, cy = PLATE[0] / 2 - bb.size.X / 2, PLATE[1] / 2 - bb.size.Y / 2
+        threemf.write(OUT / f"{name}.3mf", layout_objects(parts, [(name, 0, cx, cy)]))
     assembly = Compound(label="drink_butler_case", children=[
         parts["front_shell"], parts["front_shell_text"], parts["rear_cover"], parts["door"],
         parts["door_text"], parts["wafer"], plunger.installed(),
