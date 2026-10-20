@@ -46,10 +46,12 @@ USB_PLUG_L = 22.0        # [assumed] overmold + strain relief length
 
 SD_BY = 31.22            # [drawing] microSD slot centreline from the top edge (right edge)
 SD_Z_OFF = 1.0           # [assumed] card centre behind the PCB back face
-SD_OPEN_L = 14.0         # [design] slot length along the edge
-SD_OPEN_H = 3.0          # [design] slot height (depth direction)
+SD_OPEN_L = 16.0         # [design] slot length along the edge (+2 after the first print)
+SD_OPEN_H = 5.0          # [design] slot height in the depth direction (+2 after the first print)
+SD_OPEN_DZ = 1.0         # [design] slot centre sits this far behind the card, so all the extra
+                         #   height goes toward the back (the front edge stays clear of the glass)
 SD_SCALLOP_DEPTH = 3.0   # [design] 45-degree finger/nail scallop cut into the outer wall
-SD_SCALLOP_L = 18.0      # [design]
+SD_SCALLOP_L = 20.0      # [design] (+2 after the first print)
 
 BAT_SOCK_BY = 59.89      # [drawing, unverified] battery socket, left edge
 SPK_SOCK_BY = 74.39      # [drawing, unverified] speaker socket, right edge
@@ -89,8 +91,10 @@ GRILLE_HOLE_AF = 1.6     # [design] hex hole across flats
 GRILLE_PITCH = 2.6       # [design] hole pitch (1.0 mm webs)
 
 # --- Tolerances (tune with the fit coupon) ----------------------------------------------
-GLASS_GAP = 0.2          # [design] per side, glass to window
-BOARD_GAP = 0.2          # [design] per side, PCB to pocket
+GLASS_GAP = 0.7          # [design] per side, glass to window (0.2 was too tight to seat flush;
+                         #   +1 mm on width and length after the first print)
+BOARD_GAP = 0.7          # [design] per side, PCB to pocket (matches GLASS_GAP: glass and PCB are
+                         #   the same width, so the pocket has to grow with the window)
 COVER_LIP_GAP = 0.2      # [design] cover locating lip to shell inner wall
 SEAM_GAP = 0.2           # [design] cover to shell rim; the screws clamp via the standoffs
 M3_CLEAR_D = 3.4         # [design] clearance hole for M3
@@ -144,6 +148,9 @@ LED_TUBE_L = 8.0         # [design] guide tube length from the cover inner face
 # Behind it is a shallow well; two printed plungers pass through the well floor to the
 # buttons. "Depth" below is the distance in from the cover's outer (back) face.
 DOOR_GAP = 0.4           # [design] print-in-place gap round the door's edges (PETG)
+DOOR_T = 3.5             # [design] door thickness. It was the 2.0 plate and flexed enough to press
+                         #   the plungers when shut; 3.5 is about 5x stiffer. It grows inward,
+                         #   so the well behind it is 1.5 deeper (WELL_D)
 DOOR_HW = 19.4           # [design] door half-width (counterbores for the screws sit at 20.85)
 DOOR_Y0 = -52.0          # [design] door bottom (free) edge, toward the USB-C end
 DOOR_CORNER_R = 1.0      # [design]
@@ -171,7 +178,8 @@ NAIL_HW = 3.5            # [design] fingernail notch half-width, centred on the 
 NAIL_D = 1.5             # [design] notch depth in the cover (45 degrees)
 NAIL_GROOVE = 0.35       # [design] V-groove in the door edge the nail pulls on
 
-WELL_D = 5.2             # [design] well floor, depth in from the back face
+WELL_D = 6.7             # [design] well floor, depth in from the back face (5.2 + the extra door
+                         #   thickness, so the caps keep the same clearance to the shut door)
 FLOOR_T = 1.2            # [design]
 BAY_HW = 21.2            # [design] solid block round the well, inside the cover
 BAY_Y1 = -36.9           # [design] block's top edge (the pack starts at -33)
@@ -223,9 +231,11 @@ INLAY_D = 0.6            # [design] USB-C label is inlaid flush, 3 layers deep
 # 45 degrees, so they print without supports and let go to a firm pull at the pry
 # notches. The screws become optional: with the cover snapped on, the standoffs already
 # sit on the PCB pads and hold the board on the bands.
-SNAP_W = 5.0             # [design] arm width along the wall
-SNAP_T = 1.4             # [design] arm thickness (flexes inward)
-SNAP_L = 10.0            # [design] arm length from the cover's inner face
+SNAP_W = 7.0             # [design] arm width along the wall (was 5.0; the arms broke)
+SNAP_T = 2.0             # [design] arm thickness, flexes inward (was 1.4)
+SNAP_L = 12.0            # [design] arm length from the cover's inner face (was 10; longer keeps
+                         #   the flex strain the same with the thicker arm)
+SNAP_ROOT = 1.5          # [design] 45-degree gusset on the inside of each arm's root
 SNAP_HOOK = 0.8          # [design] hook height off the arm (0.6 of it goes into the wall)
 SNAP_RAMP = 1.4          # [design] lead-in ramp length at the arm tip
 SNAP_FLAT = 0.4          # [design] flat on top of the hook
@@ -234,7 +244,7 @@ SNAP_SIDE_GAP = 0.3      # [design] pocket to arm, each side
 SNAP_SLOT = 0.5          # [design] slot cut through the lip beside each arm
 # (wall, side, position along the wall): "x" = left/right walls, "y" = top wall.
 # None on the bottom wall: the door block fills it.
-SNAPS = [("x", -1, 43.0), ("x", 1, 43.0), ("x", -1, -41.0), ("x", 1, -41.0),
+SNAPS = [("x", -1, 40.5), ("x", 1, 40.5), ("x", -1, -40.5), ("x", 1, -40.5),
          ("y", 1, -12.0), ("y", 1, 12.0)]
 PRY_D = 1.0              # [design] 45-degree pry notch at the seam, each side wall
 PRY_W = 10.0             # [design]
@@ -303,6 +313,7 @@ INNER_R = OUTER_R - WALL
 DOOR_OPEN_HW = DOOR_HW + DOOR_GAP                # well and opening half-width
 DOOR_OPEN_Y0 = DOOR_Y0 - DOOR_GAP                # well bottom wall
 HINGE_DEPTH = DEPTH - HINGE_H                    # axis depth
+DOOR_INNER = DEPTH - DOOR_T                      # door's inner face
 HINGE_RHO = (HINGE_LIP ** 2 + HINGE_H ** 2) ** 0.5   # door hinge-end radius
 HINGE_CLEAR_R = HINGE_RHO + DOOR_GAP             # cover clearance round the hinge
 HINGE_EDGE_V = (HINGE_CLEAR_R ** 2 - HINGE_H ** 2) ** 0.5   # cover edge past the axis

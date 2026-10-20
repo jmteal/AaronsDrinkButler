@@ -78,7 +78,8 @@ def usb_cut():
 
 def sd_cut():
     """microSD slot through the right wall plus a 45-degree scallop for a fingernail."""
-    slot_sk = Pos(P.SD_Y, P.SD_DEPTH) * rrect(P.SD_OPEN_L, P.SD_OPEN_H, 0.5)
+    dc = P.SD_DEPTH + P.SD_OPEN_DZ
+    slot_sk = Pos(P.SD_Y, dc) * rrect(P.SD_OPEN_L, P.SD_OPEN_H, 0.5)
     slot = x_prism(slot_sk, P.PCB_W / 2 - 0.5, P.OUTER_W / 2 + 1)
 
     # Trapezoid in (X, depth): narrow (slot height) at the groove bottom, widening 45 degrees
@@ -89,8 +90,8 @@ def sd_cut():
     hh = P.SD_OPEN_H / 2
     grow = x_out - x_in
     sk = polygon([
-        (x_in, P.SD_DEPTH - hh), (x_out, P.SD_DEPTH - hh - grow),
-        (x_out, P.SD_DEPTH + hh + grow), (x_in, P.SD_DEPTH + hh),
+        (x_in, dc - hh), (x_out, dc - hh - grow),
+        (x_out, dc + hh + grow), (x_in, dc + hh),
     ])
     groove = y_prism(sk, P.SD_Y - P.SD_SCALLOP_L / 2, P.SD_Y + P.SD_SCALLOP_L / 2)
     return slot + groove

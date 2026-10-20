@@ -70,13 +70,13 @@ The build takes about 15 s. Validation takes about 20 s, plus about 25 s for the
 - **One-plate layout.** All 6 parts sit flat on the 256 mm plate with 10 mm margins and gaps, the prime-tower corner is free, and every white label sits on its part.
 - **Interference.** No printed part overlaps the glass, PCB, rear-parts envelope or pack, or another printed part. The wafer is rigid, so the ribs' 0.2 mm preload is taken by the cover plate flexing back. The pack is checked against the cover moved back by that much.
 - **Clearances and contacts.**
-  - Glass-to-window gap: 0.2 mm.
-  - PCB-to-pocket gap: 0.2 mm.
+  - Glass-to-window gap: 0.7 mm.
+  - PCB-to-pocket gap: 0.7 mm.
   - The PCB touches the bands, the standoffs touch the PCB pads, the wafer rests on the rear parts, the pack rests on the wafer, and the ribs touch the pack.
   - The board can slide in from the back.
   - The front bevel leaves a flat strip beside the glass.
 - **Fasteners.** Front skin in front of the inserts, screw tip depth, thread engagement and head recess.
-- **Ports and cable space.** The USB-C overmold and the microSD path are clear, and the left and right cable channels are free.
+- **Ports and cable space.** The USB-C overmold and the microSD path are clear, and the left and right cable channels are free. The microSD opening is 16 × 5 mm with a 20 mm long 45° scallop, 2 mm bigger each way than the first print. The extra height is all on the back side of the card, so the opening stays clear of the glass.
 - **Snap tabs.**
   - The hooks sit on their pocket faces without overlapping the shell.
   - Each arm has room to flex inward, and bends at under 2% strain.
@@ -97,12 +97,12 @@ The build takes about 15 s. Validation takes about 20 s, plus about 25 s for the
 
 - **Datum and flushness.**
   - The glass is exactly as wide as the PCB, so the PCB front face bears on two solid bands over the 9.25 mm strips above and below the glass, `GLASS_TO_PCB` (4.2 mm) behind the case face.
-  - The window is the glass outline plus `GLASS_GAP` (0.2 mm) per side, with a 0.4 mm chamfer at the face.
+  - The window is the glass outline plus `GLASS_GAP` (0.7 mm) per side, with a 0.4 mm chamfer at the face. The board pocket gets the same 0.7 mm (`BOARD_GAP`). Both were 0.2 mm, but the first print was too tight to seat the display flush, so each opening grew by 1 mm in width and length. The four screws still centre the board on its holes.
   - `GLASS_FLUSH` lets the glass stand slightly proud if a print comes out recessed.
   - Nothing stands above the glass, so a finger slides straight off the screen onto the frame.
   - The outside edge of the front face has a 1.5 mm, 45° bevel (`FRONT_BEVEL`). That leaves a 3 mm flat strip beside the glass. A 45° bevel prints cleanly face down; a shallower slope would hang in the air and need supports.
 - **Snap tabs (toolless).**
-  - Six arms on the cover reach 10 mm forward along the inside of the shell walls: two on each side wall and two on the top wall. The door block fills the bottom wall, so it has none. Each arm is 5 × 1.4 mm. Its hook clicks into a blind pocket in the wall, so nothing shows on the outside.
+  - Six arms on the cover reach 12 mm forward along the inside of the shell walls: two on each side wall and two on the top wall. The door block fills the bottom wall, so it has none. Each arm is 7 × 2.0 mm, with a 1.5 mm 45° gusset at its root. They were 5 × 1.4 × 10 mm, and those broke. The new arms are about 3× stronger in bending. The extra length keeps the flex strain the same (1.25%), so they're no harder to snap on. Its hook clicks into a blind pocket in the wall, so nothing shows on the outside.
   - Each hook has a shallow lead-in ramp, so the cover presses on easily. Its back face is 45°, so it prints without supports and lets go to a firm pull. To open, put a thumbnail or coin in a pry notch at the seam halfway up each side and lever the cover off. Work round both sides.
   - Snapped on, the cover sits where the screws used to pull it. The standoffs rest on the PCB pads and hold the board on the bands, and the ribs press the pack.
   - The arms are placed clear of the screw posts, the cable runs, the switch and the door.
@@ -117,9 +117,10 @@ The build takes about 15 s. Validation takes about 20 s, plus about 25 s for the
 - **Button door.**
   - **Why it's in the back.** BOOT and RESET are on the back of the board, 3.3 mm from the USB-C edge. Only a door in the back cover, right over that end, can reach them; a door in the top end of the case would be 100 mm away. The door sits at the bottom of the back, between the two lower screws. The hinge runs along its upper edge, so its lower edge (nearest the USB-C) lifts out.
   - **Printed in place.** The door prints in its opening, with the cover, outside face down. There's a 0.4 mm gap all round it (`DOOR_GAP`). It hinges on two 45° cone pins that stick out of the well's side walls into sockets in the door's end barrels, with a 0.35 mm gap (`HINGE_GAP`). The cones and sockets print without supports, and the door can't come off.
+  - **Thickness.** The door is 3.5 mm thick (`DOOR_T`). At first it was the same 2.0 mm as the cover plate, and it flexed enough under a thumb to press the plungers while shut. 3.5 mm is about 5× stiffer. The extra 1.5 mm is on the inside, so the well is 1.5 mm deeper (`WELL_D` 6.7) and the plungers are 1.5 mm shorter. The caps still have 0.9 mm of clearance to the shut door.
   - **Opening.** The door's outside face is flush with the back. The hinge axis is 2.2 mm in from the back, and a 45° chamfer on the cover's edge lets the door swing to about 108°. Past vertical, it stays open when the device lies face down.
   - **Latch.** A 0.8 mm through-slot behind the door's free edge lets the edge strip flex. Two tabs on the strip carry 45° ridges that click into matching grooves in the well wall, engaging 0.4 mm. A fingernail notch in the cover and a small V-groove in the door edge pull it open.
-  - **Plungers.** The buttons sit about 26 mm in from the back face, too deep for a finger. So the well has a floor 5.2 mm in, with two Ø4.5 printed plungers in guide tubes that reach down to the buttons. Each plunger's cap is wider than its hole, so it can't fall into the case. At rest the tip sits on the button and the cap is 0.5 mm above the floor. Pressing the cap down to the floor clicks the button, and the floor stops it before it can over-press. With the door shut, the plungers are trapped. With the door open, don't turn the device back-down, or they can drop out.
+  - **Plungers.** The buttons sit about 26 mm in from the back face, too deep for a finger. So the well has a floor 6.7 mm in, with two Ø4.5 printed plungers in guide tubes that reach down to the buttons. Each plunger's cap is wider than its hole, so it can't fall into the case. At rest the tip sits on the button and the cap is 0.5 mm above the floor. Pressing the cap down to the floor clicks the button, and the floor stops it before it can over-press. With the door shut, the plungers are trapped. With the door open, don't turn the device back-down, or they can drop out.
   - **Labels.** **BOOT** and **RESET** stand 0.8 mm proud of the door's inside face in white, in Inter Bold with 3.75 mm capitals. The door is only 38.8 mm wide, so each word is moved inward just enough to fit: BOOT by 2.0 mm, RESET by 2.9 mm. A white triangle under each word sits at its button's exact position. With the door open, each triangle points down at its plunger. Shut, the labels sit over the plunger caps with 0.9 mm to spare.
   - **On the stand,** the door is flush, so it rests on the stand's backrest like the rest of the back. Lift the device off the stand to use the buttons.
 - **Wafer.**
@@ -179,10 +180,10 @@ Start from Bambu Studio's **Generic PETG** (or your brand's) profile on the **te
 | Part | Orientation (as exported) | Notes |
 |---|---|---|
 | `fit_coupon` (+ `_text`) | Face down | About 14 cm³; roughly 25–30 min. Print it first |
-| `door_test` (+ `_text`) | Outside face down | 48 × 21 × 6 mm. The bottom of the cover with the door; print it before the cover (see Assembly) |
+| `door_test` (+ `_text`) | Outside face down | 48 × 21 × 8 mm. The bottom of the cover with the door; print it before the cover (see Assembly) |
 | `front_shell` (+ `_text`) | **Face down** on the plate | Flat, textured front with the white USB-C label in the first layers. The USB-C top is a 12.5 mm bridge; everything else is vertical or 45° |
 | `rear_cover` (+ `_text`) | Outside face down | The door prints in place. Standoffs, tubes, snap arms and ribs point up. Counterbores are on the plate side. The well floor is a 13 mm bridge over the door |
-| `plunger` | Cap down | **Print 2.** Small and tall (22 mm); put them on the same plate as a bigger part so the layers have time to cool, and add a 3 mm brim |
+| `plunger` | Cap down | **Print 2.** Small and tall (21 mm); put them on the same plate as a bigger part so the layers have time to cool, and add a 3 mm brim |
 | `wafer` | Board side down | 1.0 mm plate, fences up |
 | `stand` | Upright, base down | The backrest leans at 30° from vertical. The cable notch has a 45° pointed top |
 

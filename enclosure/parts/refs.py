@@ -66,8 +66,9 @@ def sd_card_path():
 
 def cable_channels():
     """Free space each side of the pack for the battery and speaker leads to the sockets."""
-    # Below -36 the door block takes the space; the sockets are at Y -9 and -24.
-    y0, y1 = -36.0, 40.0
+    # Below -36 the door block takes the space and above 36 the upper snap arms do;
+    # the sockets are at Y -9 and -24.
+    y0, y1 = -36.0, 36.0
     d0, d1 = P.REAR_ENVELOPE + 0.5, P.COVER_INNER - 3.0
     left = box(-P.INNER_W / 2 + 0.4, -P.INNER_W / 2 + 4.4, y0, y1, d0, d1)
     x_fence = P.PACK_W / 2 + P.FENCE_GAP + P.FENCE_T     # outside the wafer's pack fences

@@ -17,8 +17,9 @@ H, R, F = P.SNAP_HOOK, P.SNAP_RAMP, P.SNAP_FLAT
 
 def arm_profile():
     root = P.COVER_INNER + EPS
-    return [(-P.SNAP_T, root), (-P.SNAP_T, T), (0, T), (H, T + R), (H, T + R + F),
-            (0, T + R + F + H), (0, root)]
+    g = P.SNAP_ROOT
+    return [(-P.SNAP_T - g, root), (-P.SNAP_T, root - g), (-P.SNAP_T, T), (0, T), (H, T + R),
+            (H, T + R + F), (0, T + R + F + H), (0, root)]
 
 
 def pocket_profile():
@@ -53,7 +54,7 @@ def arms():
 
 def lip_slots():
     """Cut the lip back round each arm so the arm can flex on its own."""
-    t = P.COVER_LIP_T + P.SNAP_T
+    t = max(P.COVER_LIP_T, P.SNAP_T + P.SNAP_ROOT)
     prof = [(-t - 0.2, P.COVER_INNER - P.COVER_LIP_H - 0.1), (0.3, P.COVER_INNER - P.COVER_LIP_H - 0.1),
             (0.3, P.COVER_INNER - 0.001), (-t - 0.2, P.COVER_INNER - 0.001)]
     w = P.SNAP_W + 2 * P.SNAP_SLOT

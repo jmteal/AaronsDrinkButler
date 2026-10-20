@@ -136,9 +136,10 @@ def board_fit(shell, cover, wafer):
 
     gap("glass to window wall", glass, shell, P.GLASS_GAP, P.GLASS_GAP + 0.05)
     # PCB edges: test a thinner copy so the band contact on the front face doesn't count
-    # (0.3 mm off each face keeps those distances above the 0.2 side gap).
+    # (shaving each face by more than BOARD_GAP keeps those distances above the side gap).
     from parts.common import prism, rrect
-    pcb_core = prism(rrect(P.PCB_W, P.PCB_H, P.PCB_R), P.PCB_FRONT + 0.3, P.PCB_BACK - 0.3)
+    shave = min(P.BOARD_GAP + 0.03, P.PCB_T / 2 - 0.05)
+    pcb_core = prism(rrect(P.PCB_W, P.PCB_H, P.PCB_R), P.PCB_FRONT + shave, P.PCB_BACK - shave)
     gap("PCB edge to pocket wall", pcb_core, shell, P.BOARD_GAP, P.BOARD_GAP + 0.05)
     touches("PCB front face on the locating bands", pcb, shell)
     insert_path = prism(rrect(P.PCB_W, P.PCB_H, P.PCB_R), P.POCKET_BACK, P.SHELL_DEPTH + 1)
@@ -316,7 +317,7 @@ def plunger_checks(parts):
           f"{stroke:.2f} mm stroke, {P.BTN_TRAVEL} mm travel")
     end_gap = P.PLUNGER_SHAFT_END - P.PLUNGER_CAP_GAP - P.REAR_ENVELOPE
     check("pressed shaft stays above the rear-parts envelope", end_gap >= 0.3, f"{end_gap:.2f} mm")
-    lift = P.COVER_INNER - P.LABEL_RELIEF - plunger.CAP_TOP
+    lift = P.DOOR_INNER - P.LABEL_RELIEF - plunger.CAP_TOP
     in_tube = P.PLUNGER_SHAFT_END + lift <= P.FLOOR_TOP
     check("a plunger can't leave its tube with the door shut", in_tube,
           f"can lift {lift:.2f} mm before the cap meets the door")

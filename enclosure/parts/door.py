@@ -25,7 +25,7 @@ from parts.common import (
 HW = P.DOOR_HW
 Y0 = P.DOOR_Y0
 YA, DA = P.HINGE_Y, P.HINGE_DEPTH
-IN = P.COVER_INNER          # door's inner face
+IN = P.DOOR_INNER           # door's inner face (DOOR_T thick)
 OUT = P.DEPTH               # door's outer (back) face
 
 
