@@ -239,6 +239,9 @@ def board_fit(shell, cover, wafer):
     from parts.common import prism, rrect
     shave = min(P.BOARD_GAP + 0.03, P.PCB_T / 2 - 0.05)
     pcb_core = prism(rrect(P.PCB_W, P.PCB_H, P.PCB_R), P.PCB_FRONT + shave, P.PCB_BACK - shave)
+    from parts.common import cyl
+    for x, y in P.HOLES:                       # the locating pins pass through these
+        pcb_core -= cyl(P.PAD_D, P.PCB_FRONT, P.PCB_BACK, x, y)
     gap("PCB edge to pocket wall", pcb_core, shell, P.BOARD_GAP, P.BOARD_GAP + 0.05)
     touches("PCB front face on the locating bands", pcb, shell)
     insert_path = prism(rrect(P.PCB_W, P.PCB_H, P.PCB_R), P.POCKET_BACK, P.SHELL_DEPTH + 1)
@@ -267,24 +270,28 @@ def board_fit(shell, cover, wafer):
           f"{P.FRONT_BEVEL} mm bevel, {side - P.FRONT_BEVEL:.2f} mm flat each side")
 
 
-def fasteners(shell, cover):
-    print("Fasteners")
-    skin = P.PCB_FRONT - P.INSERT_L
-    check(f"front skin in front of the inserts >= {P.FRONT_SKIN_MIN}", skin >= P.FRONT_SKIN_MIN - 1e-6,
-          f"{skin:.2f} mm")
-    seat = P.DEPTH - P.CBORE_DEPTH
-    tip = seat - P.SCREW_L
-    engage = P.PCB_FRONT - max(tip, skin)
-    check("screw tip stops short of the front skin", tip >= skin + 0.3 - 1e-6,
-          f"tip at depth {tip:.2f}, insert hole bottom at {skin:.2f}")
-    check("screw engages the insert >= 2 mm", engage >= 2.0, f"{engage:.2f} mm")
-    check("screw heads recessed in the cover", seat + P.SCREW_HEAD_H <= P.DEPTH + 1e-6,
-          f"head top {P.DEPTH - seat - P.SCREW_HEAD_H:.2f} mm below the back face")
-    screws = refs.screws()
-    no_overlap("screws vs front shell", screws, shell)
-    no_overlap("screws vs rear cover", screws, cover)
-    no_overlap("screws vs pack", screws, refs.pack())
-    no_overlap("screws vs door", screws, parts_g["door"])
+def locate_pins(shell, cover):
+    print("Locating pins (through the PCB's corner holes)")
+    side = (P.HOLE_D - P.LOCATE_PIN_D) / 2
+    check("pin clearance in the PCB hole 0.05-0.2 mm a side", 0.05 <= side <= 0.2, f"{side:.2f} mm")
+    pcb = refs.pcb()
+    no_overlap("pins pass through the PCB holes", shell, pcb)
+    from parts.common import cyl
+    tips = None
+    for x, y in P.HOLES:
+        t = cyl(P.LOCATE_PIN_D + 0.4, P.PCB_BACK + 0.05, P.PCB_BACK + P.LOCATE_PIN_PROUD - 0.05, x, y)
+        tips = t if tips is None else tips + t
+    pin_vol = overlap(shell, tips)
+    check(f"pins stand {P.LOCATE_PIN_PROUD} mm proud of the PCB back", pin_vol > 1.0 and 0.2 <= P.LOCATE_PIN_PROUD <= 1.0,
+          f"{pin_vol:.1f} mm3 of pin above the board")
+    pins = None
+    for x, y in P.HOLES:
+        c = cyl(P.LOCATE_PIN_D + 0.4, P.PCB_FRONT + 0.05, P.PCB_BACK + 2, x, y)
+        pins = c if pins is None else pins + c
+    pins = shell & pins
+    gap("pin tip to the standoff's pocket", pins, cover, min(P.PIN_POCKET_CLEAR, (P.PIN_POCKET_D - P.LOCATE_PIN_D) / 2,
+                                                             P.SEAM_GAP, P.COVER_LIP_GAP) - 0.01)
+    no_overlap("pins vs wafer", shell, parts_g["wafer"])
 
 
 def text_checks(parts):
@@ -450,7 +457,7 @@ def main():
     test_piece_checks(parts)
     threemf_checks(args.bambu)
     board_fit(parts["front_shell"], parts["rear_cover"], parts["wafer"])
-    fasteners(parts["front_shell"], parts["rear_cover"])
+    locate_pins(parts["front_shell"], parts["rear_cover"])
     openings(parts["front_shell"], parts["rear_cover"])
     snap_checks(parts)
     door_checks(parts)

@@ -1,9 +1,9 @@
 """Rear cover: back plate, locating lip, clamp standoffs, pack ribs, grille, switch, LED pipe,
 and the button door's well.
 
-Four M3 x 30 button-head screws pass through the cover's standoffs and the PCB holes into
-the inserts in the front bands, so one set of screws clamps the board and holds the
-cover. The standoffs bear only on the Ø5.6 pad rings. Ribs press the pack against the
+The cover snaps on. Its four standoffs bear only on the PCB's Ø5.6 pad rings and hold
+the board on the front bands; a pocket in each standoff's foot takes the tip of the
+shell's locating pin. Ribs press the pack against the
 1 mm printed wafer; the speaker fires through the grille.
 
 The door (parts/door.py) prints in place in an opening over BOOT and RESET. Behind it a
@@ -49,11 +49,11 @@ def standoffs():
     return solid
 
 
-def screw_bores():
+def pin_pockets():
     solid = None
+    depth = P.LOCATE_PIN_PROUD + P.PIN_POCKET_CLEAR
     for x, y in P.HOLES:
-        s = cyl(P.M3_CLEAR_D, P.PCB_BACK - EPS, PLATE_BACK + EPS, x, y)
-        s += cyl(P.CBORE_D, PLATE_BACK - P.CBORE_DEPTH, PLATE_BACK + EPS, x, y)
+        s = cyl(P.PIN_POCKET_D, P.PCB_BACK - EPS, P.PCB_BACK + depth, x, y)
         solid = s if solid is None else solid + s
     return solid
 
@@ -192,7 +192,7 @@ def hinge_pins():
 def build():
     cover = plate() + (lip() - snaps.lip_slots()) + standoffs() + ribs() + switch_cradle() + led_tube()
     cover += bay() + plunger_tubes() + snaps.arms()
-    cover -= screw_bores()
+    cover -= pin_pockets()
     cover -= grille_cut()
     cover -= switch_slot()
     cover -= led_hole()

@@ -8,7 +8,7 @@ A parametric build123d case for the Hosyond ES3C35P board and the 66 × 35.5 × 
 - The glass sits flush with the front, inside a 45° bevelled edge. A white **USB-C ▼** label is inlaid below the screen.
 - A **hinged door** in the back opens onto the BOOT and RESET buttons. It prints in place with the cover and clicks shut. Its inside face carries white **BOOT** and **RESET** labels lined up with the buttons.
 - A thin printed **wafer** sits between the back of the board and the battery pack.
-- **Snap tabs** hold the cover on: press it into the shell until it clicks, no tools. Two pry notches at the seam let you pop it off again. The four screws are now optional.
+- **Snap tabs** hold the cover on: press it into the shell until it clicks, no tools. Two pry notches at the seam let you pop it off again. There are no screws: four pins on the front shell locate the board through its corner holes.
 
 | ![front](out/previews/iso_front.png) | ![back](out/previews/iso_back.png) |
 |---|---|
@@ -16,7 +16,7 @@ A parametric build123d case for the Hosyond ES3C35P board and the 66 × 35.5 × 
 | ![door inside](out/previews/door_inside.png) | ![wafer](out/previews/wafer.png) |
 | ![snap section](out/previews/section_snap.png) | ![cover inside](out/previews/cover_inside.png) |
 | ![section](out/previews/section_center.png) | ![exploded](out/previews/exploded.png) |
-| ![screw section](out/previews/section_screw.png) | ![stand](out/previews/on_stand.png) |
+| ![pin section](out/previews/section_pin.png) | ![stand](out/previews/on_stand.png) |
 | ![test plate](out/previews/test_plate.png) | |
 
 ## Files
@@ -24,19 +24,19 @@ A parametric build123d case for the Hosyond ES3C35P board and the 66 × 35.5 × 
 | Path | What it is |
 |---|---|
 | `params.py` | Every dimension. Each one is tagged `[drawing]`, `[plan]`, `[assumed]` (measure it) or `[design]` |
-| `parts/front_shell.py` | Flush glass window, bevelled front edge, board pocket, locating bands with 4 insert holes, walls, USB-C and microSD openings, USB-C label inlay, snap pockets and pry notches |
-| `parts/rear_cover.py` | Back plate, locating lip, 4 clamp standoffs, pack ribs, speaker grille, switch slot and cradle, LED light-pipe tube, six snap arms, and the door well: cone hinge pins, latch grooves, nail notch, plunger guide tubes |
+| `parts/front_shell.py` | Flush glass window, bevelled front edge, board pocket, locating bands with 4 locating pins, walls, USB-C and microSD openings, USB-C label inlay, snap pockets and pry notches |
+| `parts/rear_cover.py` | Back plate, locating lip, 4 standoffs (with pockets for the locating pins), pack ribs, speaker grille, switch slot and cradle, LED light-pipe tube, six snap arms, and the door well: cone hinge pins, latch grooves, nail notch, plunger guide tubes |
 | `parts/door.py` | The button door (prints in place in the cover) and its BOOT / RESET labels |
 | `parts/plunger.py` | Button plunger (print 2) |
 | `parts/wafer.py` | Wafer between the board's rear parts and the pack |
 | `parts/snaps.py` | Snap arms (on the cover), their wall pockets and the pry notches (in the shell) |
 | `parts/stand.py` | Detachable 60° desk stand |
-| `parts/fit_coupon.py` | **test_front**: the first 6.8 mm of the front shell only (window, pocket, bands, inserts, microSD), for a display-fit test |
+| `parts/fit_coupon.py` | **test_front**: the first 6.8 mm of the front shell only (window, pocket, bands, locating pins, microSD), for a display-fit test |
 | `parts/door_test.py` | **test_back**: the bottom of the rear cover only, with the door, for a hinge, latch and plunger test |
 | `parts/refs.py` | Simple boxes for the board, buttons, pack, USB plug and cable channels (validation and previews only) |
 | `fonts/` | Inter Bold, used for the labels (SIL Open Font License, see `fonts/OFL.txt`) |
 | `build.py` | Writes `out/<part>.stl`, `.3mf` and `.step` in print orientation, plus `out/assembly.step`. Two-colour parts also get `out/<part>_text.stl` (see Printing) |
-| `validate.py` | 145 checks (see below), then renders `out/previews/*.png` |
+| `validate.py` | 142 checks (see below), then renders `out/previews/*.png` |
 
 ## Setup
 
@@ -76,7 +76,7 @@ The build takes about 15 s. Validation takes about 20 s, plus about 25 s for the
   - The PCB touches the bands, the standoffs touch the PCB pads, the wafer rests on the rear parts, the pack rests on the wafer, and the ribs touch the pack.
   - The board can slide in from the back.
   - The front bevel leaves a flat strip beside the glass.
-- **Fasteners.** Front skin in front of the inserts, screw tip depth, thread engagement and head recess.
+- **Locating pins.** The pins pass through the PCB holes with 0.1 mm a side, stand 0.4 mm proud of the board, and clear the pockets in the standoffs.
 - **Ports and cable space.** The USB-C overmold and the microSD path are clear, and the left and right cable channels are free. The microSD opening is 16 × 5 mm with a 20 mm long 45° scallop, 2 mm bigger each way than the first print. The extra height is all on the back side of the card, so the opening stays clear of the glass.
 - **Snap tabs.**
   - The hooks sit on their pocket faces without overlapping the shell.
@@ -98,25 +98,21 @@ The build takes about 15 s. Validation takes about 20 s, plus about 25 s for the
 
 - **Datum and flushness.**
   - The glass is exactly as wide as the PCB, so the PCB front face bears on two solid bands over the 9.25 mm strips above and below the glass, `GLASS_TO_PCB` (4.2 mm) behind the case face.
-  - The window is the glass outline plus `GLASS_GAP` (0.7 mm) per side, with a 0.4 mm chamfer at the face. The board pocket gets the same 0.7 mm (`BOARD_GAP`). Both were 0.2 mm, but the first print was too tight to seat the display flush, so each opening grew by 1 mm in width and length. The four screws still centre the board on its holes.
+  - The window is the glass outline plus `GLASS_GAP` (0.7 mm) per side, with a 0.4 mm chamfer at the face. The board pocket gets the same 0.7 mm (`BOARD_GAP`). Both were 0.2 mm, but the first print was too tight to seat the display flush, so each opening grew by 1 mm in width and length. The four locating pins keep the board centred on its holes.
   - `GLASS_FLUSH` lets the glass stand slightly proud if a print comes out recessed.
   - Nothing stands above the glass, so a finger slides straight off the screen onto the frame.
   - The outside edge of the front face has a 1.5 mm, 45° bevel (`FRONT_BEVEL`). That leaves a 3 mm flat strip beside the glass. A 45° bevel prints cleanly face down; a shallower slope would hang in the air and need supports.
 - **Snap tabs (toolless).**
   - Six arms on the cover reach 12 mm forward along the inside of the shell walls: two on each side wall and two on the top wall. The door block fills the bottom wall, so it has none. Each arm is 7 × 2.0 mm, with a 1.5 mm 45° gusset at its root. They were 5 × 1.4 × 10 mm, and those broke. The new arms are about 3× stronger in bending. The extra length keeps the flex strain the same (1.25%), so they're no harder to snap on. Its hook clicks into a blind pocket in the wall, so nothing shows on the outside.
   - Each hook has a shallow lead-in ramp, so the cover presses on easily. Its back face is 45°, so it prints without supports and lets go to a firm pull. To open, put a thumbnail or coin in a pry notch at the seam halfway up each side and lever the cover off. Work round both sides.
-  - Snapped on, the cover sits where the screws used to pull it. The standoffs rest on the PCB pads and hold the board on the bands, and the ribs press the pack.
-  - The arms are placed clear of the screw posts, the cable runs, the switch and the door.
-- **Optional screws.** The screw holes and insert holes stay in the model. For a case that gets carried around or dropped, fit four **M3 × 30 button-head** screws through the rear cover's standoffs and the PCB holes into **M3 × 3 mm heat-set inserts** in the front bands. Otherwise skip the inserts and screws.
-  - The standoffs (Ø5.4) bear only on the Ø5.6 pad rings and press the PCB onto the bands.
-  - The cover stops 0.2 mm short of the shell rim (`SEAM_GAP`), so the screws always clamp the board rather than the seam.
+  - Snapped on, the cover sits where it needs to. The standoffs rest on the PCB pads and hold the board on the bands, and the ribs press the pack.
+  - The arms are placed clear of the standoffs, the cable runs, the switch and the door.
+- **Locating pins (no screws).** Four Ø3.0 pins stand on the front bands and pass through the board's four Ø3.2 corner holes (0.1 mm clearance a side). They stop 0.4 mm proud of the PCB's back (`LOCATE_PIN_PROUD`), with a 0.3 mm lead-in chamfer. They keep the board centred in the 0.7 mm-looser pocket so it can't shift or rattle. They replace the heat-set inserts and M3 screws, which are gone from the model.
+  - The cover's four standoffs (Ø5.4) bear only on the Ø5.6 pad rings and hold the board on the bands. A Ø3.6 pocket in each standoff's foot takes the pin tip with 0.3 mm to spare.
+  - The cover stops 0.2 mm short of the shell rim (`SEAM_GAP`), so the standoffs, not the seam, hold the board.
   - The ribs also push the pack and wafer against the board, so the board stays seated even with the cover off.
-- **Why this differs from PLAN.md §9.**
-  - The plan had separate board screws (M3 × 8) and rear-cover screws. The bands are only 4.2 mm thick, so an insert can be at most 3 mm long to keep 1.2 mm of front skin. An M3 × 8 would come out through the front face.
-  - Separate rear-cover bosses would have to sit outside the board outline, and at 64 mm wide the corners only leave about 1.3 mm of wall around a Ø4 insert.
-  - Through-bolting avoids both problems and cuts the fastener list to 4 inserts and 4 screws.
 - **Button door.**
-  - **Why it's in the back.** BOOT and RESET are on the back of the board, 3.3 mm from the USB-C edge. Only a door in the back cover, right over that end, can reach them; a door in the top end of the case would be 100 mm away. The door sits at the bottom of the back, between the two lower screws. The hinge runs along its upper edge, so its lower edge (nearest the USB-C) lifts out.
+  - **Why it's in the back.** BOOT and RESET are on the back of the board, 3.3 mm from the USB-C edge. Only a door in the back cover, right over that end, can reach them; a door in the top end of the case would be 100 mm away. The door sits at the bottom of the back, between the two lower standoffs. The hinge runs along its upper edge, so its lower edge (nearest the USB-C) lifts out.
   - **Printed in place.** The door prints in its opening, with the cover, outside face down. There's a 0.4 mm gap all round it (`DOOR_GAP`). It hinges on two 45° cone pins that stick out of the well's side walls into sockets in the door's end barrels, with a 0.35 mm gap (`HINGE_GAP`). The cones and sockets print without supports, and the door can't come off.
   - **Thickness.** The door is 3.5 mm thick (`DOOR_T`). At first it was the same 2.0 mm as the cover plate, and it flexed enough under a thumb to press the plungers while shut. 3.5 mm is about 5× stiffer. The extra 1.5 mm is on the inside, so the well is 1.5 mm deeper (`WELL_D` 6.7) and the plungers are 1.5 mm shorter. The caps still have 0.9 mm of clearance to the shut door.
   - **Opening.** The door's outside face is flush with the back. The hinge axis is 2.2 mm in from the back, and a 45° chamfer on the cover's edge lets the door swing to about 108°. Past vertical, it stays open when the device lies face down.
@@ -166,7 +162,7 @@ The first 3MFs (before 20 Oct) stored each letter as its own tiny object. That t
 Load both files together exactly as above, answer **Yes**, and set `plate_text` to white. Bambu Studio loads the whole layout as one object and centres it. If the prime tower lands on a part, drag it into the empty corner. Don't use Auto-arrange: it would move the white labels away from their parts. The test pieces aren't on this plate, because they're meant to be printed and checked first (see the test plate below).
 
 **Test plate.** Open `out/test_plate.3mf`. It holds four objects, already spread out on the plate: the two test pieces and two plungers. Set `test_front_2` and `test_back_2` (the labels) to white. They test different halves of the case, so they're printed as separate pieces:
-- **`test_front`** (left) is the front shell only: the flush window, board pocket, bands, insert holes and microSD opening. Use it for the display fit.
+- **`test_front`** (left) is the front shell only: the flush window, board pocket, bands, locating pins and microSD opening. Use it for the display fit.
 - **`test_back`** (right) is the bottom of the rear cover only: the print-in-place door, hinge, latch, well and plunger holes. Use it for the door, with the two plungers.
 
 If you'd rather use the STLs, `test_front.stl` and `test_back.stl` are written at their plate positions, 16 mm apart. Even if they get loaded together they can't land on top of each other, but load each with only its own `_text` file. Set the white labels to filament 2.
@@ -193,7 +189,7 @@ Start from Bambu Studio's **Generic PETG** (or your brand's) profile on the **te
 | `test_front` (+ `_text`) | Face down | Front shell only, 64 × 112 × 6.8 mm, about 13 cm³; roughly 25–30 min. Print it first |
 | `test_back` (+ `_text`) | Outside face down | Rear cover only, 48 × 21 × 8 mm: the bottom of the cover with the door; print it before the cover (see Assembly) |
 | `front_shell` (+ `_text`) | **Face down** on the plate | Flat, textured front with the white USB-C label in the first layers. The USB-C top is a 12.5 mm bridge; everything else is vertical or 45° |
-| `rear_cover` (+ `_text`) | Outside face down | The door prints in place. Standoffs, tubes, snap arms and ribs point up. Counterbores are on the plate side. The well floor is a 13 mm bridge over the door |
+| `rear_cover` (+ `_text`) | Outside face down | The door prints in place. Standoffs, tubes, snap arms and ribs point up. The well floor is a 13 mm bridge over the door |
 | `plunger` | Cap down | **Print 2.** Small and tall (21 mm); put them on the same plate as a bigger part so the layers have time to cool, and add a 3 mm brim |
 | `wafer` | Board side down | 1.0 mm plate, fences up |
 | `stand` | Upright, base down | The backrest leans at 30° from vertical. The cable notch has a 45° pointed top |
@@ -202,17 +198,15 @@ All parts fit on one plate together.
 
 **Print-in-place door.** It needs the 0.15 mm elephant-foot compensation, so the door's first layer doesn't fuse to the cover's. When the cover comes off the plate, free the door gently: push it out from inside the well with a finger, then work it open and shut a few times. If it won't free up, raise `DOOR_GAP`, `HINGE_GAP` and `LATCH_GAP` by 0.05–0.1 mm and reprint `test_back`.
 
-**Heat-set inserts.** Install them with a soldering iron at about **225 °C** (PETG; follow your insert maker's chart). Rest the shell face down on a flat, hard surface so the 1.2 mm front skin is supported. Press straight down slowly and stop when the insert is flush with the band face. Don't push past flush: the hole is blind, with only 1.2 mm of skin left. Let it cool before fitting the screws.
-
 ## Assembly order
 
 1. **Test plate.** Print `out/test_plate.3mf`. Check `test_front` (the front shell) for four things:
    - Glass and window: the board's glass slides into the window with an even gap.
    - Pocket: the PCB drops into the pocket without force.
    - Flushness: lay a straightedge across the glass and frame. The glass should be flush to 0.1 mm proud.
-   - Inserts: one insert installs cleanly.
+   - Pins: the board drops over the four pins without force and doesn't shift once it's down.
 
-   You can clamp the board to `test_front` with M3 × 4 screws to check flushness under load. Adjust `GLASS_GAP`, `BOARD_GAP` or `GLASS_TO_PCB` / `GLASS_FLUSH` in `params.py`, then rebuild.
+   Adjust `GLASS_GAP`, `BOARD_GAP` or `GLASS_TO_PCB` / `GLASS_FLUSH` in `params.py`, then rebuild.
 2. **Door.** On `test_back` (the rear cover piece from the same plate), check four things:
    - The door frees up and swings past vertical.
    - The latch clicks shut and holds, and the fingernail notch opens it.
@@ -221,7 +215,7 @@ All parts fit on one plate together.
 
    If the door sticks, raise the gaps (see Printing). If the latch is too stiff or too loose, change `LATCH_RIDGE` by ±0.1 mm.
 3. **Print** the front shell, rear cover, 2 plungers, wafer and stand.
-4. **Inserts (optional).** Only if you'll use the screws: install the 4 inserts in the front bands.
+4. **Pins.** Check that the four pins on the front shell are clean. If a pin has a stringy tip, pare it with a knife, or the board won't drop over it.
 5. **Wiring.**
    - Solder the slide switch in series with the battery **+** lead.
    - Fit the 1.25 mm plugs (adapter or re-crimp).
@@ -232,7 +226,7 @@ All parts fit on one plate together.
 8. **Wafer.** Lay the wafer on the back of the board, fences up, with its four holes over the board's mounting holes. The cut-out end goes toward the USB-C. Optionally add Kapton tape over the board's rear parts first.
 9. **Pack and gasket.** Stick a thin foam ring around the speaker on the pack's back face. Set the pack between the wafer's corner fences, speaker facing back.
 10. **Light pipe.** Push a Ø3 mm acrylic rod, about **25.8 mm** long, into the cover's LED tube. That's the cover's back face to 0.5 mm above the LED; trim it to your measured LED height.
-11. **Cover.** Lower the cover so its lip and snap arms enter the shell and the standoffs pass through the wafer's holes. Press it home until all six tabs click. The cover should sit 0.2 mm short of the shell rim, with the standoffs on the PCB pads. Optionally fit 4 × M3 × 30 button-head screws (ISO 7380) and tighten until snug. The inserts are short, so don't overtighten. To open, lever at the pry notches on each side.
+11. **Cover.** Lower the cover so its lip and snap arms enter the shell and the standoffs pass through the wafer's holes. Press it home until all six tabs click. The cover should sit 0.2 mm short of the shell rim, with the standoffs on the PCB pads. To open, lever at the pry notches on each side.
 12. **Plungers.** Open the door and drop a plunger into each floor hole, shaft first. Press each cap: you should feel the button click just before the cap reaches the floor. If one doesn't click, `BTN_H` is off; measure it and reprint the plungers (see the checklist). Close the door.
 13. **Stand.** Set the device on the stand. Optionally add TPU or silicone feet under the stand.
 
@@ -259,6 +253,6 @@ Measure these, update `params.py`, re-run `build.py` and `validate.py`, and repr
 | 14 | **`GRILLE_CX`, `GRILLE_CY`** | 0, 0 | **Speaker centre on the pack's back face**, measured from the pack's centre: +X to the right (seen from the front), +Y toward the device's top. The long side runs along the device's height |
 | 15 | **`GRILLE_D`** | 22 | Speaker cone or port diameter |
 | 16 | `SW_BODY_L` × `SW_BODY_W`, `SW_SLOT_L` × `SW_SLOT_W` | 8.6 × 3.6, 4.5 × 2.2 | Your slide switch body, actuator size and travel |
-| 17 | `INSERT_HOLE_D`, `INSERT_L` | 4.0, 3.0 | Your insert maker's hole diameter and length. Keep `INSERT_L` ≤ 3.0 |
+| 17 | `LOCATE_PIN_D` (fit, not a measurement) | 3.0 | If the board won't drop over the pins, go to 2.9. If it shifts on them, go to 3.1 (the holes are 3.2) |
 | 18 | Battery connector and polarity | — | Confirm the plug against the board socket and **check +/− with a meter** |
 | 19 | `SNAP_HOOK` (fit, not a measurement) | 0.8 | After the first assembly: if the cover is too hard to press on or pull off, drop it by 0.1 mm; if it pops off too easily, raise it by 0.1 mm. `SNAP_L` and `SNAP_T` change the arm stiffness |

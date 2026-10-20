@@ -2,8 +2,9 @@
 
 The glass is exactly as wide as the PCB, so nothing behind the glass edge can hold the
 board. Instead the PCB front face bears on two solid bands over the 9.25 mm strips above
-and below the glass, PCB_FRONT behind the case face. The four M3 inserts sit in those
-bands; the rear cover's standoffs clamp the PCB onto them.
+and below the glass, PCB_FRONT behind the case face. Four pins on those bands pass
+through the PCB's corner holes and stand just proud of its back, so the board can't
+shift in the pocket; the rear cover's standoffs hold it on the bands.
 
 The glass sits flush with the front face. A 45-degree bevel (FRONT_BEVEL) runs round the
 outside of the front face, so a thumb coming in from any side meets a slope, not an edge.
@@ -50,12 +51,14 @@ def pocket_cut(depth):
     return pocket + interior
 
 
-def insert_holes():
-    holes = None
+def locate_pins():
+    """Pins through the PCB's four corner holes, tip chamfered as a lead-in."""
+    pins = None
     for x, y in P.HOLES:
-        h = cyl(P.INSERT_HOLE_D, P.PCB_FRONT - P.INSERT_L, P.PCB_FRONT + EPS, x, y)
-        holes = h if holes is None else holes + h
-    return holes
+        p = cyl(P.LOCATE_PIN_D, P.PCB_FRONT - EPS, P.PCB_BACK + P.LOCATE_PIN_PROUD, x, y)
+        p = chamfer(p.edges().group_by(Axis.Z)[0], P.LOCATE_PIN_CHAMFER)
+        pins = p if pins is None else pins + p
+    return pins
 
 
 def front_relief():
@@ -111,7 +114,6 @@ def build(text=None):
     shell = outer_body(P.SHELL_DEPTH)
     shell -= window_cut()
     shell -= pocket_cut(P.SHELL_DEPTH)
-    shell -= insert_holes()
     shell -= front_relief()
     shell -= usb_cut()
     shell -= sd_cut()
@@ -120,4 +122,5 @@ def build(text=None):
     shell -= snaps.pockets()
     shell -= snaps.pry_notches()
     shell -= text if text is not None else build_text()
+    shell += locate_pins()
     return shell

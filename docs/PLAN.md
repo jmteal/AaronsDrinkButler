@@ -55,7 +55,7 @@ Layout: a 24 px status bar at the top (time, battery %, mute icon), content in t
 ## 5. Enclosure design
 
 **Parts** (all parametric, regenerated from one `params.py`):
-1. **Front shell**: the glass sits **flush** with the front face. Since the glass is no wider than the PCB, the shell locates the board by the 9.25 mm PCB strips above and below the glass, using solid bands 4.2 mm behind the face with **M3 heat-set inserts**. The screen opening is cut to the glass outline with a 0.15–0.2 mm gap.
+1. **Front shell**: the glass sits **flush** with the front face. Since the glass is no wider than the PCB, the shell locates the board by the 9.25 mm PCB strips above and below the glass, using solid bands 4.2 mm behind the face. Four **locating pins** on the bands pass through the board's corner holes. The screen opening is cut to the glass outline with a 0.7 mm gap (0.2 mm proved too tight on the first print).
 2. **Rear cover**: snaps on with six toolless tabs (screws optional), with a **speaker grille**, a **USB-C cutout** (bottom), a **microSD slot cutout** (right side), a **power switch cutout**, a slot for the WS2812 light, and a **hinged door over BOOT and RESET** with white labels inside (see `enclosure/README.md`).
 3. **Battery + speaker bay**: your battery has the speaker mounted on it, and the pack measures **66 L × 35.5 W × 19.7 T mm** with the speaker included. Its 66 × 35.5 face sits **flat against the back of the board**, long side running along the board's 101.5 mm length and centred side to side, so it stays inside the board's footprint. The board's rear components stick out up to 4.7 mm, so a **1 mm printed wafer** sits between them and the battery (`enclosure/parts/wafer.py`; it replaced the stick-on pad first planned here). The wafer also shields the cell from board heat while charging (up to 62 °C). Ribs on the rear cover press the battery against the wafer, so no glue is needed.
    - The battery leaves about 9.5 mm free on each side, so the edge sockets stay reachable (SD on the right, battery and speaker sockets on the sides).
@@ -116,7 +116,7 @@ Phases 1a–1d each work in their own folder on their own branch, so they can ru
 - Nothing to buy for the board-to-pack spacer: it's the printed 1 mm wafer. Optional Kapton tape on the PCB side
 - Speaker: mounted on the battery pack (yours). It needs a 1.25 mm 2-pin plug for the board's speaker socket
 - Mini slide switch (e.g. SS12D00) on the battery lead
-- 4× M3 heat-set inserts (short) + 4× M3×8 screws; 4× M2 or M3 screws for the rear cover
+- No screws or inserts: the rear cover snaps on, and printed pins locate the board
 - PETG or ASA filament; foam tape for the battery
 
 ## 10. Decisions (approved defaults)

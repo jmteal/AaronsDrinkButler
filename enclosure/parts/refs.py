@@ -12,7 +12,10 @@ def glass():
 
 
 def pcb():
-    return prism(rrect(P.PCB_W, P.PCB_H, P.PCB_R), P.PCB_FRONT, P.PCB_BACK)
+    board = prism(rrect(P.PCB_W, P.PCB_H, P.PCB_R), P.PCB_FRONT, P.PCB_BACK)
+    for x, y in P.HOLES:
+        board -= cyl(P.HOLE_D, P.PCB_FRONT - 0.1, P.PCB_BACK + 0.1, x, y)
+    return board
 
 
 def rear_parts():
@@ -76,15 +79,5 @@ def cable_channels():
     return left, right
 
 
-def screws():
-    """M3 x 30 button heads seated in the counterbores."""
-    solid = None
-    seat = P.DEPTH - P.CBORE_DEPTH
-    for x, y in P.HOLES:
-        s = cyl(3.0, seat - P.SCREW_L, seat, x, y) + cyl(P.SCREW_HEAD_D, seat, seat + P.SCREW_HEAD_H, x, y)
-        solid = s if solid is None else solid + s
-    return solid
-
-
 __all__ = ["board", "glass", "pcb", "rear_parts", "button_tops", "pack", "usb_plug",
-           "sd_card_path", "cable_channels", "screws", "Box", "Pos"]
+           "sd_card_path", "cable_channels", "Box", "Pos"]

@@ -96,8 +96,7 @@ GLASS_GAP = 0.7          # [design] per side, glass to window (0.2 was too tight
 BOARD_GAP = 0.7          # [design] per side, PCB to pocket (matches GLASS_GAP: glass and PCB are
                          #   the same width, so the pocket has to grow with the window)
 COVER_LIP_GAP = 0.2      # [design] cover locating lip to shell inner wall
-SEAM_GAP = 0.2           # [design] cover to shell rim; the screws clamp via the standoffs
-M3_CLEAR_D = 3.4         # [design] clearance hole for M3
+SEAM_GAP = 0.2           # [design] cover to shell rim; the standoffs hold the board on the bands
 
 # --- Walls and outer shape --------------------------------------------------------------
 OUTER_W = 64.0           # [design]
@@ -105,7 +104,6 @@ OUTER_H = 112.0          # [design]
 OUTER_R = 4.0            # [design] vertical corner radius
 WALL = 2.0               # [design] side walls behind the board
 COVER_T = 2.0            # [design] rear cover plate
-FRONT_SKIN_MIN = 1.2     # [design] minimum plastic in front of an insert
 EDGE_CHAMFER = 0.6       # [design] outer back edges
 FRONT_BEVEL = 1.5        # [design] 45-degree bevel round the front face (bezel edge, finger friendly)
 WINDOW_CHAMFER = 0.4     # [design] window edge on the front face
@@ -113,14 +111,14 @@ POCKET_LIP = 0.5         # [design] board pocket continues this far behind the P
 COVER_LIP_H = 2.0        # [design] locating lip height
 COVER_LIP_T = 1.2        # [design] locating lip thickness
 
-# --- Fasteners: 4x M3 through the cover, standoffs, PCB, into inserts in the front bands --
-INSERT_HOLE_D = 4.0      # [assumed] follow your insert maker's hole spec
-INSERT_L = 3.0           # [assumed] short M3 insert (M3 x 3); 4.2 band - 1.2 skin leaves 3.0 max
-SCREW_L = 30.0           # [design] M3 x 30 button head (ISO 7380)
-SCREW_HEAD_D = 5.7       # [design] ISO 7380 M3
-SCREW_HEAD_H = 1.65      # [design]
-CBORE_D = 6.2            # [design] counterbore for the head
-CBORE_DEPTH = 2.0        # [design]
+# --- Board location: 4 pins on the front bands through the PCB's corner holes -----------
+# The pins replace the heat-set inserts and M3 screws: they stop the board shifting in the
+# (now 0.7 mm looser) pocket, and the snap-on cover's standoffs hold it on the bands.
+LOCATE_PIN_D = 3.0       # [design] pin diameter (PCB holes are 3.2, so 0.1 clearance a side)
+LOCATE_PIN_PROUD = 0.4   # [design] pin tip stands this far behind the PCB back ("just proud")
+LOCATE_PIN_CHAMFER = 0.3 # [design] lead-in chamfer on the tip
+PIN_POCKET_D = 3.6       # [design] pocket in each standoff's foot for the pin tip
+PIN_POCKET_CLEAR = 0.3   # [design] pocket depth past the pin tip
 STANDOFF_OD = 5.4        # [design] bears on the Ø5.6 pad ring only
 STANDOFF_BASE_OD = 8.0   # [design] thicker root at the cover, holds the counterbore
 STANDOFF_BASE_H = 3.0    # [design]
@@ -324,7 +322,7 @@ LATCH_ENGAGE = LATCH_RIDGE - DOOR_GAP            # how far the ridge reaches pas
 BTN_TOP = PCB_BACK + BTN_H
 PLUNGERS = [(BOOT_X, BTN_Y, "BOOT"), (RESET_X, BTN_Y, "RESET")]
 assert HINGE_BARREL_R + DOOR_GAP <= HINGE_CLEAR_R, "door barrel would rub the cover"
-assert DOOR_OPEN_HW + 0.8 <= HOLES[0][0] * -1 - CBORE_D / 2 + 1e-6, "door opening cuts a screw counterbore"
+assert DOOR_OPEN_HW + 0.8 <= -HOLES[0][0] - STANDOFF_OD / 2 + 1e-6, "door well cuts into a standoff"
 
 SNAP_TIP = COVER_INNER - SNAP_L                  # arm tip depth
 SNAP_ENGAGE = SNAP_HOOK - COVER_LIP_GAP          # hook reach past the wall face

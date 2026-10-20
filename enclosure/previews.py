@@ -122,8 +122,7 @@ def exploded(parts):
     add(p, Pos(0, 0, -4.4 * step) * parts["rear_cover"], COLORS["cover"])
     add(p, Pos(0, 0, -4.4 * step) * parts["door"], COLORS["door"])
     add(p, Pos(0, 0, -5.4 * step) * plunger.installed(), COLORS["plunger"])
-    add(p, Pos(0, 0, -6.2 * step) * refs.screws(), COLORS["screws"])
-    title(p, "Exploded: shell, board, wafer, pack, cover + door, plungers, 4x M3x30")
+    title(p, "Exploded: shell (with locating pins), board, wafer, pack, cover + door, plungers")
     return shoot(p, "exploded", (-330, 170, -40), focal=(0, 0, -2.6 * step), zoom=1.0)
 
 
@@ -141,8 +140,6 @@ def section(parts, x, name, label):
         (refs.pack(), COLORS["pack"]),
         (plunger.installed(), COLORS["plunger"]),
     ]
-    if abs(x) > 1:
-        bodies.append((refs.screws(), COLORS["screws"]))
     for body, color in bodies:
         try:
             half = split(body, bisect_by=plane, keep=Keep.BOTTOM)
@@ -190,8 +187,8 @@ def render_all(parts):
         iso_back(parts),
         exploded(parts),
         section(parts, 0.0, "section_center", "Section X=0: glass flush, bands, PCB, wafer, pack, ribs, grille, USB-C"),
-        section(parts, P.HOLES[-1][0], "section_screw",
-                "Section through the right-hand screws: standoff clamps the PCB onto the insert"),
+        section(parts, P.HOLES[-1][0], "section_pin",
+                "Section through the right-hand pins: pin through the PCB hole, standoff on the pad"),
         section_button(parts),
         section_snap(parts),
         cover_inside(parts),
