@@ -22,7 +22,7 @@
 
 static const char *TAG = "speech";
 
-#define MAX_FRAME   (ADB_SPEECH_RATE * 120 / 1000)   // longest Opus frame, 120 ms
+#define MAX_FRAME   (ADB_SPEECH_RATE * 60 / 1000)    // one 60 ms Opus frame
 #define STACK_BYTES (16 * 1024)                      // the Opus decoder is stack-hungry
 
 static const adb_pack_t *s_pack;
@@ -43,7 +43,7 @@ static void play_clip(adb_speech_t *clip, uint32_t gen)
     esp_opus_dec_cfg_t cfg = {
         .sample_rate = ADB_SPEECH_RATE,
         .channel = 1,
-        .frame_duration = ESP_OPUS_DEC_FRAME_DURATION_INVALID,   // any size up to 120 ms
+        .frame_duration = ESP_OPUS_DEC_FRAME_DURATION_60_MS,     // opusenc --framesize 60 (adb/audio.py)
         .self_delimited = false,
     };
     void *dec = NULL;
