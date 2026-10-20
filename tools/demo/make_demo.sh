@@ -78,4 +78,6 @@ for w in 640 480 400 320; do   # the largest size that fits under GIF_MAX_MB
 done
 rm -f "$PAL"
 
-ls -lh "$OUT/demo.mp4" "$OUT/demo.gif" | awk '{print $5, $NF}'
+for f in "$OUT/demo.mp4" "$OUT/demo.gif"; do
+    echo "$(du -h "$f" | cut -f1) $f"
+done
