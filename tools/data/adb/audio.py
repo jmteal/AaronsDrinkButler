@@ -83,7 +83,7 @@ def _install(lock: Path, stamp_name: str) -> None:
     if stamp.exists() and stamp.read_text() == _sha(lock):
         return
     print(f"tts: installing {lock.name} into {VENV.relative_to(TOOLS_DIR.parent.parent)} "
-          "(first run only; about 1.5 GB)", flush=True)
+          "(first run only; about 1.3 GB)", flush=True)
     pip = [str(venv_python()), "-m", "pip", "install", "--disable-pip-version-check", "--no-deps",
            "-r", str(lock)]
     subprocess.run(pip, check=True)

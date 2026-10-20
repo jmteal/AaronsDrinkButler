@@ -38,7 +38,8 @@ UNITS = {
 SAY = [
     (r"\b7UP\b", "Seven Up"), (r"\bB-52\b", "B fifty-two"), (r"&", " and "), (r"\s*–\s*", " to "),
     (r"\bml\b", "milliliters"), (r"\boz\b", "ounces"), (r"\bIBA\b", "I B A"), (r"°C\b", " degrees"),
-    (r"\bSt\.\s", "Saint "), (r"\bNo\.\s?(\d)", r"number \1"),
+    (r"\bSt\.\s", "Saint "), (r"\bNo\.\s?(\d)", r"number \1"), (r"#\s?(\d)", r"number \1"),
+    (r"(\d)\s?%", r"\1 percent"),
 ]
 
 
@@ -96,14 +97,26 @@ COMMON = {"gin", "vodka", "sweet", "dry", "white", "dark", "fresh", "lime", "lem
           "coconut", "cherry", "blue", "triple", "absinthe", "espresso", "agave", "maple", "cold", "tonic",
           "ginger", "prosecco", "water", "milk", "heavy", "whole", "elderflower", "watermelon",
           "strawberry", "cucumber", "basil", "grated", "freshly", "spiced", "overproof", "apricot",
-          "melon", "banana", "vanilla", "chocolate", "green", "celery", "blended", "peated", "yellow", "red", "black"}
+          "melon", "banana", "vanilla", "chocolate", "green", "celery", "blended", "peated", "star", "slice", "yellow", "red", "black"}
+
+
+QUANTITY_WORDS = {"a", "an", "some", "half", "one", "two", "three", "four"}
 
 
 def ingredient_sentence(i: dict, context: str = "") -> str:
     name = clean_name(i["display"])
     amt, unit = i.get("amount"), i["unit"]
     low = lower_first(name, context)
-    if re.match(r"^(a )?(splash|dash|drop|pinch) of ", low) and unit != "top":
+    first = low.split()[0].lower()
+    if first in QUANTITY_WORDS:              # "Half an orange wheel", "A coin-sized slice"
+        low = low[:1].lower() + low[1:]
+    if re.match(r"^\d", name) and not re.match(r"^\d+\s*%", name) and unit != "top":
+        # The display carries its own measure ("2 tsp water", "1 lime, cut into wedges").
+        s = re.sub(r"^(\d+)(?:\s*-\s*\d+)?", lambda m: words(int(m.group(1))), name)
+        s = cap(re.sub(r"\btsp\b", "teaspoons of", re.sub(r"\btbsp\b", "tablespoons of", s)))
+        s = re.sub(r"^One teaspoons\b", "One teaspoon", s)
+    elif re.match(r"^(a )?(splash|dash|drop|pinch)\b", low, re.I) and unit != "top":
+        low = low[:1].lower() + low[1:]
         s = cap(low if low.startswith("a ") else "a " + low)   # "Splash of water" with a nominal amount
     elif unit in UNITS and UNITS[unit][0] in low.split():
         s = f"{cap(words(round(amt or 1)))} {low}"            # "Sugar cube", 1 cube -> "One sugar cube"
@@ -111,11 +124,11 @@ def ingredient_sentence(i: dict, context: str = "") -> str:
         low = re.sub(r"^(a )?splash of ", "", low)
         s = f"{cap(low)}, to top up"
     elif unit == "piece":
-        if re.match(r"^\d", name):          # "1 lime, cut into small wedges"
-            s = re.sub(r"^(\d+)(?:\s*-\s*\d+)?", lambda m: words(int(m.group(1))), name)
-            s = cap(s)
-        elif amt in (None, 1):
-            s = cap(low) if low.split()[0] in ("a", "an", "some") else cap(("an " if low[0] in "aeiou" else "a ") + low)
+        plural = re.search(r"[^s]s$", low.split(",")[0].split()[-1]) is not None
+        if amt == 1 and plural and re.search(r"(stick|slice|wedge|wheel|sprig)s\b", low):
+            low, plural = re.sub(r"(stick|slice|wedge|wheel|sprig)s\b", r"\1", low, count=1), False
+        if amt in (None, 1):
+            s = cap(low) if first in QUANTITY_WORDS or plural else cap(("an " if low[0] in "aeiou" else "a ") + low)
         else:
             s = f"{cap(words(round(amt)))} {low}"
     elif unit in UNITS:
@@ -172,6 +185,20 @@ def split_step(step: str) -> list[str]:
     return out
 
 
+def garnish_sentence(g: str) -> str:
+    """'Garnish with a sugared rim.' (the same rules as adb/steps.py garnish_phrase, which
+    can't be imported here: it pulls in PyYAML)."""
+    g = clean_name(g).rstrip(".")
+    segs = [x.strip() for x in g.replace(" and ", ", ").split(",") if x.strip()]
+    segs = [x if x.split()[0] in ("Champagne",) else x[0].lower() + x[1:] for x in segs]
+    w = segs[0].split()
+    plural = any(x.endswith("s") and not x.endswith("ss") for x in (w[0], w[-1]))
+    if w[0] not in ("a", "an", "the", "half", "three", "two", "fresh", "grated", "candied", "some") and not plural:
+        segs[0] = ("an " if segs[0][0] in "aeiou" else "a ") + segs[0]
+    text = segs[0] if len(segs) == 1 else ", ".join(segs[:-1]) + " and " + segs[-1]
+    return f"Garnish with {text}."
+
+
 def parts(r: dict) -> list[tuple[str, bool]]:
     """(sentence, section_break_after) for one recipe: name, glass, ingredients, steps,
     garnish. A section break gets the longer pause."""
@@ -185,8 +212,8 @@ def parts(r: dict) -> list[tuple[str, bool]]:
         out[-1] = (out[-1][0], True)
     for st in r["steps"]:
         out += [(x, False) for x in split_step(st)]
-    if r.get("garnish") and not any(x.lower().startswith("garnish") for x in r["steps"]):
-        out.append((f"Garnish with {lower_first(clean_name(r['garnish']), 'a')}.", False))
+    if r.get("garnish") and not any("garnish" in x.lower() for x in r["steps"]):
+        out.append((garnish_sentence(r["garnish"]), False))
     out.append(("Enjoy!", False))
     return [(speakable(t), brk) for t, brk in out]
 

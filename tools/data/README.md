@@ -68,16 +68,20 @@ made here, offline, with [Parler-TTS](https://github.com/huggingface/parler-tts)
 2. creates `tools/data/.venv-tts` (git-ignored) with Python 3.11–3.13 (`python3.13` etc. on
    `PATH`, or set `ADB_TTS_PYTHON`) and installs [`requirements-tts.lock`](requirements-tts.lock):
    every package pinned, Parler-TTS and descript-audiotools as pinned GitHub tarballs
-   (torch 2.6.0, transformers 4.46.1), about 1.5 GB;
+   (torch 2.6.0, transformers 4.46.1), about 1.3 GB;
 3. downloads the model (`parler-tts/parler-tts-mini-v1`, pinned revision, about 3.5 GB) to the
    Hugging Face cache (`~/.cache/huggingface`);
 4. records every sentence, then joins and encodes each drink.
 
-**Run time.** On an M3 MacBook Air the model runs on the **CPU**; Apple's MPS backend works but
-is about twice as slow for this model (one sentence at a time, autoregressive), so `--device
-auto` uses the CPU on Apple silicon (`--device mps` to try it). Speech comes out at about
-0.2–0.3x real time, so the first full run (200 drinks, ~2,300 sentences, ~90 min of audio)
-takes several hours unattended. It prints progress and an ETA every 10 sentences.
+**Run time.** Measured on an M3 MacBook Air (16 GB): the model runs on the **CPU** at
+about 0.19x real time. Apple's MPS backend works but is about twice as slow for this model
+(one sentence at a time, autoregressive), and neither batching nor two parallel workers
+helped, so `--device auto` uses the CPU (`--device mps` to try it anyway). The 200 drinks come
+to about 1,050 distinct sentences (many repeat, like "Strain into a chilled coupe."), 46 min
+of distinct speech and 96 min in all. The first full run with `--verify` took 4 h 50 min
+unattended, 174 of them re-recordings; without `--verify` expect about 4 hours. Close other
+apps first: the run was about 50% faster once the Mac had memory to spare. It prints progress
+and an ETA every 10 sentences. Result: 7.7 MB of speech, a 9.9 MB pack, 77% of the partition.
 
 **Caching.** Every sentence clip is kept in `tools/data/.cache/tts/clips/`, keyed by a hash of
 the sentence text, the sound settings in `voice.yaml` (speaker, description, seed) and the
@@ -111,8 +115,10 @@ transcribes each sentence with Whisper `small` on the CPU, and compares it with 
 A sentence whose word error rate is above `verify_wer` is re-recorded with other seeds
 (`seed + 1000`, `+ 2000`, ...) up to `verify_retries` times, keeping the best take; whatever
 still fails is listed at the end. Results are cached with the clips, so a second `--verify`
-only checks new clips. Expect some false alarms on drink and brand names (Whisper hears
-"Campari" fine but not every amaro).
+only checks new clips. After the first full run about 70 sentences were still listed. Most
+are false alarms: one-word drink names without context ("Daiquiri." heard as "Takiri") and
+spellings Whisper writes differently. The real misses are mostly French words (crème de
+cassis, curaçao, Bénédictine), which Parler pronounces poorly.
 
 ## Reviewing tags
 

@@ -167,13 +167,17 @@ def norm_words(s: str) -> list[str]:
     s = re.sub(r"(\d+)\s*/\s*4", lambda m: {"1": "a quarter", "2": "a half", "3": "three quarters"}.get(m.group(1), m.group(0)), s)
     s = re.sub(r"(\d+)\s*/\s*2", "a half", s)
     s = re.sub(r"\d+", lambda m: speech.words(int(m.group())), s)
-    s = re.sub(r"[^a-z' ]+", " ", s.replace("-", " "))
-    return s.split()
+    s = re.sub(r"[^a-z ]+", " ", s.replace("-", " ").replace("'", ""))
+    return [SAME.get(w, w) for w in s.split()]
+
+
+# Spellings Whisper and our text disagree on that sound the same.
+SAME = {"whiskey": "whisky", "rum": "rhum"}
 
 
 def wer(ref: str, hyp: str) -> float:
     r, h = norm_words(ref), norm_words(hyp)
-    if not r:
+    if not r or "".join(r) == "".join(h):    # "barspoon" vs "bar spoon", "heatproof" vs "heat proof"
         return 0.0
     d = list(range(len(h) + 1))
     for i in range(1, len(r) + 1):
@@ -281,8 +285,9 @@ def main(job_path: str, result_path: str) -> int:
             retried += 1
         for text in texts:
             m = meta_of(clips_dir, keys[text])
-            if m["wer"] > max_wer:
-                failed.append({"text": text, "heard": m["heard"], "wer": round(m["wer"], 3)})
+            w = wer(text, m["heard"])          # re-scored, so comparison fixes apply to old clips
+            if w > max_wer:
+                failed.append({"text": text, "heard": m["heard"], "wer": round(w, 3)})
 
     Path(result_path).write_text(json.dumps({
         "device": tts.device, "voice": voice, "voice_hash": vh, "clips": keys,
