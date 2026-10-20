@@ -99,6 +99,13 @@ device shows them), the steps and the garnish. Numbers and symbols are written o
 ("ten to fifteen seconds"). Sentences are recorded one at a time, because Parler drifts on long
 inputs, and joined with short silences. Print a script with `python3 -m adb.speech negroni`.
 
+**Pronunciation.** Parler mangles French and brand names (crème de cassis, curaçao,
+Bénédictine, Kir, Bijou...), so `RESPELL` in `adb/speech.py` gives the model a phonetic
+spelling instead ("krem duh ka sees", "kyoor a sow", "Benedicteen"). Only the TTS sees it:
+the recipe text, the screen and the `--verify` reference keep the real spelling, so Whisper
+checks that the respelled audio sounds like the real word. Add an entry when a drink
+sounds wrong; only the sentences containing it are re-recorded.
+
 **The persona** is [`voice.yaml`](voice.yaml): one of Parler's 34 named speakers (Laura, Gary,
 Jon, Lea, Karen, Rick, Brenda, David, Eileen, Jordan, Mike, Yann, Joy, James, Eric, Lauren,
 Rose, Will, Jason, Aaron, Naomie, Alisa, Patrick, Jerry, Tina, Jenna, Bill, Tom, Carol, Barbara,
@@ -115,10 +122,9 @@ transcribes each sentence with Whisper `small` on the CPU, and compares it with 
 A sentence whose word error rate is above `verify_wer` is re-recorded with other seeds
 (`seed + 1000`, `+ 2000`, ...) up to `verify_retries` times, keeping the best take; whatever
 still fails is listed at the end. Results are cached with the clips, so a second `--verify`
-only checks new clips. After the first full run about 70 sentences were still listed. Most
-are false alarms: one-word drink names without context ("Daiquiri." heard as "Takiri") and
-spellings Whisper writes differently. The real misses are mostly French words (crème de
-cassis, curaçao, Bénédictine), which Parler pronounces poorly.
+only checks new clips. Most of what stays listed are false alarms: one-word drink names
+without context ("Daiquiri." heard as "Takiri") and spellings Whisper writes differently.
+The real misses were French words, now handled by the respellings above.
 
 ## Reviewing tags
 

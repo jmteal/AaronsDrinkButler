@@ -4,7 +4,7 @@ build.py pack starts this with a job file and reads back a result file; nothing 
 
     tts_worker.py JOB.json RESULT.json
 
-Job:    {"sentences": [...], "clips_dir": "...", "voice": "voice.yaml", "verify": false,
+Job:    {"sentences": [...], "refs": {sentence: text to verify against}, "clips_dir": "...", "voice": "voice.yaml", "verify": false,
          "device": "auto"}
 Result: {"device": "mps", "voice": {...}, "clips": {sentence: key}, "generated": n,
          "verify_failed": [{"text", "heard", "wer"}], ...}
@@ -216,6 +216,7 @@ def main(job_path: str, result_path: str) -> int:
     clips_dir = Path(job["clips_dir"])
     clips_dir.mkdir(parents=True, exist_ok=True)
     texts = list(dict.fromkeys(job["sentences"]))
+    refs = job.get("refs") or {}     # spoken (respelled) text -> the real text Whisper should hear
     keys = {t: clip_key(vh, t) for t in texts}
     todo = [t for t in texts if not (clips_dir / f"{keys[t]}.wav").exists()]
     tts = Tts(voice, job.get("device", "auto"))
@@ -240,7 +241,7 @@ def main(job_path: str, result_path: str) -> int:
         pcm = record(text, voice["seed"])
         meta = {"seed": voice["seed"]}
         if verify:
-            meta.update(check(text, pcm, whisper))
+            meta.update(check(refs.get(text, text), pcm, whisper))
         save(text, pcm, meta)
         audio_s += len(pcm) / OUT_RATE
         chars_done += len(text)
@@ -259,7 +260,7 @@ def main(job_path: str, result_path: str) -> int:
             log(f"verify: transcribing {len(unchecked)} clips")
         for n, text in enumerate(unchecked, 1):
             m = meta_of(clips_dir, keys[text])
-            m.update(check(text, read_wav(clips_dir / f"{keys[text]}.wav"), whisper))
+            m.update(check(refs.get(text, text), read_wav(clips_dir / f"{keys[text]}.wav"), whisper))
             (clips_dir / f"{keys[text]}.json").write_text(json.dumps(m))
             if n % 50 == 0 or n == len(unchecked):
                 log(f"verify: {n}/{len(unchecked)} transcribed in {fmt_eta(time.time() - t1)}")
@@ -271,7 +272,7 @@ def main(job_path: str, result_path: str) -> int:
             for attempt in range(1, retries + 1):
                 seed = voice["seed"] + 1000 * attempt
                 pcm = record(text, seed)
-                c = check(text, pcm, whisper)
+                c = check(refs.get(text, text), pcm, whisper)
                 log(f"verify: retry {attempt} seed {seed}: WER {c['wer']:.2f} '{text}' heard '{c['heard']}'")
                 if c["wer"] < best["wer"]:
                     best_pcm, best = pcm, {"text": text, "seed": seed, **c}
@@ -285,9 +286,9 @@ def main(job_path: str, result_path: str) -> int:
             retried += 1
         for text in texts:
             m = meta_of(clips_dir, keys[text])
-            w = wer(text, m["heard"])          # re-scored, so comparison fixes apply to old clips
+            w = wer(refs.get(text, text), m["heard"])   # re-scored, so comparison fixes apply to old clips
             if w > max_wer:
-                failed.append({"text": text, "heard": m["heard"], "wer": round(w, 3)})
+                failed.append({"text": refs.get(text, text), "heard": m["heard"], "wer": round(w, 3)})
 
     Path(result_path).write_text(json.dumps({
         "device": tts.device, "voice": voice, "voice_hash": vh, "clips": keys,

@@ -101,14 +101,14 @@ def ensure_venv(verify: bool) -> Path:
     return venv_python()
 
 
-def run_worker(sentences: list[str], verify: bool, device: str) -> dict:
+def run_worker(sentences: list[str], verify: bool, device: str, refs: dict[str, str]) -> dict:
     py = ensure_venv(verify)
     TTS_CACHE.mkdir(parents=True, exist_ok=True)
     # Per-process job files, so two packs at once (e.g. a test build during a long run) don't
     # clobber each other. result.json is the last finished run, for `build.py say`.
     job = TTS_CACHE / f"job-{os.getpid()}.json"
     result = TTS_CACHE / f"result-{os.getpid()}.json"
-    job.write_text(json.dumps({"sentences": sentences, "clips_dir": str(TTS_CACHE / "clips"),
+    job.write_text(json.dumps({"sentences": sentences, "refs": refs, "clips_dir": str(TTS_CACHE / "clips"),
                                "voice": str(VOICE), "verify": verify, "device": device}))
     result.unlink(missing_ok=True)
     env = dict(os.environ, PYTORCH_ENABLE_MPS_FALLBACK="1", TOKENIZERS_PARALLELISM="false",
@@ -199,9 +199,11 @@ def build(recipes: list[dict], verify: bool = False, device: str = "auto") -> di
     only = os.environ.get("ADB_TTS_ONLY")     # testing: comma-separated drink ids
     if only:
         recipes = [r for r in recipes if r["id"] in only.split(",")]
-    scripts = {r["id"]: speech.parts(r) for r in recipes}
+    # Clips are recorded (and keyed) by the spoken text; verify compares with the real text.
+    scripts = {r["id"]: [(speech.spoken(t), b) for t, b in speech.parts(r)] for r in recipes}
+    refs = {speech.spoken(t): t for r in recipes for t, _ in speech.parts(r)}
     sentences = [t for p in scripts.values() for t, _ in p]
-    res = run_worker(sentences, verify, device)
+    res = run_worker(sentences, verify, device, refs)
     voice, keys = res["voice"], res["clips"]
     clips_dir = TTS_CACHE / "clips"
     drinks_dir = TTS_CACHE / "drinks"
@@ -249,7 +251,7 @@ def clip_path(drink_id: str, data_dir: Path) -> tuple[Path, list]:
     if not result.exists():
         raise SystemExit("say: no clips yet; run build.py pack first")
     res = json.loads(result.read_text())
-    parts = speech.parts(recipes[drink_id])
+    parts = [(speech.spoken(t), b) for t, b in speech.parts(recipes[drink_id])]
     try:
         ks = [res["clips"][t] for t, _ in parts]
     except KeyError:
@@ -269,7 +271,7 @@ def say(drink_id: str, data_dir: Path, path_only: bool = False) -> int:
         return 0
     need_opusenc()
     opusdec = shutil.which("opusdec")
-    print("\n".join(t for t, _ in parts))
+    print("\n".join(speech.script(recipes[drink_id])))
     with tempfile.TemporaryDirectory() as td:
         wav = Path(td) / f"{drink_id}.wav"
         subprocess.run([opusdec, "--quiet", "--rate", str(RATE), str(ogg), str(wav)], check=True)

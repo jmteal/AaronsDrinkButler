@@ -43,6 +43,29 @@ SAY = [
 ]
 
 
+# Respellings for words Parler-TTS mispronounces (mostly French), applied only to the text the
+# model reads: the recipe text, the cache's verify reference and everything on screen keep the
+# real spelling. Tested with Whisper: e.g. "One barspoon of Bénédictine." went from a word
+# error rate of 1.0 to 0.0. Changing an entry re-records only the sentences that contain it.
+RESPELL = [
+    (r"crème de cassis", "krem duh ka sees"), (r"cassis", "ka sees"),
+    (r"crème de menthe", "krem de mont"), (r"crème de cacao", "krem de ka kow"),
+    (r"crème de violette", "krem de vee oh let"), (r"crème de mûre", "krem de moor"),
+    (r"crème", "krem"), (r"curaçao", "kyoor a sow"), (r"bénédictine", "Benedicteen"),
+    (r"kir", "Keer"), (r"royale", "roy all"), (r"bijou", "Beezhoo"), (r"cachaça", "ka sha sa"),
+    (r"drambuie", "dram boo ee"), (r"sazerac", "Sazzer rack"), (r"vieux carré", "Vyoo kar ay"),
+    (r"boulevardier", "Boolevar dee ay"), (r"agricole", "ag ree cole"), (r"cynar", "chee nar"),
+    (r"canchánchara", "kan chan cha ra"), (r"sbagliato", "zbal yah toe"),
+]
+
+
+def spoken(text: str) -> str:
+    """The sentence as the TTS should read it (see RESPELL)."""
+    for pat, rep in RESPELL:
+        text = re.sub(r"\b" + pat + r"\b", rep, text, flags=re.I)
+    return cap(text)
+
+
 def words(n: int) -> str:
     if n < 20:
         return ONES[n]
