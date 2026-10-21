@@ -119,6 +119,13 @@ PLATE_LAYOUT = [
 ]
 
 
+# Same plate without the stand (for when the stand is already printed).
+PLATE_VARIANTS = {
+    "plate": PLATE_LAYOUT,
+    "plate_no_stand": [e for e in PLATE_LAYOUT if e[0] != "stand"],
+}
+
+
 def plate_bodies(parts, layout=PLATE_LAYOUT):
     """Every print in its print pose, moved to its place on the plate.
 
@@ -154,10 +161,11 @@ def layout_objects(parts, layout):
 
 
 def export_plate(parts):
-    black, white, _ = plate_bodies(parts)
-    write_stl(_one(black), OUT / "plate.stl")
-    write_stl(_one(white), OUT / "plate_text.stl")
-    threemf.write(OUT / "plate.3mf", layout_objects(parts, PLATE_LAYOUT))
+    for name, layout in PLATE_VARIANTS.items():
+        black, white, _ = plate_bodies(parts, layout)
+        write_stl(_one(black), OUT / f"{name}.stl")
+        write_stl(_one(white), OUT / f"{name}_text.stl")
+        threemf.write(OUT / f"{name}.3mf", layout_objects(parts, layout))
 
 
 def test_move(parts, name):

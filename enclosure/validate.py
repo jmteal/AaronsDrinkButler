@@ -165,11 +165,12 @@ def threemf_checks(bambu=False):
     These are what Bambu Studio checks on import. Before this, each letter was its own tiny
     object, which set off its "too small" and "multiple heights" prompts.
     """
-    from build import OUT, PLATE, PLATE_LAYOUT, PRINTS, TEST_LAYOUT
+    from build import OUT, PLATE, PLATE_VARIANTS, PRINTS, TEST_LAYOUT
     from parts import threemf
     print("3MF files (what Bambu Studio sees)")
     expect = {f"{n}.3mf": [n] for n in PRINTS}
-    expect["plate.3mf"] = [n for n, *_ in PLATE_LAYOUT]
+    for pname, layout in PLATE_VARIANTS.items():
+        expect[f"{pname}.3mf"] = [n for n, *_ in layout]
     expect["test_plate.3mf"] = [n for n, *_ in TEST_LAYOUT]
     for fname, prints in expect.items():
         objs = threemf.summary(OUT / fname)

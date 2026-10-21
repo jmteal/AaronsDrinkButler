@@ -159,6 +159,8 @@ The first 3MFs (before 20 Oct) stored each letter as its own tiny object. That t
 - 10 mm from the edges and 10 mm apart, footprint 214 × 192 mm;
 - a 60 × 60 mm corner left empty for the prime tower.
 
+**Without the stand.** `out/plate_no_stand.stl` + `plate_no_stand_text.stl` (and `plate_no_stand.3mf`) are the same plate minus the stand, for when the stand is already printed. The other parts are in the same places.
+
 Load both files together exactly as above, answer **Yes**, and set `plate_text` to white. Bambu Studio loads the whole layout as one object and centres it. If the prime tower lands on a part, drag it into the empty corner. Don't use Auto-arrange: it would move the white labels away from their parts. The test pieces aren't on this plate, because they're meant to be printed and checked first (see the test plate below).
 
 **Test plate.** Open `out/test_plate.3mf`. It holds four objects, already spread out on the plate: the two test pieces and two plungers. Set `test_front_2` and `test_back_2` (the labels) to white. They test different halves of the case, so they're printed as separate pieces:
