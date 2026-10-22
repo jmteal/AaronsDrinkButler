@@ -28,6 +28,7 @@ static const char *TAG = "bsp_audio";
 
 static esp_codec_dev_handle_t s_codec;
 static SemaphoreHandle_t s_lock;
+static int16_t silence[BSP_AUDIO_SAMPLE_RATE * TAIL_MS / 1000];
 
 static void amp_set(bool on)
 {
@@ -133,7 +134,6 @@ esp_err_t bsp_audio_play(const int16_t *pcm, size_t samples)
     ESP_RETURN_ON_FALSE(s_codec, ESP_ERR_INVALID_STATE, TAG, "audio not started");
     ESP_RETURN_ON_FALSE(pcm || !samples, ESP_ERR_INVALID_ARG, TAG, "no samples");
 
-    static int16_t silence[BSP_AUDIO_SAMPLE_RATE * TAIL_MS / 1000];
     esp_err_t err = ESP_OK;
 
     xSemaphoreTake(s_lock, portMAX_DELAY);
@@ -148,4 +148,26 @@ esp_err_t bsp_audio_play(const int16_t *pcm, size_t samples)
     amp_set(false);
     xSemaphoreGive(s_lock);
     return err;
+}
+
+esp_err_t bsp_audio_stream_begin(uint32_t timeout_ms)
+{
+    ESP_RETURN_ON_FALSE(s_codec, ESP_ERR_INVALID_STATE, TAG, "audio not started");
+    if (xSemaphoreTake(s_lock, pdMS_TO_TICKS(timeout_ms)) != pdTRUE) return ESP_ERR_TIMEOUT;
+    amp_set(true);
+    vTaskDelay(pdMS_TO_TICKS(AMP_SETTLE_MS));
+    return ESP_OK;
+}
+
+esp_err_t bsp_audio_stream_write(const int16_t *pcm, size_t samples)
+{
+    return esp_codec_dev_write(s_codec, (void *)pcm, samples * sizeof(int16_t)) == ESP_CODEC_DEV_OK
+               ? ESP_OK : ESP_FAIL;
+}
+
+void bsp_audio_stream_end(void)
+{
+    esp_codec_dev_write(s_codec, silence, sizeof(silence));
+    amp_set(false);
+    xSemaphoreGive(s_lock);
 }

@@ -25,3 +25,6 @@ tools/data/.cache/
 .vscode/
 .idea/
 build/
+
+# Speech TTS venv (build.py pack creates it)
+tools/data/.venv-tts/

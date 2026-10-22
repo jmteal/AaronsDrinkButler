@@ -4,7 +4,12 @@
     python build.py                 # full build (fetches anything not yet cached)
     python build.py --offline       # full build from tools/data/.cache only
     python build.py import-review   # copy reviewed rows of data/review/tags.csv into tags_overrides.yaml
-    python build.py pack [-o FILE]  # device recipe pack from data/ (default firmware/build/drinks.bin)
+    python build.py pack [-o FILE]  # device recipe pack from data/ (default firmware/build/drinks.bin),
+                                    #   with spoken recipes (sets up Parler-TTS on first run)
+    python build.py pack --no-audio # the same without speech (standard library only)
+    python build.py pack --verify   # also check every sentence with Whisper, re-record bad ones
+    python build.py say DRINK_ID    # play a drink's spoken recipe on the Mac
+    python build.py say DRINK_ID --path  # print its cached .opus file instead
 
 See README.md for details.
 """
@@ -21,11 +26,12 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-if __name__ == "__main__" and sys.argv[1:2] == ["pack"]:
+if __name__ == "__main__" and sys.argv[1:2] in (["pack"], ["say"]):
     # The pack only reads data/, so it runs on a plain python3 without the pipeline's packages.
+    # Speech runs torch in its own venv (adb/audio.py), so this process stays standard library.
     from adb import pack  # noqa: E402
 
-    sys.exit(pack.main(sys.argv[2:]))
+    sys.exit((pack.main if sys.argv[1] == "pack" else pack.say)(sys.argv[2:]))
 
 from adb import crosscheck, derive, emit, http, icons, master, photos, steps, tags, wiki  # noqa: E402
 from adb.paths import DATA_DIR, REPORTS_DIR  # noqa: E402

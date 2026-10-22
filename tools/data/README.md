@@ -45,14 +45,86 @@ roughly 30–40 minutes because of the throttling.
 ## Device recipe pack
 
 ```bash
-python3 build.py pack                 # -> firmware/build/drinks.bin
+python3 build.py pack                 # -> firmware/build/drinks.bin, with spoken recipes
 python3 build.py pack -o drinks.bin
+python3 build.py pack --no-audio      # without speech: standard library only, no TTS setup
 ```
 
 Packs `data/` into the image for the firmware's read-only `drinks` flash partition (format:
-[`adb/pack.py`](adb/pack.py), reader: `firmware/components/data/src/adb_pack.c`). It only
-reads `data/`, so it runs on a plain `python3` without the packages above. From `firmware/`,
-`idf.py drinks-flash` runs it and flashes the result.
+[`adb/pack.py`](adb/pack.py), reader: `firmware/components/data/src/adb_pack.c`). The pack
+itself only reads `data/` and runs on a plain `python3` without the packages above. From
+`firmware/`, `idf.py drinks-flash` runs it (with speech) and flashes the result, so editing a
+recipe re-records just what changed and flashes it in one step.
+
+## Speech ("speak the recipe")
+
+Each drink's detail screen has a speaker button that reads the recipe aloud. The audio is
+made here, offline, with [Parler-TTS](https://github.com/huggingface/parler-tts) Mini v1
+(Apache 2.0), and stored in the pack as Opus at about 12 kbps.
+
+**Setup is automatic.** On the first `build.py pack` it:
+
+1. checks for `opusenc` and stops early with `brew install opus-tools` if it's missing;
+2. creates `tools/data/.venv-tts` (git-ignored) with Python 3.11–3.13 (`python3.13` etc. on
+   `PATH`, or set `ADB_TTS_PYTHON`) and installs [`requirements-tts.lock`](requirements-tts.lock):
+   every package pinned, Parler-TTS and descript-audiotools as pinned GitHub tarballs
+   (torch 2.6.0, transformers 4.46.1), about 1.3 GB;
+3. downloads the model (`parler-tts/parler-tts-mini-v1`, pinned revision, about 3.5 GB) to the
+   Hugging Face cache (`~/.cache/huggingface`);
+4. records every sentence, then joins and encodes each drink.
+
+**Run time.** Measured on an M3 MacBook Air (16 GB): the model runs on the **CPU** at
+about 0.19x real time. Apple's MPS backend works but is about twice as slow for this model
+(one sentence at a time, autoregressive), and neither batching nor two parallel workers
+helped, so `--device auto` uses the CPU (`--device mps` to try it anyway). The 200 drinks come
+to about 1,050 distinct sentences (many repeat, like "Strain into a chilled coupe."), 46 min
+of distinct speech and 96 min in all. The first full run with `--verify` took 4 h 50 min
+unattended, 174 of them re-recordings; without `--verify` expect about 4 hours. Close other
+apps first: the run was about 50% faster once the Mac had memory to spare. It prints progress
+and an ETA every 10 sentences. Result: 7.7 MB of speech, a 9.9 MB pack, 77% of the partition.
+
+**Caching.** Every sentence clip is kept in `tools/data/.cache/tts/clips/`, keyed by a hash of
+the sentence text, the sound settings in `voice.yaml` (speaker, description, seed) and the
+model and Parler-TTS revisions. Each drink's joined Opus file is keyed by its clip keys, the
+pauses and the encoder settings. So:
+
+- a second `pack` with nothing changed records nothing and encodes nothing (seconds);
+- editing one recipe re-records only that recipe's new or changed sentences;
+- changing pauses or the bitrate re-joins and re-encodes, without recording;
+- changing the speaker, description or seed re-records everything.
+
+**The script** ([`adb/speech.py`](adb/speech.py)): name, glass, "You will need:", each
+ingredient with its amount spoken in ounces (quarter ounces, teaspoons under 7.5 ml, as the
+device shows them), the steps and the garnish. Numbers and symbols are written out
+("ten to fifteen seconds"). Sentences are recorded one at a time, because Parler drifts on long
+inputs, and joined with short silences. Print a script with `python3 -m adb.speech negroni`.
+
+**Pronunciation.** Parler mangles French and brand names (crème de cassis, curaçao,
+Bénédictine, Kir, Bijou...), so `RESPELL` in `adb/speech.py` gives the model a phonetic
+spelling instead ("krem duh ka sees", "kyoor a sow", "Benedicteen"). Only the TTS sees it:
+the recipe text, the screen and the `--verify` reference keep the real spelling, so Whisper
+checks that the respelled audio sounds like the real word. Add an entry when a drink
+sounds wrong; only the sentences containing it are re-recorded.
+
+**The persona** is [`voice.yaml`](voice.yaml): one of Parler's 34 named speakers (Laura, Gary,
+Jon, Lea, Karen, Rick, Brenda, David, Eileen, Jordan, Mike, Yann, Joy, James, Eric, Lauren,
+Rose, Will, Jason, Aaron, Naomie, Alisa, Patrick, Jerry, Tina, Jenna, Bill, Tom, Carol, Barbara,
+Rebecca, Anna, Bruce, Emily), a description of how they speak (keep "Very clear audio." at the
+end), a fixed seed (so the voice stays the same across clips), the pauses and the bitrate.
+One persona per pack: a full set is about 8 MB, and the partition has room for one.
+
+**Listening.** `python3 build.py say negroni` prints the script and plays the clip with
+`afplay` (from the cache, so run `pack` first).
+
+**Checking (`--verify`).** `build.py pack --verify` also installs
+[`requirements-verify.lock`](requirements-verify.lock) (faster-whisper) into the venv,
+transcribes each sentence with Whisper `small` on the CPU, and compares it with the script.
+A sentence whose word error rate is above `verify_wer` is re-recorded with other seeds
+(`seed + 1000`, `+ 2000`, ...) up to `verify_retries` times, keeping the best take; whatever
+still fails is listed at the end. Results are cached with the clips, so a second `--verify`
+only checks new clips. Most of what stays listed are false alarms: one-word drink names
+without context ("Daiquiri." heard as "Takiri") and spellings Whisper writes differently.
+The real misses were French words, now handled by the respellings above.
 
 ## Reviewing tags
 

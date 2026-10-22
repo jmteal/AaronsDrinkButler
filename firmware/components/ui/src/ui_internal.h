@@ -97,6 +97,8 @@ static inline int ui_segmented_get(lv_obj_t *seg) { return (int)(intptr_t)lv_obj
 
 /* ---- Platform wrappers (ui_main.c) ------------------------------------ */
 void ui_sound(ui_sound_t s);
+/* Spoken recipe: stop whatever is playing (no-op without speech support). */
+void ui_speech_stop(void);
 void ui_save_favorites(void);
 void ui_save_pantry(void);
 void ui_save_settings(void);

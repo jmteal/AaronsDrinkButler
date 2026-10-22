@@ -13,7 +13,8 @@ set(ADB_DATA_CORE_SRCS
     src/adb_pantry.c
     src/adb_storage.c
     src/adb_load_json.c
-    src/adb_pack.c)
+    src/adb_pack.c
+    src/adb_speech.c)
 
 if(ESP_PLATFORM)
     idf_component_register(SRCS ${ADB_DATA_CORE_SRCS} src/adb_pack_esp.c

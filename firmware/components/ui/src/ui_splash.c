@@ -213,6 +213,7 @@ void ui_saver_init(void)
 
 void ui_sleep_prepare(void)
 {
+    ui_speech_stop();
     del_timer(&s_cycle);
     del_timer(&s_swap);
     if (!g_ui.st->settings.splash_on) {

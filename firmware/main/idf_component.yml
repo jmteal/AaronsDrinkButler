@@ -2,3 +2,5 @@ dependencies:
   idf: ">=5.4"
   # tjpgd-based JPEG decoder for the drink photos (RGB565 output)
   espressif/esp_jpeg: "^1.3.0"
+  # Opus decoder for the spoken recipes (speech/<id>.opk in the recipe pack)
+  espressif/esp_audio_codec: "~2.6.2"

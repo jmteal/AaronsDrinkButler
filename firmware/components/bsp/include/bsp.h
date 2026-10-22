@@ -69,6 +69,17 @@ esp_err_t bsp_audio_set_volume(int volume);
  */
 esp_err_t bsp_audio_play(const int16_t *pcm, size_t samples);
 
+/**
+ * Streaming playback, for audio produced while it plays (the spoken recipes):
+ * begin() takes the output (waiting up to timeout_ms for a bsp_audio_play() in
+ * progress) and switches the amp on; write() queues samples and blocks until
+ * they fit in the DMA buffers; end() flushes, switches the amp off and frees the
+ * output. Call all three from one task; stop early by just calling end().
+ */
+esp_err_t bsp_audio_stream_begin(uint32_t timeout_ms);
+esp_err_t bsp_audio_stream_write(const int16_t *pcm, size_t samples);
+void bsp_audio_stream_end(void);
+
 /* ---- Battery ---- */
 
 esp_err_t bsp_battery_init(void);

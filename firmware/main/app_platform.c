@@ -2,7 +2,8 @@
  * ui_platform_t for the board: battery, backlight, UI sounds and idle light sleep.
  *
  * Sounds are short synthesized tones played by a worker task (bsp_audio_play blocks
- * for the clip's length, which must not happen on the LVGL task).
+ * for the clip's length, which must not happen on the LVGL task). Spoken recipes are
+ * app_speech.c; Sound off silences both, and idle sleep waits for a clip to finish.
  *
  * Idle schedule (the UI runs the logo screensaver from UI_SAVER_AFTER_S):
  *   sleep_s idle  -> screen off, light sleep; a touch or BOOT wakes it to a logo
@@ -79,6 +80,7 @@ static void idle_task(void *arg)
             lvgl_port_unlock();
         }
         if (idle_ms < (uint32_t)s_sleep_s * 1000) continue;
+        if (app_speech_playing()) continue;     // let the recipe finish; sleep after it
         bool usb_attached = usb_serial_jtag_is_connected();
         if (usb_attached != usb_was_attached) {
             ESP_LOGI(TAG, "USB host %s: idle sleep %s", usb_attached ? "attached" : "gone",
@@ -87,6 +89,7 @@ static void idle_task(void *arg)
         }
         if (usb_attached) continue;
         ESP_LOGI(TAG, "idle %u s: screen off", (unsigned)(idle_ms / 1000));
+        app_speech_stop(true);
         // Dark first, then swap in the wake logo and let it reach the panel. With the
         // backlight at 0 here, bsp_sleep_light leaves it off on return; we turn it back
         // on only for a touch/BOOT wake, so a timer wake into deep sleep doesn't flash.
@@ -165,6 +168,7 @@ static void sound_task(void *arg)
 static void set_sound(void *ctx, bool on, uint8_t volume)
 {
     s_sound_on = on;
+    app_speech_set_enabled(on);
     if (s_audio_ok) bsp_audio_set_volume(volume);
 }
 
@@ -172,6 +176,13 @@ static void play_sound(void *ctx, ui_sound_t s)
 {
     if (s_sound_on && s_sounds) xQueueSend(s_sounds, &s, 0);   // drop it if one is still playing
 }
+
+/* ---- Spoken recipes ---- */
+
+static bool speech_available(void *ctx, const char *id) { return s_audio_ok && app_speech_available(id); }
+static bool speech_play(void *ctx, const char *id) { return s_audio_ok && app_speech_play(id); }
+static void speech_stop(void *ctx) { app_speech_stop(false); }
+static bool speech_playing(void *ctx) { return app_speech_playing(); }
 
 /* ---- Init ---- */
 
@@ -182,6 +193,7 @@ void app_platform_init(ui_platform_t *p, const adb_settings_t *settings)
     s_brightness = settings->brightness;
     s_sleep_s = settings->sleep_s;
     s_sound_on = settings->sound_on;
+    app_speech_set_enabled(settings->sound_on);
 
     esp_err_t e = bsp_battery_init();
     if (e != ESP_OK) ESP_LOGW(TAG, "battery ADC: %s", esp_err_to_name(e));
@@ -203,5 +215,9 @@ void app_platform_init(ui_platform_t *p, const adb_settings_t *settings)
     p->set_sound = set_sound;
     p->play_sound = play_sound;
     p->get_time = get_time;
+    p->speech_available = speech_available;
+    p->speech_play = speech_play;
+    p->speech_stop = speech_stop;
+    p->speech_playing = speech_playing;
     p->version = s_version;
 }
