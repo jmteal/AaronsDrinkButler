@@ -18,9 +18,17 @@ firmware/EMULATOR.md.
         this terminal; lines typed here go to the console (try "help").
         --test boots, saves OUTDIR/splash.png, taps, saves OUTDIR/home.png, checks
         "stats", then quits. Exit status 0 only if all of that worked.
+        If PORT is taken by another program, any free port is used.
+
+  emu.py status --build DIR
+        Exit 0 if no emulator is running on DIR, else print its viewer URL and exit 3.
+        One emulator per build dir: `run` holds DIR/qemu/instance.lock while it runs, and
+        `image` refuses to rewrite the flash image under a running QEMU.
 """
 import argparse
 import collections
+import errno
+import fcntl
 import json
 import os
 import re
@@ -46,6 +54,45 @@ def log(msg):
     print(f"\033[36m[emu] {msg}\033[0m", file=sys.stderr, flush=True)
 
 
+# ---------------------------------------------------------------- one instance per build dir
+
+def lock_path(build):
+    d = os.path.join(build, "qemu")
+    os.makedirs(d, exist_ok=True)
+    return os.path.join(d, "instance.lock")
+
+
+def running(build):
+    """Viewer URL (or "headless test") of the emulator running on this build dir, else None."""
+    path = lock_path(build)
+    if not os.path.exists(path):
+        return None
+    with open(path) as f:
+        try:
+            fcntl.flock(f, fcntl.LOCK_SH | fcntl.LOCK_NB)
+        except OSError:
+            return f.read().strip() or "starting"
+    return None
+
+
+def take_lock(build):
+    """Hold the instance lock for this process's lifetime (released when it exits)."""
+    f = open(lock_path(build), "a+")
+    try:
+        fcntl.flock(f, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except OSError:
+        f.seek(0)
+        raise SystemExit(f"an emulator is already running on {build} ({f.read().strip() or 'starting'})")
+    f.truncate(0)
+    return f
+
+
+def set_lock_note(f, note):
+    f.truncate(0)
+    f.write(note + "\n")
+    f.flush()
+
+
 # ---------------------------------------------------------------- flash image
 
 def drinks_offset():
@@ -58,6 +105,9 @@ def drinks_offset():
 
 
 def cmd_image(a):
+    other = running(a.build)
+    if other:
+        raise SystemExit(f"not rewriting the flash image: the emulator is running ({other}). Stop it first.")
     img = os.path.join(a.build, "qemu_flash.bin")
     if a.fresh or not os.path.exists(img) or os.path.getsize(img) != FLASH_SIZE:
         log(f"new flash image (erased): {img}")
@@ -487,7 +537,13 @@ def serve(emu, port):
                 return self._send(204)
             return self._send(404)
 
-    srv = ThreadingHTTPServer(("127.0.0.1", port), H)
+    try:
+        srv = ThreadingHTTPServer(("127.0.0.1", port), H)
+    except OSError as e:
+        if e.errno != errno.EADDRINUSE:
+            raise
+        srv = ThreadingHTTPServer(("127.0.0.1", 0), H)
+        log(f"port {port} is in use by another program; using {srv.server_address[1]}")
     srv.daemon_threads = True
     threading.Thread(target=srv.serve_forever, daemon=True).start()
     return srv
@@ -527,6 +583,8 @@ def run_test(emu, outdir):
 
 
 def cmd_run(a):
+    lock = take_lock(a.build)
+    set_lock_note(lock, "headless test" if a.test else "starting")
     emu = Emulator(a.build, a.psram)
     stop = threading.Event()
 
@@ -548,6 +606,7 @@ def cmd_run(a):
                 return 1
         srv = serve(emu, a.port)
         url = f"http://127.0.0.1:{srv.server_address[1]}/"
+        set_lock_note(lock, url)
         log(f"viewer: {url}   (Ctrl-C here stops the emulator)")
         if not a.no_browser:
             webbrowser.open(url)
@@ -582,8 +641,16 @@ def main():
     r.add_argument("--no-browser", action="store_true")
     r.add_argument("--test", metavar="OUTDIR")
     r.add_argument("--verbose", action="store_true", help="with --test, print the serial log")
+    s = sub.add_parser("status")
+    s.add_argument("--build", required=True)
     a = p.parse_args()
     a.build = os.path.abspath(a.build)
+    if a.cmd == "status":
+        other = running(a.build)
+        if other:
+            print(other)
+            return 3
+        return 0
     if a.cmd == "image":
         cmd_image(a)
         return 0

@@ -41,6 +41,11 @@ QEMU runs with `-display none` and the browser is the screen.
 The serial log prints in the terminal and in the viewer. Favorites and settings are
 saved to NVS in `build-emulator/qemu_flash.bin` and survive restarts and rebuilds.
 
+One emulator runs at a time (per build dir). Running `run.sh` again while one is up
+doesn't start a second copy, which would rewrite the flash image under the first. It
+prints the running viewer's address and opens it. If port 8765 is taken by another
+program, the viewer uses a free port and prints it.
+
 Options for `tools/emulator/run.sh`:
 
 | Option | |

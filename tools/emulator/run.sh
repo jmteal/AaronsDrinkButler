@@ -58,6 +58,17 @@ if ! qemu-system-xtensa --version >/dev/null 2>&1; then
     exit 1
 fi
 
+# One emulator per build dir: a second one would rewrite the flash image under the first
+if url="$(python "$ROOT/tools/emulator/emu.py" status --build "$BUILD")"; then :; else
+    say "the emulator is already running: $url"
+    say "use that one, or stop it (Ctrl-C in its terminal) and run this again"
+    if [[ "$url" == http* && " ${run_args[*]-} " != *" --no-browser "* && " ${run_args[*]-} " != *" --test "* ]]; then
+        open "$url" 2>/dev/null || true
+    fi
+    [[ " ${run_args[*]-} " == *" --test "* ]] && exit 3
+    exit 0
+fi
+
 if [[ $build -eq 1 ]]; then
     say "building the emulator variant in firmware/build-emulator"
     # Own build dir and sdkconfig: the real-board build in firmware/build is not touched
