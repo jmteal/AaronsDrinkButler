@@ -39,6 +39,10 @@ USB is the chip's own USB-Serial/JTAG (no CH340), so the port is `/dev/cu.usbmod
 
 **Black screen after flashing?** The LCD reset is tied to the chip's power-on reset, so a USB reset does not reset the panel. Unplug the board (and switch off the battery) for a few seconds.
 
+## Emulator
+
+`tools/emulator/run.sh` (from the repo root) runs this firmware in Espressif's QEMU on the Mac, with the screen in a browser tab and the mouse as the touch screen. See [EMULATOR.md](EMULATOR.md) for setup and what it does and doesn't emulate.
+
 ## Layout
 
 | Path | What |

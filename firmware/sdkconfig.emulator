@@ -1,0 +1,11 @@
+# Emulator variant (Espressif QEMU), layered on sdkconfig.defaults by tools/emulator/run.sh:
+#   SDKCONFIG_DEFAULTS="sdkconfig.defaults;sdkconfig.emulator", build dir build-emulator/.
+# See EMULATOR.md. Everything not listed here matches the real board.
+
+# Emulator BSP: QEMU RGB display, console pointer, silent audio, fixed battery, fake sleep
+CONFIG_ADB_TARGET_EMULATOR=y
+CONFIG_ADB_DEBUG_CONSOLE=y
+
+# QEMU doesn't emulate the USB-Serial/JTAG peripheral; logs and the console use UART0
+CONFIG_ESP_CONSOLE_UART_DEFAULT=y
+CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG=n

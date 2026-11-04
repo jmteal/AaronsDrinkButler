@@ -16,6 +16,7 @@
 #include "esp_err.h"
 #include "esp_lvgl_port.h"
 #include "lvgl.h"
+#include "sdkconfig.h"
 
 #include "bsp_pins.h"
 
@@ -125,6 +126,17 @@ bsp_wake_src_t bsp_sleep_light(uint32_t timeout_ms, bool *touch_armed);
 void bsp_sleep_deep(void);
 
 const char *bsp_wake_src_name(bsp_wake_src_t src);
+
+#if CONFIG_ADB_TARGET_EMULATOR
+/* ---- Emulator only (CONFIG_ADB_TARGET_EMULATOR, see firmware/EMULATOR.md) ---- */
+
+/**
+ * The emulator has no touch INT line, so the pointer (the debug console's down/move/up)
+ * calls this on every new press. Returns true if the screen was asleep: the press woke
+ * it and should be swallowed, as the real touch wake does.
+ */
+bool bsp_emu_pointer_wake(void);
+#endif
 
 #ifdef __cplusplus
 }
