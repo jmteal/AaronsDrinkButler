@@ -81,7 +81,11 @@ static void idle_task(void *arg)
         }
         if (idle_ms < (uint32_t)s_sleep_s * 1000) continue;
         if (app_speech_playing()) continue;     // let the recipe finish; sleep after it
+#if CONFIG_ADB_TARGET_EMULATOR
+        bool usb_attached = false;  // no USB in QEMU; the emulated sleep keeps the console up
+#else
         bool usb_attached = usb_serial_jtag_is_connected();
+#endif
         if (usb_attached != usb_was_attached) {
             ESP_LOGI(TAG, "USB host %s: idle sleep %s", usb_attached ? "attached" : "gone",
                      usb_attached ? "off" : "on");

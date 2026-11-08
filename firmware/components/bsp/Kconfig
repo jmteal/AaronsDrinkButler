@@ -1,0 +1,13 @@
+menu "Drink Butler board"
+
+    config ADB_TARGET_EMULATOR
+        bool "Build for the QEMU emulator instead of the ES3C35P"
+        default n
+        help
+            Swaps the board's ST77922 panel, touch, audio, battery ADC and sleep for
+            emulator versions (bsp_emulator.c): Espressif QEMU's virtual RGB display,
+            a pointer driven over the serial console, silent audio, a fixed battery
+            reading and simulated sleep. Set by sdkconfig.emulator; see EMULATOR.md.
+            The real-board build never sets this and compiles the same files as before.
+
+endmenu

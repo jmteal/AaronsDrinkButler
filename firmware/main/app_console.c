@@ -15,6 +15,8 @@
  *   shot                     screenshot: "SHOT <w> <h> <bytes>", base64 RGB565 lines, "SHOT-END"
  *   stay on|off              keep the screen awake (idle sleep off) until reboot
  *   reboot
+ * Emulator build only (CONFIG_ADB_TARGET_EMULATOR; the console is UART0 there):
+ *   down|move|up <x> <y>     raw pointer, no reply (tools/emulator's browser viewer)
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -23,6 +25,10 @@
 #include "bsp.h"
 #include "driver/usb_serial_jtag.h"
 #include "driver/usb_serial_jtag_vfs.h"
+#if CONFIG_ADB_TARGET_EMULATOR
+#include "driver/uart.h"
+#include "driver/uart_vfs.h"
+#endif
 #include "esp_heap_caps.h"
 #include "esp_log.h"
 #include "esp_system.h"
@@ -46,8 +52,19 @@ static void indev_read(lv_indev_t *indev, lv_indev_data_t *data)
     data->state = s_pressed ? LV_INDEV_STATE_PRESSED : LV_INDEV_STATE_RELEASED;
 }
 
+#if CONFIG_ADB_TARGET_EMULATOR
+static bool s_swallow;  // this press woke the screen; drop it until release, like the board
+#endif
+
 static void press(int x, int y, bool down)
 {
+#if CONFIG_ADB_TARGET_EMULATOR
+    if (down && !s_pressed && !s_swallow && bsp_emu_pointer_wake()) s_swallow = true;
+    if (s_swallow) {
+        if (!down) s_swallow = false;
+        return;
+    }
+#endif
     s_px = x;
     s_py = y;
     s_pressed = down;
@@ -216,6 +233,11 @@ static void handle(char *line)
         vTaskDelay(pdMS_TO_TICKS(150));
     } else if (!strcmp(c, "drag") && argc > 4) {
         cmd_drag(atoi(argv[1]), atoi(argv[2]), atoi(argv[3]), atoi(argv[4]), argc > 5 ? atoi(argv[5]) : 300);
+#if CONFIG_ADB_TARGET_EMULATOR
+    } else if ((!strcmp(c, "down") || !strcmp(c, "move") || !strcmp(c, "up")) && argc > 2) {
+        press(atoi(argv[1]), atoi(argv[2]), c[0] != 'u');
+        return;   // sent many times a second: no "OK"
+#endif
     } else if (!strcmp(c, "shot")) {
         cmd_shot();
         return;   // cmd_shot prints its own terminator
@@ -251,6 +273,14 @@ void app_console_start(adb_db_t *db, adb_state_t *st)
 {
     s_db = db;
     s_st = st;
+#if CONFIG_ADB_TARGET_EMULATOR
+    // QEMU has no USB-Serial/JTAG; the console is UART0
+    if (uart_driver_install(CONFIG_ESP_CONSOLE_UART_NUM, 1024, 4096, 0, NULL, 0) != ESP_OK) {
+        ESP_LOGW(TAG, "UART driver install failed; console off");
+        return;
+    }
+    uart_vfs_dev_use_driver(CONFIG_ESP_CONSOLE_UART_NUM);
+#else
     usb_serial_jtag_driver_config_t cfg = USB_SERIAL_JTAG_DRIVER_CONFIG_DEFAULT();
     cfg.tx_buffer_size = 4096;
     if (usb_serial_jtag_driver_install(&cfg) != ESP_OK) {
@@ -258,6 +288,7 @@ void app_console_start(adb_db_t *db, adb_state_t *st)
         return;
     }
     usb_serial_jtag_vfs_use_driver();   // blocking stdin/stdout through the driver
+#endif
     setvbuf(stdin, NULL, _IONBF, 0);
 
     lvgl_port_lock(0);

@@ -10,6 +10,7 @@ See [docs/PLAN.md](docs/PLAN.md) for the full plan.
 |---|---|
 | `firmware/` | ESP-IDF + LVGL 9 firmware |
 | `simulator/` | LVGL SDL desktop build of the UI (320×480) |
+| `tools/emulator/` | Runs the real firmware in Espressif's QEMU on a Mac ([firmware/EMULATOR.md](firmware/EMULATOR.md)) |
 | `tools/data/` | Python pipeline that builds the recipe dataset |
 | `data/` | Built dataset, images, `ATTRIBUTION.md` |
 | `enclosure/` | build123d case source and STL/3MF output |
